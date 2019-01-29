@@ -1,19 +1,30 @@
 <resources>
+    <!-- Generales -->
     <string name="app_name">Seamos Mejores Maestros</string>
+    <string name="title_activity_asignaciones">Asignaciones</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Perfil</string>
-    <string name="nav_header_subtitle">Usurario</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Ajustes</string>
 
     <!-- Menu Nav Drawer -->
+    <string name="nav_header_title">Perfil</string>
+    <string name="nav_header_subtitle">Usurario</string>
     <string name="menuInicio">Inicio</string>
     <string name="menuAsignacines">Asignaciones</string>
     <string name="menuPublicador">Publicadores</string>
     <string name="menuPerfil">Mi Perfil</string>
     <string name="menuGrupoEstudio">Grupo de Estudio</string>
     <string name="menuSubtitle">Personal</string>
+
+    <!-- Content Inicio -->
+    <string name="tabEvento">Eventos</string>
+    <string name="tabTemporizador">Temporizador</string>
+
+    <!-- Content Asignaciones -->
+    <string name="tabSala1">Sala 1</string>
+    <string name="tabSala2">Sala 2</string>
+
 
 
 </resources>
