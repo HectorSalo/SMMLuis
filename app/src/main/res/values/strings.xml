@@ -10,7 +10,7 @@
 
     <!-- Menu Nav Drawer -->
     <string name="nav_header_title">Perfil</string>
-    <string name="nav_header_subtitle">Usurario</string>
+    <string name="nav_header_subtitle">Usuario</string>
     <string name="menuInicio">Inicio</string>
     <string name="menuAsignacines">Asignaciones</string>
     <string name="menuPublicador">Publicadores</string>
