@@ -88,6 +88,8 @@ public class AsignacionesActivity extends AppCompatActivity
         } else if (id == R.id.nav_asignaciones) {
 
         } else if (id == R.id.nav_publicadores) {
+            Intent myIntent = new Intent(this, PublicadoresActivity.class);
+            startActivity(myIntent);
 
         } else if (id == R.id.nav_grupoEstudio) {
 

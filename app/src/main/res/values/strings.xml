@@ -2,6 +2,7 @@
     <!-- Generales -->
     <string name="app_name">Seamos Mejores Maestros</string>
     <string name="title_activity_asignaciones">Asignaciones</string>
+    <string name="title_activity_publicadores">Publicadores</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -24,6 +25,12 @@
     <!-- Content Asignaciones -->
     <string name="tabSala1">Sala 1</string>
     <string name="tabSala2">Sala 2</string>
+    <string name="barFecha">Fecha</string>
+
+    <!-- Content Publicadores -->
+    <string name="barFiltro">Filtro</string>
+    <string name="barBuscar">Buscar</string>
+
 
 
 
