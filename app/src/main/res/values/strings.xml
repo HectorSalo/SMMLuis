@@ -3,10 +3,13 @@
     <string name="app_name">Seamos Mejores Maestros</string>
     <string name="title_activity_asignaciones">Asignaciones</string>
     <string name="title_activity_publicadores">Publicadores</string>
+    <string name="title_activity_ver">Detalles Publicador</string>
+    <string name="title_activity_editar">Editar Publicador</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Ajustes</string>
+    <string name="titleFecha">Fecha</string>
 
     <!-- Menu Nav Drawer -->
     <string name="nav_header_title">Perfil</string>
@@ -30,8 +33,26 @@
     <!-- Content Publicadores -->
     <string name="barFiltro">Filtro</string>
     <string name="barBuscar">Buscar</string>
+    <string name="menuEditar">Editar</string>
+    <string name="menuEliminar">Eliminar</string>
 
+    <!-- Content Ver -->
+    <string name="NombrePub">*Nombres: </string>
+    <string name="editDatos">Escribir</string>
+    <string name="ApellidoPub">*Apellidos: </string>
+    <string name="TelefonoPub">Telefono: </string>
+    <string name="EmailPub">Correo: </string>
+    <string name="ultDiscurso">Último Discurso: </string>
+    <string name="ultAyudante">Último Ayudante: </string>
+    <string name="ultSustitucion">Última Sustitución: </string>
+    <string name="tvHabilitado"> </string>
 
+    <string name="GenMasculino">*Hombre</string>
+    <string name="GenFemenino">*Mujer</string>
+    <string name="asterisco">*Campos obligatorios</string>
+    <string name="cbHabilitar">Inhabilitar</string>
+    <string name="btnGuardar">Guardar</string>
+    <string name="btnCancelar">Cancelar</string>
 
 
 </resources>

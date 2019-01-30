@@ -13,10 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".EditarPubActivity"
+            android:label="@string/title_activity_editar"
+            android:theme="@style/Theme.Editar"></activity>
+        <activity
+            android:name=".VerActivity"
+            android:label="@string/title_activity_ver"
+            android:theme="@style/Base.Theme.MaterialComponents.Light.Dialog.FixedSize" />
         <activity
             android:name=".PublicadoresActivity"
             android:label="@string/title_activity_publicadores"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AsignacionesActivity"
             android:label="@string/title_activity_asignaciones"
