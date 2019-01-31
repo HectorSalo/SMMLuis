@@ -13,9 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditarPubActivity"
+        <activity android:name=".EditarSalas"></activity>
+        <activity
+            android:name=".AddPublicador"
+            android:label="@string/title_activity_agregar"
+            android:theme="@style/Theme.Dialog.Publicador" />
+        <activity
+            android:name=".EditarPubActivity"
             android:label="@string/title_activity_editar"
-            android:theme="@style/Theme.Editar"></activity>
+            android:theme="@style/Theme.Editar" />
         <activity
             android:name=".VerActivity"
             android:label="@string/title_activity_ver"

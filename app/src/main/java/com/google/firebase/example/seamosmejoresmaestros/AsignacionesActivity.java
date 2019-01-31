@@ -1,9 +1,11 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class AsignacionesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,8 +31,7 @@ public class AsignacionesActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                irSalas();
             }
         });
 
@@ -102,5 +104,25 @@ public class AsignacionesActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void irSalas() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
+        dialog.setTitle("¡Advertencia!");
+        dialog.setMessage("Al empezar a programar las asignaciones de la semana, no debe salir a mitad del proceso.\n En caso de salir antes de concluir, la información no será guardada y deberá iniciar el proceso nuevamente.\n ¿Desea continuar?");
+        dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent myIntent = new Intent(AsignacionesActivity.this, EditarSalas.class);
+                startActivity(myIntent);
+            }
+        });
+        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        dialog.show();
     }
 }

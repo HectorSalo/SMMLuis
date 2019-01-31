@@ -1,6 +1,9 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -15,16 +18,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +39,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -44,8 +53,9 @@ public class EditarPubActivity extends AppCompatActivity {
     private TextView fdiscurso, fayudante, fsustitucion;
     private RadioButton radioHombre, radioMujer;
     private CheckBox cbHabilitar;
-    private String idPb, urlImagen;
-    private Integer dia, mes, anual, diaAsignacion, mesAsignacion, anualAsignacion, diaAyudante, mesAyudante, anualAyudante, diaSust, mesSust, anualSust;
+    private String idPb, urlImagen, imgRecibir, genero;
+    private Integer dia, mes, anual;
+    private Date discurso, ayudante, sustitucion, disRecibir, ayuRecibir, sustRecibir;
     private ProgressDialog progress;
     private Uri mipath;
 
@@ -70,6 +80,7 @@ public class EditarPubActivity extends AppCompatActivity {
         fayudante = (TextView) findViewById(R.id.etfayudante);
         fsustitucion = (TextView) findViewById(R.id.etfsustitucion);
 
+
         Bundle myBundle = this.getIntent().getExtras();
         idPb = myBundle.getString("idEditar");
 
@@ -82,7 +93,28 @@ public class EditarPubActivity extends AppCompatActivity {
         fabImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cargarImagen ();
+                selecAccion();
+            }
+        });
+
+        fdiscurso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fechaDiscurso();
+            }
+        });
+
+        fayudante.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fechaAyudante();
+            }
+        });
+
+        fsustitucion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fechaSustitucion();
             }
         });
     }
@@ -101,16 +133,71 @@ public class EditarPubActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_save_pub) {
-
             guardarPublicador();
             return true;
         } else if (id == R.id.menu_cancel_pub) {
-            Toast.makeText(getApplicationContext(), "Cancelado", Toast.LENGTH_SHORT).show();
             finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void fechaDiscurso() {
+        final Calendar calendario = Calendar.getInstance();
+        final Calendar dateDiscurso = Calendar.getInstance();
+
+        dia = calendario.get(Calendar.DAY_OF_MONTH);
+        mes = calendario.get(Calendar.MONTH);
+        anual = calendario.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                dateDiscurso.set(year, month, dayOfMonth);
+                discurso = dateDiscurso.getTime();
+                fdiscurso.setText(new SimpleDateFormat("EEE d MMM yyyy").format(discurso));
+            }
+        }, anual, mes , dia);
+        datePickerDialog.show();
+    }
+
+    private void fechaAyudante() {
+        final Calendar calendario = Calendar.getInstance();
+        final Calendar dateAyudante = Calendar.getInstance();
+
+        dia = calendario.get(Calendar.DAY_OF_MONTH);
+        mes = calendario.get(Calendar.MONTH);
+        anual = calendario.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                dateAyudante.set(year, month, dayOfMonth);
+                ayudante = dateAyudante.getTime();
+                fayudante.setText(new SimpleDateFormat("EEE d MMM yyyy").format(ayudante));
+            }
+        }, anual, mes , dia);
+        datePickerDialog.show();
+    }
+
+    private void fechaSustitucion() {
+        final Calendar calendario = Calendar.getInstance();
+        final Calendar dateSustitucion = Calendar.getInstance();
+
+        dia = calendario.get(Calendar.DAY_OF_MONTH);
+        mes = calendario.get(Calendar.MONTH);
+        anual = calendario.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                dateSustitucion.set(year, month, dayOfMonth);
+                sustitucion = dateSustitucion.getTime();
+                fsustitucion.setText(new SimpleDateFormat("EEE d MMM yyyy").format(sustitucion));
+            }
+        }, anual, mes , dia);
+        datePickerDialog.show();
     }
 
     private void cargarDetalles() {
@@ -122,21 +209,50 @@ public class EditarPubActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
-                    nombrePub.setText(doc.getString("nombre"));
-                    apellidoPub.setText(doc.getString("apellido"));
-                    correo.setText(doc.getString("correo"));
-                    telefono.setText(doc.getString("telefono"));
+                    nombrePub.setText(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                    apellidoPub.setText(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                    correo.setText(doc.getString(UtilidadesStatic.BD_CORREO));
+                    telefono.setText(doc.getString(UtilidadesStatic.BD_TELEFONO));
+                    imgRecibir = doc.getString(UtilidadesStatic.BD_IMAGEN);
+                    genero = doc.getString(UtilidadesStatic.BD_GENERO);
+                    disRecibir = doc.getDate(UtilidadesStatic.BD_DISRECIENTE);
+                    ayuRecibir = doc.getDate(UtilidadesStatic.BD_AYURECIENTE);
+                    sustRecibir = doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE);
 
-                    if (doc.getString("genero").equals("Hombre")) {
+
+                    if (genero.equals("Hombre")) {
                         radioHombre.setChecked(true);
-                        imagePub.setImageResource(R.drawable.ic_caballero);
-                    } else if (doc.getString("genero").equals("Mujer")) {
-                        imagePub.setImageResource(R.drawable.ic_dama);
+                        if (imgRecibir != null) {
+                            Glide.with(getApplicationContext()).load(imgRecibir).into(imagePub);
+                            urlImagen = imgRecibir;
+                        } else {
+                            imagePub.setImageResource(R.drawable.ic_caballero);
+                        }
+                    } else if (genero.equals("Mujer")) {
+                        if (imgRecibir != null) {
+                            Glide.with(getApplicationContext()).load(imgRecibir).into(imagePub);
+                            urlImagen = imgRecibir;
+                        } else {
+                            imagePub.setImageResource(R.drawable.ic_dama);
+                        }
                         radioMujer.setChecked(true);
                     }
 
-                    if (doc.getBoolean("habilitado") == false) {
+                    if (!doc.getBoolean(UtilidadesStatic.BD_HABILITADO)) {
                         cbHabilitar.setChecked(true);
+                    }
+
+                    if (disRecibir != null) {
+                        fdiscurso.setText(new SimpleDateFormat("EEE d MMM yyyy").format(disRecibir));
+                        discurso = disRecibir;
+                    }
+                    if (ayuRecibir != null) {
+                        fayudante.setText(new SimpleDateFormat("EEE d MMM yyyy").format(ayuRecibir));
+                        ayudante = ayuRecibir;
+                    }
+                    if (sustRecibir != null) {
+                        fsustitucion.setText(new SimpleDateFormat("EEE d MMM yyyy").format(sustRecibir));
+                        sustitucion = sustRecibir;
                     }
 
                     progress.dismiss();
@@ -169,7 +285,6 @@ public class EditarPubActivity extends AppCompatActivity {
 
                         }
                     });
-
                     Toast.makeText(getApplicationContext(), "Imagen Guardada", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
@@ -202,9 +317,55 @@ public class EditarPubActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             mipath = data.getData();
             imagePub.setImageURI(mipath);
-            guardarImagen();
 
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Confirmar");
+            dialog.setMessage("¿Desea subir esta foto al perfil del publicador?");
+
+            dialog.setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                   guardarImagen();
+                }
+            });
+
+            dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
         }
+
+    }
+
+    private void selecAccion() {
+            final CharSequence [] opciones = {"Cambiar foto del publicador", "Dejar sin foto al publicador", "Cancelar"};
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("¿Qué desea hacer?");
+            dialog.setItems(opciones, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (opciones[which].equals("Cambiar foto del publicador")) {
+                        cargarImagen();
+                    } else if (opciones[which].equals("Dejar sin foto al publicador")) {
+                        if (genero.equals("Hombre")) {
+                            imagePub.setImageResource(R.drawable.ic_caballero);
+                            urlImagen = null;
+                            dialog.dismiss();
+                        } else if (genero.equals("Mujer")) {
+                            imagePub.setImageResource(R.drawable.ic_dama);
+                            urlImagen = null;
+                            dialog.dismiss();
+                        }
+                    } else if (opciones[which].equals("Cancelar")){
+                        dialog.dismiss();
+                    }
+                }
+
+            });
+            dialog.show();
 
     }
 
@@ -217,37 +378,50 @@ public class EditarPubActivity extends AppCompatActivity {
         String Telefono = telefono.getText().toString();
         String Correo = correo.getText().toString();
         String imagen = urlImagen;
-        String diaDiscurso = String.valueOf(diaAsignacion);
-        String mesDiscurso = String.valueOf(mesAsignacion);
-        String anualDiscurso = String.valueOf(anualAsignacion);
-        String diaAyuda = String.valueOf(diaAyudante);
-        String mesAyuda = String.valueOf(mesAyudante);
-        String anualAyuda = String.valueOf(anualAyudante);
-        String diaSustitucion = String.valueOf(diaSust);
-        String mesSustitucion = String.valueOf(mesSust);
-        String anualSustitucion = String.valueOf(anualSust);
 
         if (!NombrePub.isEmpty() && !ApellidoPub.isEmpty()) {
             if (radioHombre.isChecked() || radioMujer.isChecked()) {
 
                 Map<String, Object> publicador = new HashMap<>();
-                publicador.put("nombre", NombrePub);
-                publicador.put("apellido", ApellidoPub);
-                publicador.put("telefono", Telefono);
-                publicador.put("correo", Correo);
-                publicador.put("imagen", imagen);
+                publicador.put(UtilidadesStatic.BD_NOMBRE, NombrePub);
+                publicador.put(UtilidadesStatic.BD_APELLIDO, ApellidoPub);
+                publicador.put(UtilidadesStatic.BD_TELEFONO, Telefono);
+                publicador.put(UtilidadesStatic.BD_CORREO, Correo);
+                publicador.put(UtilidadesStatic.BD_IMAGEN, imagen);
+
+                if (discurso != null) {
+                    publicador.put(UtilidadesStatic.BD_DISRECIENTE, discurso);
+                    publicador.put(UtilidadesStatic.BD_DISVIEJO, disRecibir);
+                } else {
+                    publicador.put(UtilidadesStatic.BD_DISRECIENTE, null);
+                    publicador.put(UtilidadesStatic.BD_DISVIEJO, null);
+                }
+                if (ayudante != null) {
+                    publicador.put(UtilidadesStatic.BD_AYURECIENTE, ayudante);
+                    publicador.put(UtilidadesStatic.BD_AYUVIEJO, ayuRecibir);
+                } else {
+                    publicador.put(UtilidadesStatic.BD_AYURECIENTE, null);
+                    publicador.put(UtilidadesStatic.BD_AYUVIEJO, null);
+                }
+                if (sustitucion != null) {
+                    publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, sustitucion);
+                    publicador.put(UtilidadesStatic.BD_SUSTVIEJO, sustRecibir);
+                } else {
+                    publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, null);
+                    publicador.put(UtilidadesStatic.BD_SUSTVIEJO, null);
+                }
 
 
                 if (radioHombre.isChecked()) {
-                    publicador.put("genero", "Hombre");
+                    publicador.put(UtilidadesStatic.BD_GENERO, "Hombre");
                 } else if (radioMujer.isChecked()) {
-                    publicador.put("genero", "Mujer");
+                    publicador.put(UtilidadesStatic.BD_GENERO, "Mujer");
                 }
 
                 if (cbHabilitar.isChecked()) {
-                    publicador.put("habilitado", false);
+                    publicador.put(UtilidadesStatic.BD_HABILITADO, false);
                 } else {
-                    publicador.put("habilitado", true);
+                    publicador.put(UtilidadesStatic.BD_HABILITADO, true);
                 }
 
                 dbEditar.collection("publicadores").document(idPb).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -262,6 +436,7 @@ public class EditarPubActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
 
                         Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 

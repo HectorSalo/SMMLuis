@@ -4,12 +4,13 @@
     <string name="title_activity_asignaciones">Asignaciones</string>
     <string name="title_activity_publicadores">Publicadores</string>
     <string name="title_activity_ver">Detalles Publicador</string>
+    <string name="title_activity_agregar">Agregar Publicador</string>
     <string name="title_activity_editar">Editar Publicador</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Ajustes</string>
-    <string name="titleFecha">Fecha</string>
+    <string name="titleFecha">Seleccione Fecha</string>
 
     <!-- Menu Nav Drawer -->
     <string name="nav_header_title">Perfil</string>

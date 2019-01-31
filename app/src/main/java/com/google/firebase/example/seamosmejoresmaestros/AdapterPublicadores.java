@@ -14,9 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadores.ViewHolderPublicadores> implements View.OnClickListener{
@@ -44,9 +50,9 @@ public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadore
         viewHolderPublicadores.apellidoPub.setText(listPublicadores.get(i).getApellidoPublicador());
 
         if (listPublicadores.get(i).getUltAsignacion() == null){
-            viewHolderPublicadores.ultiDiscurso.setText("Prueba");
+            viewHolderPublicadores.ultiDiscurso.setText("");
         } else {
-            viewHolderPublicadores.ultiDiscurso.setText(String.valueOf(listPublicadores.get(i).getUltAsignacion()));
+            viewHolderPublicadores.ultiDiscurso.setText(new SimpleDateFormat("EEE d MMM yyyy").format(listPublicadores.get(i).getUltAsignacion()));
         }
 
         if (listPublicadores.get(i).getGenero().equals("Hombre")) {
@@ -89,13 +95,13 @@ public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadore
                                 dialog.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
+                                        eliminarPublicador(listPublicadores.get(i));
                                     }
                                 });
                                 dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
+                                        dialog.dismiss();
                                     }
                                 });
                                 dialog.show();
@@ -142,6 +148,30 @@ public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadore
             apellidoPub = (TextView) itemView.findViewById(R.id.textViewApellido);
             ultiDiscurso = (TextView) itemView.findViewById(R.id.textViewFecha);
         }
+    }
+
+    private void eliminarPublicador(final ConstructorPublicadores i) {
+        String doc = i.getIdPublicador();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("publicadores");
+
+        reference.document(doc)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        listPublicadores.remove(i);
+                        notifyDataSetChanged();
+                        Toast.makeText(mctx,"Eliminado", Toast.LENGTH_SHORT).show();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(mctx, "Error al eliminar. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void updateList (ArrayList<ConstructorPublicadores> newList) {

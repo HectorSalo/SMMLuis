@@ -17,11 +17,15 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class VerActivity extends AppCompatActivity {
 
     private ImageView imagenPublicador;
     private TextView tvNombre, tvApellido, tvTelefono, tvCorreo, tvfAsignacion, tvfAyudante, tvfSustitucion, tvHabilitar;
     private String idPublicador;
+    private Date discurso, ayudante, sustitucion;
     private ProgressDialog progress;
 
 
@@ -66,29 +70,49 @@ public class VerActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
-                    tvNombre.setText(doc.getString("nombre"));
-                    tvApellido.setText(doc.getString("apellido"));
-                    tvCorreo.setText(doc.getString("correo"));
-                    tvTelefono.setText(doc.getString("telefono"));
+                    tvNombre.setText(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                    tvApellido.setText(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                    tvCorreo.setText(doc.getString(UtilidadesStatic.BD_CORREO));
+                    tvTelefono.setText(doc.getString(UtilidadesStatic.BD_TELEFONO));
+                    discurso = doc.getDate(UtilidadesStatic.BD_DISRECIENTE);
+                    ayudante = doc.getDate(UtilidadesStatic.BD_AYURECIENTE);
+                    sustitucion = doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE);
 
-                    if (doc.getString("genero").equals("Hombre")) {
-                        if (doc.getString("imagen") != null) {
-                            Glide.with(getApplicationContext()).load(doc.getString("imagen")).into(imagenPublicador);
+                    if (doc.getString(UtilidadesStatic.BD_GENERO).equals("Hombre")) {
+                        if (doc.getString(UtilidadesStatic.BD_IMAGEN) != null) {
+                            Glide.with(getApplicationContext()).load(doc.getString(UtilidadesStatic.BD_IMAGEN)).into(imagenPublicador);
                         } else {
                             imagenPublicador.setImageResource(R.drawable.ic_caballero);
                         }
-                    } else if (doc.getString("genero").equals("Mujer")) {
-                        if (doc.getString("imagen") != null) {
-                            Glide.with(getApplicationContext()).load(doc.getString("imagen")).into(imagenPublicador);
+                    } else if (doc.getString(UtilidadesStatic.BD_GENERO).equals("Mujer")) {
+                        if (doc.getString(UtilidadesStatic.BD_IMAGEN) != null) {
+                            Glide.with(getApplicationContext()).load(doc.getString(UtilidadesStatic.BD_IMAGEN)).into(imagenPublicador);
                         } else {
                             imagenPublicador.setImageResource(R.drawable.ic_dama);
                         }
                     }
 
-                    if (!doc.getBoolean("habilitado")) {
+                    if (!doc.getBoolean(UtilidadesStatic.BD_HABILITADO)) {
                         tvHabilitar.setText("Inhabilitado");
-                    } else if (doc.getBoolean("habilitado")) {
+                    } else if (doc.getBoolean(UtilidadesStatic.BD_HABILITADO)) {
                         tvHabilitar.setText("");
+                    }
+
+                    if (discurso != null) {
+                        tvfAsignacion.setText(new SimpleDateFormat("EEE d MMM yyyy").format(discurso));
+                    } else {
+                        tvfAsignacion.setText("");
+                    }
+                    if (ayudante != null) {
+                        tvfAyudante.setText(new SimpleDateFormat("EEE d MMM yyyy").format(ayudante));
+                    } else {
+                        tvfAyudante.setText("");
+                    }
+
+                    if (sustitucion != null ) {
+                        tvfSustitucion.setText(new SimpleDateFormat("EEE d MMM yyyy").format(sustitucion));
+                    } else {
+                        tvfSustitucion.setText("");
                     }
 
                     progress.dismiss();

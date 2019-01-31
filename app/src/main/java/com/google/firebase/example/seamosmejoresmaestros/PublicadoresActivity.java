@@ -62,8 +62,8 @@ public class PublicadoresActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent myIntent = new Intent(getApplicationContext(), AddPublicador.class);
+                startActivity(myIntent);
             }
         });
 
@@ -114,12 +114,15 @@ public class PublicadoresActivity extends AppCompatActivity
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         ConstructorPublicadores publi = new ConstructorPublicadores();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString("nombre"));
-                        publi.setApellidoPublicador(doc.getString("apellido"));
-                        publi.setCorreo(doc.getString("correo"));
-                        publi.setTelefono(doc.getString("telefono"));
-                        publi.setGenero(doc.getString("genero"));
-                        publi.setImagen(doc.getString("imagen"));
+                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
+                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
+                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
+                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
 
                         listPublicadores.add(publi);
 
@@ -270,7 +273,10 @@ public class PublicadoresActivity extends AppCompatActivity
                     listApellido();
 
                 } else if (opciones[which].equals("Fecha de último discurso")) {
-
+                    progress = new ProgressDialog(PublicadoresActivity.this);
+                    progress.setMessage("Cargando...");
+                    progress.show();
+                    listFecha();
                 } else if (opciones[which].equals("Cancelar")){
                     dialog.dismiss();
                 }
@@ -295,11 +301,15 @@ public class PublicadoresActivity extends AppCompatActivity
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         ConstructorPublicadores publi = new ConstructorPublicadores();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString("nombre"));
-                        publi.setApellidoPublicador(doc.getString("apellido"));
-                        publi.setCorreo(doc.getString("correo"));
-                        publi.setTelefono(doc.getString("telefono"));
-                        publi.setGenero(doc.getString("genero"));
+                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
+                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
+                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
+                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
 
                         listPublicadores.add(publi);
 
@@ -329,11 +339,53 @@ public class PublicadoresActivity extends AppCompatActivity
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         ConstructorPublicadores publi = new ConstructorPublicadores();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString("nombre"));
-                        publi.setApellidoPublicador(doc.getString("apellido"));
-                        publi.setCorreo(doc.getString("correo"));
-                        publi.setTelefono(doc.getString("telefono"));
-                        publi.setGenero(doc.getString("genero"));
+                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
+                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
+                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
+                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+
+                        listPublicadores.add(publi);
+
+                    }
+                    adapterPublicadores.updateList(listPublicadores);
+                    progress.dismiss();
+                } else {
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void listFecha() {
+        listPublicadores = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("publicadores");
+
+        Query query = reference.orderBy("disReciente", Query.Direction.ASCENDING);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        publi.setIdPublicador(doc.getId());
+                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
+                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
+                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
+                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
 
                         listPublicadores.add(publi);
 
