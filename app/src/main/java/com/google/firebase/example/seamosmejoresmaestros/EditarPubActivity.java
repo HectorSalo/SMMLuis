@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,6 +33,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class EditarPubActivity extends AppCompatActivity {
@@ -40,7 +44,7 @@ public class EditarPubActivity extends AppCompatActivity {
     private TextView fdiscurso, fayudante, fsustitucion;
     private RadioButton radioHombre, radioMujer;
     private CheckBox cbHabilitar;
-    private String idPb;
+    private String idPb, urlImagen;
     private Integer dia, mes, anual, diaAsignacion, mesAsignacion, anualAsignacion, diaAyudante, mesAyudante, anualAyudante, diaSust, mesSust, anualSust;
     private ProgressDialog progress;
     private Uri mipath;
@@ -97,6 +101,7 @@ public class EditarPubActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_save_pub) {
+
             guardarPublicador();
             return true;
         } else if (id == R.id.menu_cancel_pub) {
@@ -145,18 +150,26 @@ public class EditarPubActivity extends AppCompatActivity {
         });
     }
 
-    private void guardarPublicador() {
+    private void guardarImagen() {
         final ProgressDialog progressDialog = new ProgressDialog(EditarPubActivity.this);
         progressDialog.setMessage("Cargando...");
         progressDialog.show();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageReference = storage.getReference();
-
+        final StorageReference ref = storageReference.child("images/").child(mipath.getLastPathSegment());
         if (mipath != null) {
-            StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
-            ref.putFile(mipath).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+
+            ref.putFile(mipath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            urlImagen = uri.toString();
+
+                        }
+                    });
+
                     Toast.makeText(getApplicationContext(), "Imagen Guardada", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
@@ -173,6 +186,7 @@ public class EditarPubActivity extends AppCompatActivity {
                 }
             });
         }
+
     }
 
     private void cargarImagen() {
@@ -188,8 +202,77 @@ public class EditarPubActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             mipath = data.getData();
             imagePub.setImageURI(mipath);
+            guardarImagen();
 
         }
 
     }
+
+    private void guardarPublicador() {
+
+        FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
+
+        String NombrePub = nombrePub.getText().toString();
+        String ApellidoPub = apellidoPub.getText().toString();
+        String Telefono = telefono.getText().toString();
+        String Correo = correo.getText().toString();
+        String imagen = urlImagen;
+        String diaDiscurso = String.valueOf(diaAsignacion);
+        String mesDiscurso = String.valueOf(mesAsignacion);
+        String anualDiscurso = String.valueOf(anualAsignacion);
+        String diaAyuda = String.valueOf(diaAyudante);
+        String mesAyuda = String.valueOf(mesAyudante);
+        String anualAyuda = String.valueOf(anualAyudante);
+        String diaSustitucion = String.valueOf(diaSust);
+        String mesSustitucion = String.valueOf(mesSust);
+        String anualSustitucion = String.valueOf(anualSust);
+
+        if (!NombrePub.isEmpty() && !ApellidoPub.isEmpty()) {
+            if (radioHombre.isChecked() || radioMujer.isChecked()) {
+
+                Map<String, Object> publicador = new HashMap<>();
+                publicador.put("nombre", NombrePub);
+                publicador.put("apellido", ApellidoPub);
+                publicador.put("telefono", Telefono);
+                publicador.put("correo", Correo);
+                publicador.put("imagen", imagen);
+
+
+                if (radioHombre.isChecked()) {
+                    publicador.put("genero", "Hombre");
+                } else if (radioMujer.isChecked()) {
+                    publicador.put("genero", "Mujer");
+                }
+
+                if (cbHabilitar.isChecked()) {
+                    publicador.put("habilitado", false);
+                } else {
+                    publicador.put("habilitado", true);
+                }
+
+                dbEditar.collection("publicadores").document(idPb).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        Toast.makeText(getApplicationContext(), "Publicador modificado ", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Hay campos obligatorios vacíos", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Hay campos obligatorios vacíos", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
 }

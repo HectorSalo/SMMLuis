@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadores.ViewHolderPublicadores> implements View.OnClickListener{
@@ -48,9 +50,18 @@ public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadore
         }
 
         if (listPublicadores.get(i).getGenero().equals("Hombre")) {
-            viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_caballero);
+            if (listPublicadores.get(i).getImagen() != null) {
+                Glide.with(mctx).load(listPublicadores.get(i).getImagen()).into(viewHolderPublicadores.imagenPublicador);
+            } else {
+                viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_caballero);
+            }
+
         } else if (listPublicadores.get(i).getGenero().equals("Mujer")) {
-            viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_dama);
+            if (listPublicadores.get(i).getImagen() != null) {
+                Glide.with(mctx).load(listPublicadores.get(i).getImagen()).into(viewHolderPublicadores.imagenPublicador);
+            } else {
+                viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_dama);
+            }
         }
 
         viewHolderPublicadores.menuPub.setOnClickListener(new View.OnClickListener() {

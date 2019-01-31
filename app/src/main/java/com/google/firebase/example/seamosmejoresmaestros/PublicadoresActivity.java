@@ -119,6 +119,7 @@ public class PublicadoresActivity extends AppCompatActivity
                         publi.setCorreo(doc.getString("correo"));
                         publi.setTelefono(doc.getString("telefono"));
                         publi.setGenero(doc.getString("genero"));
+                        publi.setImagen(doc.getString("imagen"));
 
                         listPublicadores.add(publi);
 

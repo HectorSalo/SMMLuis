@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -71,9 +72,17 @@ public class VerActivity extends AppCompatActivity {
                     tvTelefono.setText(doc.getString("telefono"));
 
                     if (doc.getString("genero").equals("Hombre")) {
-                        imagenPublicador.setImageResource(R.drawable.ic_caballero);
+                        if (doc.getString("imagen") != null) {
+                            Glide.with(getApplicationContext()).load(doc.getString("imagen")).into(imagenPublicador);
+                        } else {
+                            imagenPublicador.setImageResource(R.drawable.ic_caballero);
+                        }
                     } else if (doc.getString("genero").equals("Mujer")) {
-                        imagenPublicador.setImageResource(R.drawable.ic_dama);
+                        if (doc.getString("imagen") != null) {
+                            Glide.with(getApplicationContext()).load(doc.getString("imagen")).into(imagenPublicador);
+                        } else {
+                            imagenPublicador.setImageResource(R.drawable.ic_dama);
+                        }
                     }
 
                     if (!doc.getBoolean("habilitado")) {
