@@ -86,6 +86,7 @@ public class EditarPubActivity extends AppCompatActivity {
 
         progress = new ProgressDialog(EditarPubActivity.this);
         progress.setMessage("Cargando...");
+        progress.setCancelable(false);
         progress.show();
         cargarDetalles ();
 
@@ -269,6 +270,7 @@ public class EditarPubActivity extends AppCompatActivity {
     private void guardarImagen() {
         final ProgressDialog progressDialog = new ProgressDialog(EditarPubActivity.this);
         progressDialog.setMessage("Cargando...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageReference = storage.getReference();
@@ -335,13 +337,15 @@ public class EditarPubActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
             });
+            dialog.setCancelable(false);
+            dialog.setIcon(R.drawable.ic_upload_image);
             dialog.show();
         }
 
     }
 
     private void selecAccion() {
-            final CharSequence [] opciones = {"Cambiar foto del publicador", "Dejar sin foto al publicador", "Cancelar"};
+            final CharSequence [] opciones = {"Cambiar foto del publicador", "Usar imagen por defecto", "Cancelar"};
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("¿Qué desea hacer?");
             dialog.setItems(opciones, new DialogInterface.OnClickListener() {
@@ -365,6 +369,7 @@ public class EditarPubActivity extends AppCompatActivity {
                 }
 
             });
+            dialog.setIcon(R.drawable.ic_select_image);
             dialog.show();
 
     }

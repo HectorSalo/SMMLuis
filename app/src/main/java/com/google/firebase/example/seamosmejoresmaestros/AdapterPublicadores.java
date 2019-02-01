@@ -104,6 +104,7 @@ public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadore
                                         dialog.dismiss();
                                     }
                                 });
+                                dialog.setIcon(R.drawable.ic_delete);
                                 dialog.show();
                                 break;
 

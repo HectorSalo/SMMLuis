@@ -78,6 +78,7 @@ public class PublicadoresActivity extends AppCompatActivity
 
         progress = new ProgressDialog(this);
         progress.setMessage("Cargando...");
+        progress.setCancelable(false);
         progress.show();
         adapterPublicadores = new AdapterPublicadores(listPublicadores, this);
         recyclerPublicadores.setAdapter(adapterPublicadores);
@@ -263,18 +264,21 @@ public class PublicadoresActivity extends AppCompatActivity
                 if (opciones[which].equals("Alfabéticamente por Nombre")) {
                     progress = new ProgressDialog(PublicadoresActivity.this);
                     progress.setMessage("Cargando...");
+                    progress.setCancelable(false);
                     progress.show();
                     listNombre();
 
                 } else if (opciones[which].equals("Alfabéticamente por Apellido")) {
                     progress = new ProgressDialog(PublicadoresActivity.this);
                     progress.setMessage("Cargando...");
+                    progress.setCancelable(false);
                     progress.show();
                     listApellido();
 
                 } else if (opciones[which].equals("Fecha de último discurso")) {
                     progress = new ProgressDialog(PublicadoresActivity.this);
                     progress.setMessage("Cargando...");
+                    progress.setCancelable(false);
                     progress.show();
                     listFecha();
                 } else if (opciones[which].equals("Cancelar")){

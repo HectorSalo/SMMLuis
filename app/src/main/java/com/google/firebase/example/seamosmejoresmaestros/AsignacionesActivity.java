@@ -1,7 +1,9 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 public class AsignacionesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+        private boolean advertencia;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,11 +31,19 @@ public class AsignacionesActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences preferences = getSharedPreferences("advertencia", Context.MODE_PRIVATE);
+        advertencia = preferences.getBoolean("activar", true);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                irSalas();
+                if (advertencia) {
+                    irSalas();
+                } else {
+                    Intent myIntent = new Intent(AsignacionesActivity.this, EditarSalas.class);
+                    startActivity(myIntent);
+                }
             }
         });
 
@@ -109,7 +121,7 @@ public class AsignacionesActivity extends AppCompatActivity
     private void irSalas() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
         dialog.setTitle("¡Advertencia!");
-        dialog.setMessage("Al empezar a programar las asignaciones de la semana, no debe salir a mitad del proceso.\n En caso de salir antes de concluir, la información no será guardada y deberá iniciar el proceso nuevamente.\n ¿Desea continuar?");
+        dialog.setMessage("Al empezar a programar las asignaciones de la semana, no debe salir a mitad del proceso.\nEn caso de salir antes de concluir, la información no será guardada y deberá iniciar el proceso nuevamente.\n¿Desea continuar?");
         dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -120,9 +132,23 @@ public class AsignacionesActivity extends AppCompatActivity
         dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                dialog.dismiss();
             }
         });
+        dialog.setNeutralButton("Continuar y no mostrar de nuevo", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences preferences = getSharedPreferences("advertencia", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("activar", false);
+                editor.commit();
+
+                Intent myIntent = new Intent(AsignacionesActivity.this, EditarSalas.class);
+                startActivity(myIntent);
+            }
+        });
+        dialog.setIcon(R.drawable.ic_advertencia);
         dialog.show();
+
     }
 }

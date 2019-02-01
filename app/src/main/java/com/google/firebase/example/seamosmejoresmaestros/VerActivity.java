@@ -57,6 +57,7 @@ public class VerActivity extends AppCompatActivity {
 
         progress = new ProgressDialog(VerActivity.this);
         progress.setMessage("Cargando...");
+        progress.setCancelable(false);
         progress.show();
         consultaDetalles();
     }
