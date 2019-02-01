@@ -45,6 +45,7 @@ public class AddPublicador extends AppCompatActivity {
             public void onClick(View v) {
                 progress = new ProgressDialog(AddPublicador.this);
                 progress.setMessage("Guardando...");
+                progress.setCancelable(false);
                 progress.show();
                 guardarPublicador();
             }
