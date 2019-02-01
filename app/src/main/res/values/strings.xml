@@ -11,6 +11,12 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Ajustes</string>
     <string name="titleFecha">Seleccione Fecha</string>
+    <string name="GenMasculino">*Hombre</string>
+    <string name="GenFemenino">*Mujer</string>
+    <string name="asterisco">*Campos obligatorios</string>
+    <string name="cbHabilitar">Inhabilitar</string>
+    <string name="btnGuardar">Guardar</string>
+    <string name="btnCancelar">Cancelar</string>
 
     <!-- Menu Nav Drawer -->
     <string name="nav_header_title">Perfil</string>
@@ -48,12 +54,12 @@
     <string name="ultSustitucion">Última Sustitución: </string>
     <string name="tvHabilitado"> </string>
 
-    <string name="GenMasculino">*Hombre</string>
-    <string name="GenFemenino">*Mujer</string>
-    <string name="asterisco">*Campos obligatorios</string>
-    <string name="cbHabilitar">Inhabilitar</string>
-    <string name="btnGuardar">Guardar</string>
-    <string name="btnCancelar">Cancelar</string>
+    <!-- Content Editar Salas -->
+    <string name="btnAsignar">IR</string>
+    <string name="checkboxVisita">Visita Superintendente</string>
+    <string name="checkboxAsamblea">Asamblea</string>
+
+
 
 
 </resources>
