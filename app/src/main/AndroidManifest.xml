@@ -13,8 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditarSalas"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".ResumenSalas"
+            android:label="@string/title_activity_resumen"
+            android:theme="@style/Theme.Editar"></activity>
+        <activity
+            android:name=".EditarSalas"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddPublicador"
             android:label="@string/title_activity_agregar"

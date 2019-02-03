@@ -6,6 +6,7 @@
     <string name="title_activity_ver">Detalles Publicador</string>
     <string name="title_activity_agregar">Agregar Publicador</string>
     <string name="title_activity_editar">Editar Publicador</string>
+    <string name="title_activity_resumen">Resumen de las asignaciones</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -59,7 +60,13 @@
     <string name="checkboxVisita">Visita Superintendente</string>
     <string name="checkboxAsamblea">Asamblea</string>
 
-
+    <!-- Content ResumenSalas -->
+    <string name="tvEncargado">Encargado</string>
+    <string name="tvAyudante">Ayudante</string>
+    <string name="tvAsignacion">Asignacion</string>
+    <string name="tvLectura">Lectura Bíblica</string>
+    <string name="titleSala1">Primera Sala</string>
+    <string name="titleSala2">Segunda Sala</string>
 
 
 </resources>

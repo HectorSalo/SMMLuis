@@ -1,5 +1,6 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,7 +18,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class AsignacionesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,6 +89,9 @@ public class AsignacionesActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.action_fecha) {
+            selecFecha();
             return true;
         }
 
@@ -150,5 +159,24 @@ public class AsignacionesActivity extends AppCompatActivity
         dialog.setIcon(R.drawable.ic_advertencia);
         dialog.show();
 
+    }
+
+    private void selecFecha() {
+        final Calendar calendario = Calendar.getInstance();
+        final Calendar dateDiscurso = Calendar.getInstance();
+
+        int dia = calendario.get(Calendar.DAY_OF_MONTH);
+        int mes = calendario.get(Calendar.MONTH);
+        int anual = calendario.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                dateDiscurso.set(year, month, dayOfMonth);
+                Date discurso = dateDiscurso.getTime();
+                //fdiscurso.setText(new SimpleDateFormat("EEE d MMM yyyy").format(discurso));
+            }
+        }, anual, mes , dia);
+        datePickerDialog.show();
     }
 }
