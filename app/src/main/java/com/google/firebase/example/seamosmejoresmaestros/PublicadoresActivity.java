@@ -144,7 +144,9 @@ public class PublicadoresActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
+            Intent myIntent = new Intent(this, MainActivity.class);
+            startActivity(myIntent);
         }
     }
 

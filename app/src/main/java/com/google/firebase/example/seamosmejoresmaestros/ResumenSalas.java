@@ -345,103 +345,84 @@ public class ResumenSalas extends AppCompatActivity {
     public void guradarDatosPublicadores() {
 
         if (idLectorSala1 != null) {
-            actualizarFechasEncargados(idLectorSala1, Utilidades.lectorSala1Date);
+            actualizarFechasEncargados(idLectorSala1);
+            actualizarFechaViejaEncargados(idLectorSala1, Utilidades.lectorSala1Date);
         }
 
         if (idEncargado1Sala1 != null) {
-            actualizarFechasEncargados(idEncargado1Sala1, Utilidades.encargado1Sala1Date);
+            actualizarFechasEncargados(idEncargado1Sala1);
+            actualizarFechaViejaEncargados(idEncargado1Sala1, Utilidades.encargado1Sala1Date);
         }
 
         if (idAyudante1Sala1 != null) {
-            actualizarFechasAyudantes(idAyudante1Sala1, Utilidades.ayudante1Sala1Date);
+            actualizarFechasAyudantes(idAyudante1Sala1);
+            actualizarFechaViejaAyudantes(idAyudante1Sala1, Utilidades.ayudante1Sala1Date);
         }
 
-        /*if (idEncargado2Sala1 != null) {
-            tvAsignacion2Sala1.setText(seleccion2Sala1);
-            tvEncargado2Sala1.setText(Utilidades.encargado2Sala1);
-        } else {
-            tvAsignacion2Sala1.setText("");
-            tvEncargado2Sala1.setText("");
+        if (idEncargado2Sala1 != null) {
+            actualizarFechasEncargados(idEncargado2Sala1);
+            actualizarFechaViejaEncargados(idEncargado2Sala1, Utilidades.encargado2Sala1Date);
         }
 
         if (idAyudante2Sala1 != null) {
-            tvAyudante2Sala1.setText(Utilidades.ayudante2Sala1);
-        } else {
-            tvAyudante2Sala1.setText("");
+            actualizarFechasAyudantes(idAyudante2Sala1);
+            actualizarFechaViejaAyudantes(idAyudante2Sala1, Utilidades.ayudante2Sala1Date);
         }
 
         if (idEncargado3Sala1 != null) {
-            tvAsignacion3Sala1.setText(seleccion3Sala1);
-            tvEncargado3Sala1.setText(Utilidades.encargado3Sala1);
-        } else {
-            tvAsignacion3Sala1.setText("");
-            tvEncargado3Sala1.setText("");
+            actualizarFechasEncargados(idEncargado3Sala1);
+            actualizarFechaViejaEncargados(idEncargado3Sala1, Utilidades.encargado3Sala1Date);
         }
 
         if (idAyudante3Sala1 != null) {
-            tvAyudante3Sala1.setText(Utilidades.ayudante3Sala1);
-        } else {
-            tvAyudante3Sala1.setText("");
+            actualizarFechasAyudantes(idAyudante3Sala1);
+            actualizarFechaViejaAyudantes(idAyudante3Sala1, Utilidades.ayudante3Sala1Date);
         }
         //Sala 2
         if (idLectorSala2 != null) {
-            tvLectorSala2.setText(Utilidades.lectorSala2);
-        } else {
-            tvLecturaSala2.setText("");
-            tvLectorSala2.setText("");
+            actualizarFechasEncargados(idLectorSala2);
+            actualizarFechaViejaEncargados(idLectorSala2, Utilidades.lectorSala2Date);
         }
 
         if (idEncargado1Sala2 != null) {
-            tvAsignacion1Sala2.setText(seleccion1Sala2);
-            tvEncargado1Sala2.setText(Utilidades.encargado1Sala2);
-        } else {
-            tvAsignacion1Sala2.setText("");
-            tvEncargado1Sala2.setText("");
+            actualizarFechasEncargados(idEncargado1Sala2);
+            actualizarFechaViejaEncargados(idEncargado1Sala2, Utilidades.encargado1Sala2Date);
         }
 
         if (idAyudante1Sala2 != null) {
-            tvAyudante1Sala2.setText(Utilidades.ayudante1Sala2);
-        } else {
-            tvAyudante1Sala2.setText("");
+            actualizarFechasAyudantes(idAyudante1Sala2);
+            actualizarFechaViejaAyudantes(idAyudante1Sala2, Utilidades.ayudante1Sala2Date);
         }
 
         if (idEncargado2Sala2 != null) {
-            tvAsignacion2Sala2.setText(seleccion2Sala2);
-            tvEncargado2Sala2.setText(Utilidades.encargado2Sala2);
-        } else {
-            tvAsignacion2Sala2.setText("");
-            tvEncargado2Sala2.setText("");
+            actualizarFechasEncargados(idEncargado2Sala2);
+            actualizarFechaViejaEncargados(idEncargado2Sala2, Utilidades.encargado2Sala2Date);
         }
 
         if (idAyudante2Sala2 != null) {
-            tvAyudante2Sala2.setText(Utilidades.ayudante2Sala2);
-        } else {
-            tvAyudante2Sala2.setText("");
+            actualizarFechasAyudantes(idAyudante2Sala2);
+            actualizarFechaViejaAyudantes(idAyudante2Sala2, Utilidades.ayudante2Sala2Date);
         }
 
         if (idEncargado3Sala2 != null) {
-            tvAsignacion3Sala2.setText(seleccion3Sala2);
-            tvEncargado3Sala2.setText(Utilidades.encargado3Sala2);
-        } else {
-            tvAsignacion3Sala2.setText("");
-            tvEncargado3Sala2.setText("");
+            actualizarFechasEncargados(idEncargado3Sala2);
+            actualizarFechaViejaEncargados(idEncargado3Sala2, Utilidades.encargado3Sala2Date);
         }
 
         if (idAyudante3Sala2 != null) {
-            tvAyudante3Sala2.setText(Utilidades.ayudante3Sala2);
-        } else {
-            tvAyudante3Sala2.setText("");
-        }*/
+            actualizarFechasAyudantes(idAyudante3Sala2);
+            actualizarFechaViejaAyudantes(idAyudante3Sala2, Utilidades.ayudante3Sala2Date);
+        }
+        Toast.makeText(this, "Proceso finalizado correctamente", Toast.LENGTH_LONG).show();
+        Intent myIntent = new Intent(ResumenSalas.this, AsignacionesActivity.class);
+        startActivity(myIntent);
+        finish();
     }
 
-    public void actualizarFechasEncargados(String id, Date fechaVieja) {
+    public void actualizarFechasEncargados(String id) {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        Map<String, Object> publicador = new HashMap<>();
-        publicador.put(UtilidadesStatic.BD_DISRECIENTE, fechaDate);
-        publicador.put(UtilidadesStatic.BD_DISVIEJO, fechaVieja);
-
-        dbEditar.collection("publicadores").document(id).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(id).update(UtilidadesStatic.BD_DISRECIENTE, fechaDate).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -457,14 +438,48 @@ public class ResumenSalas extends AppCompatActivity {
         });
     }
 
-    public void actualizarFechasAyudantes(String id, Date fechaVieja) {
+    public void actualizarFechaViejaEncargados(String id, Date fechaVieja) {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        Map<String, Object> publicador = new HashMap<>();
-        publicador.put(UtilidadesStatic.BD_AYURECIENTE, fechaDate);
-        publicador.put(UtilidadesStatic.BD_AYUVIEJO, fechaVieja);
+        dbEditar.collection("publicadores").document(id).update(UtilidadesStatic.BD_DISVIEJO, fechaVieja).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
 
-        dbEditar.collection("publicadores").document(id).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public void actualizarFechasAyudantes(String id) {
+        FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
+
+        dbEditar.collection("publicadores").document(id).update(UtilidadesStatic.BD_AYURECIENTE, fechaDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public void actualizarFechaViejaAyudantes(String id, Date fechaVieja) {
+        FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
+
+        dbEditar.collection("publicadores").document(id).update(UtilidadesStatic.BD_AYUVIEJO, fechaVieja).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
