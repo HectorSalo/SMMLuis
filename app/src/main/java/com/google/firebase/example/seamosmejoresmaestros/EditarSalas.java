@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.Util;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -73,6 +74,8 @@ public class EditarSalas extends AppCompatActivity {
         cbVisita = (CheckBox) findViewById(R.id.cbVisita);
         btnIr = (Button) findViewById(R.id.buttonIr);
         grupoCb = (RadioGroup) findViewById(R.id.groupcb);
+
+
 
         recyclerEditSalas = (RecyclerView) findViewById(R.id.recyclerSeleccionar);
         recyclerEditSalas.setLayoutManager(new LinearLayoutManager(this));
@@ -208,6 +211,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.lectorSala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                Utilidades.lectorSala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idLectorSala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                 progress = new ProgressDialog(EditarSalas.this);
@@ -309,6 +314,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.encargado1Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                Utilidades.encargado1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -402,6 +409,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.ayudante1Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                Utilidades.ayudante1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -550,6 +559,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.encargado2Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                Utilidades.encargado2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -641,6 +652,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.ayudante2Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                Utilidades.ayudante2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -785,6 +798,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.encargado3Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                Utilidades.encargado3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -873,6 +888,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.ayudante3Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                Utilidades.ayudante3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -976,6 +993,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.lectorSala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                Utilidades.lectorSala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idLectorSala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
 
                 if (!idLectorSala2.equals(idLectorSala1) && !idLectorSala2.equals(idEncargado1Sala1) && !idLectorSala2.equals(idAyudante1Sala1) && !idLectorSala2.equals(idEncargado2Sala1)
@@ -1082,6 +1101,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.encargado1Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                Utilidades.encargado1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1171,6 +1192,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.ayudante1Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                Utilidades.ayudante1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1308,6 +1331,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.encargado2Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                Utilidades.encargado2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1398,6 +1423,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.ayudante2Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                Utilidades.ayudante2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1536,6 +1563,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.encargado3Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                Utilidades.encargado3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1626,6 +1655,8 @@ public class EditarSalas extends AppCompatActivity {
         adapterEditSalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilidades.ayudante3Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                Utilidades.ayudante3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 

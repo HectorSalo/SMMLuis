@@ -1,5 +1,6 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,11 +25,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResumenSalas extends AppCompatActivity {
 
     private String seleccion1Sala1, seleccion2Sala1, seleccion3Sala1, idLectorSala1, idEncargado1Sala1, idAyudante1Sala1, idEncargado2Sala1, idAyudante2Sala1, idEncargado3Sala1, idAyudante3Sala1;
     private String seleccion1Sala2, seleccion2Sala2, seleccion3Sala2, idLectorSala2, idEncargado1Sala2, idAyudante1Sala2, idEncargado2Sala2, idAyudante2Sala2, idEncargado3Sala2, idAyudante3Sala2;
+    private String nombreCompleto;
     private long fecha;
     private boolean visita, asamblea, activarSala2;
     private int semanaSelec;
@@ -34,6 +40,7 @@ public class ResumenSalas extends AppCompatActivity {
     private TextView tvLectorSala1, tvEncargado1Sala1, tvAyudante1Sala1, tvEncargado2Sala1, tvAyudante2Sala1, tvEncargado3Sala1, tvAyudante3Sala1;
     private TextView tvLectorSala2, tvEncargado1Sala2, tvAyudante1Sala2, tvEncargado2Sala2, tvAyudante2Sala2, tvEncargado3Sala2, tvAyudante3Sala2;
     private Date fechaDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +127,7 @@ public class ResumenSalas extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_save_pub) {
-            finish();
+            guradarDatosPublicadores();
             return true;
         } else if (id == R.id.menu_cancel_pub) {
             finish();
@@ -133,28 +140,60 @@ public class ResumenSalas extends AppCompatActivity {
     public void llenarSalas() {
         if (!asamblea) {
             if (!visita) {
-
+                llenarSalasCompleta();
             } else {
                 if (activarSala2) {
-
+                    llenarSalasCompleta();
                 } else {
                     tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaDate));
 
                     if (idLectorSala1 != null) {
-                        String info = cargarPublicador(idLectorSala1);
-                        tvLectorSala1.setText(info);
+                        tvLectorSala1.setText(Utilidades.lectorSala1);
                     } else {
                         tvLecturaSala1.setText("");
                         tvLectorSala1.setText("");
                     }
 
                     if (idEncargado1Sala1 != null) {
-                        String info = cargarPublicador(idEncargado1Sala1);
                         tvAsignacion1Sala1.setText(seleccion1Sala1);
-                        tvEncargado1Sala1.setText(info);
+                        tvEncargado1Sala1.setText(Utilidades.encargado1Sala1);
                     } else {
                         tvAsignacion1Sala1.setText("");
-                        tvEncargado1Sala2.setText("");
+                        tvEncargado1Sala1.setText("");
+                    }
+
+                    if (idAyudante1Sala1 != null) {
+                        tvAyudante1Sala1.setText(Utilidades.ayudante1Sala1);
+                    } else {
+                        tvAyudante1Sala1.setText("");
+                    }
+
+                    if (idEncargado2Sala1 != null) {
+                        tvAsignacion2Sala1.setText(seleccion2Sala1);
+                        tvEncargado2Sala1.setText(Utilidades.encargado2Sala1);
+                    } else {
+                        tvAsignacion2Sala1.setText("");
+                        tvEncargado2Sala1.setText("");
+                    }
+
+                    if (idAyudante2Sala1 != null) {
+                        tvAyudante2Sala1.setText(Utilidades.ayudante2Sala1);
+                    } else {
+                        tvAyudante2Sala1.setText("");
+                    }
+
+                    if (idEncargado3Sala1 != null) {
+                        tvAsignacion3Sala1.setText(seleccion3Sala1);
+                        tvEncargado3Sala1.setText(Utilidades.encargado3Sala1);
+                    } else {
+                        tvAsignacion3Sala1.setText("");
+                        tvEncargado3Sala1.setText("");
+                    }
+
+                    if (idAyudante3Sala1 != null) {
+                        tvAyudante3Sala1.setText(Utilidades.ayudante3Sala1);
+                    } else {
+                        tvAyudante3Sala1.setText("");
                     }
                     tituloSala2.setText("Visita");
                     tvLecturaSala2.setText("");
@@ -201,27 +240,243 @@ public class ResumenSalas extends AppCompatActivity {
         }
     }
 
-    public String cargarPublicador(String id) {
-        final String[] nombreCompleto = new String[1];
-        FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
-        CollectionReference reference = dbFirestore.collection("publicadores");
+    public void llenarSalasCompleta() {
+        tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaDate));
 
-        reference.document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot doc = task.getResult();
-                    String nombre = doc.getString(UtilidadesStatic.BD_NOMBRE);
-                    String apellido = doc.getString(UtilidadesStatic.BD_APELLIDO);
-                    nombreCompleto[0] = nombre + " " + apellido;
+        if (idLectorSala1 != null) {
+            tvLectorSala1.setText(Utilidades.lectorSala1);
+        } else {
+            tvLecturaSala1.setText("");
+            tvLectorSala1.setText("");
+        }
 
-                } else {
-                    Toast.makeText(getApplicationContext(), "Error al cargar publicador", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        Toast.makeText(getApplicationContext(), "Prueba" + nombreCompleto[0], Toast.LENGTH_SHORT).show();
-        return nombreCompleto[0];
+        if (idEncargado1Sala1 != null) {
+            tvAsignacion1Sala1.setText(seleccion1Sala1);
+            tvEncargado1Sala1.setText(Utilidades.encargado1Sala1);
+        } else {
+            tvAsignacion1Sala1.setText("");
+            tvEncargado1Sala1.setText("");
+        }
+
+        if (idAyudante1Sala1 != null) {
+            tvAyudante1Sala1.setText(Utilidades.ayudante1Sala1);
+        } else {
+            tvAyudante1Sala1.setText("");
+        }
+
+        if (idEncargado2Sala1 != null) {
+            tvAsignacion2Sala1.setText(seleccion2Sala1);
+            tvEncargado2Sala1.setText(Utilidades.encargado2Sala1);
+        } else {
+            tvAsignacion2Sala1.setText("");
+            tvEncargado2Sala1.setText("");
+        }
+
+        if (idAyudante2Sala1 != null) {
+            tvAyudante2Sala1.setText(Utilidades.ayudante2Sala1);
+        } else {
+            tvAyudante2Sala1.setText("");
+        }
+
+        if (idEncargado3Sala1 != null) {
+            tvAsignacion3Sala1.setText(seleccion3Sala1);
+            tvEncargado3Sala1.setText(Utilidades.encargado3Sala1);
+        } else {
+            tvAsignacion3Sala1.setText("");
+            tvEncargado3Sala1.setText("");
+        }
+
+        if (idAyudante3Sala1 != null) {
+            tvAyudante3Sala1.setText(Utilidades.ayudante3Sala1);
+        } else {
+            tvAyudante3Sala1.setText("");
+        }
+    //Sala 2
+        if (idLectorSala2 != null) {
+            tvLectorSala2.setText(Utilidades.lectorSala2);
+        } else {
+            tvLecturaSala2.setText("");
+            tvLectorSala2.setText("");
+        }
+
+        if (idEncargado1Sala2 != null) {
+            tvAsignacion1Sala2.setText(seleccion1Sala2);
+            tvEncargado1Sala2.setText(Utilidades.encargado1Sala2);
+        } else {
+            tvAsignacion1Sala2.setText("");
+            tvEncargado1Sala2.setText("");
+        }
+
+        if (idAyudante1Sala2 != null) {
+            tvAyudante1Sala2.setText(Utilidades.ayudante1Sala2);
+        } else {
+            tvAyudante1Sala2.setText("");
+        }
+
+        if (idEncargado2Sala2 != null) {
+            tvAsignacion2Sala2.setText(seleccion2Sala2);
+            tvEncargado2Sala2.setText(Utilidades.encargado2Sala2);
+        } else {
+            tvAsignacion2Sala2.setText("");
+            tvEncargado2Sala2.setText("");
+        }
+
+        if (idAyudante2Sala2 != null) {
+            tvAyudante2Sala2.setText(Utilidades.ayudante2Sala2);
+        } else {
+            tvAyudante2Sala2.setText("");
+        }
+
+        if (idEncargado3Sala2 != null) {
+            tvAsignacion3Sala2.setText(seleccion3Sala2);
+            tvEncargado3Sala2.setText(Utilidades.encargado3Sala2);
+        } else {
+            tvAsignacion3Sala2.setText("");
+            tvEncargado3Sala2.setText("");
+        }
+
+        if (idAyudante3Sala2 != null) {
+            tvAyudante3Sala2.setText(Utilidades.ayudante3Sala2);
+        } else {
+            tvAyudante3Sala2.setText("");
+        }
     }
 
+    public void guradarDatosPublicadores() {
+
+        if (idLectorSala1 != null) {
+            actualizarFechasEncargados(idLectorSala1, Utilidades.lectorSala1Date);
+        }
+
+        if (idEncargado1Sala1 != null) {
+            actualizarFechasEncargados(idEncargado1Sala1, Utilidades.encargado1Sala1Date);
+        }
+
+        if (idAyudante1Sala1 != null) {
+            actualizarFechasAyudantes(idAyudante1Sala1, Utilidades.ayudante1Sala1Date);
+        }
+
+        /*if (idEncargado2Sala1 != null) {
+            tvAsignacion2Sala1.setText(seleccion2Sala1);
+            tvEncargado2Sala1.setText(Utilidades.encargado2Sala1);
+        } else {
+            tvAsignacion2Sala1.setText("");
+            tvEncargado2Sala1.setText("");
+        }
+
+        if (idAyudante2Sala1 != null) {
+            tvAyudante2Sala1.setText(Utilidades.ayudante2Sala1);
+        } else {
+            tvAyudante2Sala1.setText("");
+        }
+
+        if (idEncargado3Sala1 != null) {
+            tvAsignacion3Sala1.setText(seleccion3Sala1);
+            tvEncargado3Sala1.setText(Utilidades.encargado3Sala1);
+        } else {
+            tvAsignacion3Sala1.setText("");
+            tvEncargado3Sala1.setText("");
+        }
+
+        if (idAyudante3Sala1 != null) {
+            tvAyudante3Sala1.setText(Utilidades.ayudante3Sala1);
+        } else {
+            tvAyudante3Sala1.setText("");
+        }
+        //Sala 2
+        if (idLectorSala2 != null) {
+            tvLectorSala2.setText(Utilidades.lectorSala2);
+        } else {
+            tvLecturaSala2.setText("");
+            tvLectorSala2.setText("");
+        }
+
+        if (idEncargado1Sala2 != null) {
+            tvAsignacion1Sala2.setText(seleccion1Sala2);
+            tvEncargado1Sala2.setText(Utilidades.encargado1Sala2);
+        } else {
+            tvAsignacion1Sala2.setText("");
+            tvEncargado1Sala2.setText("");
+        }
+
+        if (idAyudante1Sala2 != null) {
+            tvAyudante1Sala2.setText(Utilidades.ayudante1Sala2);
+        } else {
+            tvAyudante1Sala2.setText("");
+        }
+
+        if (idEncargado2Sala2 != null) {
+            tvAsignacion2Sala2.setText(seleccion2Sala2);
+            tvEncargado2Sala2.setText(Utilidades.encargado2Sala2);
+        } else {
+            tvAsignacion2Sala2.setText("");
+            tvEncargado2Sala2.setText("");
+        }
+
+        if (idAyudante2Sala2 != null) {
+            tvAyudante2Sala2.setText(Utilidades.ayudante2Sala2);
+        } else {
+            tvAyudante2Sala2.setText("");
+        }
+
+        if (idEncargado3Sala2 != null) {
+            tvAsignacion3Sala2.setText(seleccion3Sala2);
+            tvEncargado3Sala2.setText(Utilidades.encargado3Sala2);
+        } else {
+            tvAsignacion3Sala2.setText("");
+            tvEncargado3Sala2.setText("");
+        }
+
+        if (idAyudante3Sala2 != null) {
+            tvAyudante3Sala2.setText(Utilidades.ayudante3Sala2);
+        } else {
+            tvAyudante3Sala2.setText("");
+        }*/
+    }
+
+    public void actualizarFechasEncargados(String id, Date fechaVieja) {
+        FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
+
+        Map<String, Object> publicador = new HashMap<>();
+        publicador.put(UtilidadesStatic.BD_DISRECIENTE, fechaDate);
+        publicador.put(UtilidadesStatic.BD_DISVIEJO, fechaVieja);
+
+        dbEditar.collection("publicadores").document(id).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public void actualizarFechasAyudantes(String id, Date fechaVieja) {
+        FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
+
+        Map<String, Object> publicador = new HashMap<>();
+        publicador.put(UtilidadesStatic.BD_AYURECIENTE, fechaDate);
+        publicador.put(UtilidadesStatic.BD_AYUVIEJO, fechaVieja);
+
+        dbEditar.collection("publicadores").document(id).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
 }
