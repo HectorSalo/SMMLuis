@@ -1,5 +1,6 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -132,6 +139,23 @@ public class ResumenSalas extends AppCompatActivity {
 
                 } else {
                     tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaDate));
+
+                    if (idLectorSala1 != null) {
+                        String info = cargarPublicador(idLectorSala1);
+                        tvLectorSala1.setText(info);
+                    } else {
+                        tvLecturaSala1.setText("");
+                        tvLectorSala1.setText("");
+                    }
+
+                    if (idEncargado1Sala1 != null) {
+                        String info = cargarPublicador(idEncargado1Sala1);
+                        tvAsignacion1Sala1.setText(seleccion1Sala1);
+                        tvEncargado1Sala1.setText(info);
+                    } else {
+                        tvAsignacion1Sala1.setText("");
+                        tvEncargado1Sala2.setText("");
+                    }
                     tituloSala2.setText("Visita");
                     tvLecturaSala2.setText("");
                     tvAsignacion1Sala2.setText("");
@@ -175,6 +199,29 @@ public class ResumenSalas extends AppCompatActivity {
 
 
         }
+    }
+
+    public String cargarPublicador(String id) {
+        final String[] nombreCompleto = new String[1];
+        FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
+        CollectionReference reference = dbFirestore.collection("publicadores");
+
+        reference.document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    String nombre = doc.getString(UtilidadesStatic.BD_NOMBRE);
+                    String apellido = doc.getString(UtilidadesStatic.BD_APELLIDO);
+                    nombreCompleto[0] = nombre + " " + apellido;
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Error al cargar publicador", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        Toast.makeText(getApplicationContext(), "Prueba" + nombreCompleto[0], Toast.LENGTH_SHORT).show();
+        return nombreCompleto[0];
     }
 
 }
