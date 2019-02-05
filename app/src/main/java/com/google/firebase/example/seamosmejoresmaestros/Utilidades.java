@@ -35,4 +35,9 @@ public class Utilidades {
     public static Date encargado3Sala2Date = null;
     public static Date ayudante3Sala2Date = null;
 
+    public static boolean visita = false;
+    public static boolean asamblea = false;
+
+    public static Date fechaSelec = null;
+    public static int semanaSelec = 0;
 }

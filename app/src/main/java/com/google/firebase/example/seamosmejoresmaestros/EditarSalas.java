@@ -284,6 +284,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Utilidades.encargado1Sala1 = null;
+                            Utilidades.ayudante1Sala1 = null;
                             idEncargado1Sala1 = null;
                             idAyudante1Sala1 = null;
 
@@ -326,6 +328,7 @@ public class EditarSalas extends AppCompatActivity {
 
                         } else if (seleccion1Sala1.equals("Discurso") && genero.equals("Hombre")) {
                             idAyudante1Sala1 = null;
+                            Utilidades.ayudante1Sala1 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             progress = new ProgressDialog(EditarSalas.this);
                             progress.setMessage("Cargando...");
@@ -530,6 +533,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Utilidades.encargado2Sala1 = null;
+                            Utilidades.ayudante2Sala1 = null;
                             idEncargado2Sala1 = null;
                             idAyudante2Sala1 = null;
                             progress = new ProgressDialog(EditarSalas.this);
@@ -571,6 +576,7 @@ public class EditarSalas extends AppCompatActivity {
 
                         } else if (seleccion2Sala1.equals("Discurso") && genero.equals("Hombre")) {
                             idAyudante2Sala1 = null;
+                            Utilidades.ayudante2Sala1 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             progress = new ProgressDialog(EditarSalas.this);
                             progress.setMessage("Cargando...");
@@ -773,6 +779,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Utilidades.encargado3Sala1 = null;
+                            Utilidades.ayudante3Sala1 = null;
                             idEncargado3Sala1 = null;
                             idAyudante3Sala1 = null;
                             confirmacionSala2();
@@ -810,6 +818,7 @@ public class EditarSalas extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Debe escoger un publicador masculino", Toast.LENGTH_SHORT).show();
 
                         } else if (seleccion3Sala1.equals("Discurso") && genero.equals("Hombre")) {
+                            Utilidades.ayudante3Sala1 = null;
                             idAyudante3Sala1 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             confirmacionSala2();
@@ -1076,6 +1085,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Utilidades.encargado1Sala2 = null;
+                            Utilidades.ayudante1Sala2 = null;
                             idEncargado1Sala2 = null;
                             idAyudante1Sala2 = null;
                             listaEncargado2Sala2();
@@ -1115,6 +1126,7 @@ public class EditarSalas extends AppCompatActivity {
 
                         } else if (seleccion1Sala2.equals("Discurso") && genero.equals("Hombre")) {
                             idAyudante1Sala2 = null;
+                            Utilidades.ayudante1Sala2 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             listaEncargado2Sala2();
 
@@ -1306,6 +1318,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Utilidades.encargado2Sala2 = null;
+                            Utilidades.ayudante2Sala2 = null;
                             idEncargado2Sala2 = null;
                             idAyudante2Sala2 = null;
                             listaEncargado3Sala2();
@@ -1346,6 +1360,7 @@ public class EditarSalas extends AppCompatActivity {
 
                         } else if (seleccion2Sala2.equals("Discurso") && genero.equals("Hombre")) {
                             idAyudante2Sala2 = null;
+                            Utilidades.ayudante2Sala2 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             listaEncargado3Sala2();
 
@@ -1538,6 +1553,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Utilidades.encargado3Sala2 = null;
+                            Utilidades.ayudante3Sala2 = null;
                             idEncargado3Sala2 = null;
                             idAyudante3Sala2 = null;
                             llenarSalas();
@@ -1577,6 +1594,7 @@ public class EditarSalas extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Debe escoger un publicador masculino", Toast.LENGTH_SHORT).show();
 
                         } else if (seleccion3Sala2.equals("Discurso") && genero.equals("Hombre")) {
+                            Utilidades.ayudante3Sala2 = null;
                             idAyudante3Sala2 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             llenarSalas();
@@ -1824,9 +1842,11 @@ public class EditarSalas extends AppCompatActivity {
                        seleccion2Sala2 = null;
                        seleccion3Sala2 = null;
                        asamblea = true;
+                       Utilidades.asamblea = true;
                        llenarSalas();
                    } else if (cbVisita.isChecked()){
                        visita = true;
+                       Utilidades.visita = true;
                        progress = new ProgressDialog(this);
                        progress.setMessage("Cargando...");
                        progress.setCancelable(false);

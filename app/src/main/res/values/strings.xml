@@ -68,5 +68,8 @@
     <string name="titleSala1">Primera Sala</string>
     <string name="titleSala2">Segunda Sala</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="sustituir">Sustituir por:</string>
+
 
 </resources>

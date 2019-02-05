@@ -33,7 +33,6 @@ public class ResumenSalas extends AppCompatActivity {
 
     private String seleccion1Sala1, seleccion2Sala1, seleccion3Sala1, idLectorSala1, idEncargado1Sala1, idAyudante1Sala1, idEncargado2Sala1, idAyudante2Sala1, idEncargado3Sala1, idAyudante3Sala1;
     private String seleccion1Sala2, seleccion2Sala2, seleccion3Sala2, idLectorSala2, idEncargado1Sala2, idAyudante1Sala2, idEncargado2Sala2, idAyudante2Sala2, idEncargado3Sala2, idAyudante3Sala2;
-    private String nombreCompleto;
     private long fecha;
     private boolean visita, asamblea, activarSala2;
     private int semanaSelec;
@@ -505,13 +504,18 @@ public class ResumenSalas extends AppCompatActivity {
         DocumentReference reference = db.collection("sala1").document(semana);
 
                 Map<String, Object> publicador = new HashMap<>();
+                publicador.put(UtilidadesStatic.BD_LECTOR, Utilidades.lectorSala1);
                 publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala1);
                 publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala1);
                 publicador.put(UtilidadesStatic.BD_ENCARGADO2, Utilidades.encargado2Sala1);
                 publicador.put(UtilidadesStatic.BD_AYUDANTE2, Utilidades.ayudante2Sala1);
                 publicador.put(UtilidadesStatic.BD_ENCARGADO3, Utilidades.encargado3Sala1);
                 publicador.put(UtilidadesStatic.BD_AYUDANTE3, Utilidades.ayudante3Sala1);
-
+                publicador.put(UtilidadesStatic.BD_ASIGNACION1, seleccion1Sala1);
+                publicador.put(UtilidadesStatic.BD_ASIGNACION2, seleccion2Sala1);
+                publicador.put(UtilidadesStatic.BD_ASIGNACION3, seleccion3Sala1);
+                publicador.put(UtilidadesStatic.BD_ASAMBLEA, Utilidades.asamblea);
+                publicador.put(UtilidadesStatic.BD_VISITA, Utilidades.visita);
 
          reference.set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
              @Override
@@ -534,12 +538,18 @@ public class ResumenSalas extends AppCompatActivity {
         DocumentReference reference = db.collection("sala2").document(semana);
 
         Map<String, Object> publicador = new HashMap<>();
+        publicador.put(UtilidadesStatic.BD_LECTOR, Utilidades.lectorSala2);
         publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala2);
         publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala2);
         publicador.put(UtilidadesStatic.BD_ENCARGADO2, Utilidades.encargado2Sala2);
         publicador.put(UtilidadesStatic.BD_AYUDANTE2, Utilidades.ayudante2Sala2);
         publicador.put(UtilidadesStatic.BD_ENCARGADO3, Utilidades.encargado3Sala2);
         publicador.put(UtilidadesStatic.BD_AYUDANTE3, Utilidades.ayudante3Sala2);
+        publicador.put(UtilidadesStatic.BD_ASIGNACION1, seleccion1Sala2);
+        publicador.put(UtilidadesStatic.BD_ASIGNACION2, seleccion2Sala2);
+        publicador.put(UtilidadesStatic.BD_ASIGNACION3, seleccion3Sala2);
+        publicador.put(UtilidadesStatic.BD_ASAMBLEA, Utilidades.asamblea);
+        publicador.put(UtilidadesStatic.BD_VISITA, Utilidades.visita);
 
 
         reference.set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {

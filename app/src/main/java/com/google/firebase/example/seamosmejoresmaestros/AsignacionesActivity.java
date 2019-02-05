@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -19,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -26,9 +30,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class AsignacionesActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Sala1Fragment.OnFragmentInteractionListener, Sala2Fragment.OnFragmentInteractionListener {
 
-        private boolean advertencia;
+    private boolean advertencia;
+    private ViewPager vpSalas;
+    private SalasAdapter salasAdapter;
+    private int dia, mes, anual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,15 @@ public class AsignacionesActivity extends AppCompatActivity
         setContentView(R.layout.activity_asignaciones);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        salasAdapter = new SalasAdapter(getSupportFragmentManager());
+
+        vpSalas = (ViewPager) findViewById(R.id.viewpagerSalas);
+        vpSalas.setAdapter(salasAdapter);
+        vpSalas.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpSalas));
 
         SharedPreferences preferences = getSharedPreferences("advertencia", Context.MODE_PRIVATE);
         advertencia = preferences.getBoolean("activar", true);
@@ -61,6 +77,7 @@ public class AsignacionesActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -175,10 +192,18 @@ public class AsignacionesActivity extends AppCompatActivity
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 dateDiscurso.set(year, month, dayOfMonth);
+                Utilidades.semanaSelec = dateDiscurso.get(Calendar.WEEK_OF_YEAR);
                 Date discurso = dateDiscurso.getTime();
-                //fdiscurso.setText(new SimpleDateFormat("EEE d MMM yyyy").format(discurso));
+                Utilidades.fechaSelec = discurso;
+                recreate();
+
             }
         }, anual, mes , dia);
         datePickerDialog.show();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
