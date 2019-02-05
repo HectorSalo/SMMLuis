@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -127,6 +128,8 @@ public class ResumenSalas extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_save_pub) {
+            guardarSala1();
+            guardarSala2();
             guradarDatosPublicadores();
             return true;
         } else if (id == R.id.menu_cancel_pub) {
@@ -494,4 +497,63 @@ public class ResumenSalas extends AppCompatActivity {
             }
         });
     }
+
+    public void guardarSala1() {
+        String semana = String.valueOf(semanaSelec);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference reference = db.collection("sala1").document(semana);
+
+                Map<String, Object> publicador = new HashMap<>();
+                publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala1);
+                publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala1);
+                publicador.put(UtilidadesStatic.BD_ENCARGADO2, Utilidades.encargado2Sala1);
+                publicador.put(UtilidadesStatic.BD_AYUDANTE2, Utilidades.ayudante2Sala1);
+                publicador.put(UtilidadesStatic.BD_ENCARGADO3, Utilidades.encargado3Sala1);
+                publicador.put(UtilidadesStatic.BD_AYUDANTE3, Utilidades.ayudante3Sala1);
+
+
+         reference.set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
+             @Override
+             public void onSuccess(Void aVoid) {
+
+             }
+         }).addOnFailureListener(new OnFailureListener() {
+             @Override
+             public void onFailure(@NonNull Exception e) {
+
+             }
+         });
+
+    }
+
+    public void guardarSala2() {
+        String semana = String.valueOf(semanaSelec);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference reference = db.collection("sala2").document(semana);
+
+        Map<String, Object> publicador = new HashMap<>();
+        publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala2);
+        publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala2);
+        publicador.put(UtilidadesStatic.BD_ENCARGADO2, Utilidades.encargado2Sala2);
+        publicador.put(UtilidadesStatic.BD_AYUDANTE2, Utilidades.ayudante2Sala2);
+        publicador.put(UtilidadesStatic.BD_ENCARGADO3, Utilidades.encargado3Sala2);
+        publicador.put(UtilidadesStatic.BD_AYUDANTE3, Utilidades.ayudante3Sala2);
+
+
+        reference.set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+
 }

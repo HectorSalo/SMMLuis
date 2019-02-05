@@ -17,4 +17,12 @@ public class UtilidadesStatic {
     public static final String BD_SUSTVIEJO = "sustViejo";
 
 
+    public static final String BD_SEMANA = "nombre";
+    public static final String BD_ENCARGADO1 = "encargado1";
+    public static final String BD_AYUDANTE1 = "ayudante1";
+    public static final String BD_ENCARGADO2 = "encargado2";
+    public static final String BD_AYUDANTE2 = "ayudante2";
+    public static final String BD_ENCARGADO3 = "encargado3";
+    public static final String BD_AYUDANTE3 = "ayudante3";
+
 }
