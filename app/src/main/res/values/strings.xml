@@ -6,6 +6,7 @@
     <string name="title_activity_ver">Detalles Publicador</string>
     <string name="title_activity_agregar">Agregar Publicador</string>
     <string name="title_activity_editar">Editar Publicador</string>
+    <string name="title_activity_sustituir">Sustituciones</string>
     <string name="title_activity_resumen">Resumen de las asignaciones</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

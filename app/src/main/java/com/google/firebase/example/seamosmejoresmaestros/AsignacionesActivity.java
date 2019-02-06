@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -25,6 +26,11 @@ import android.widget.DatePicker;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,7 +41,7 @@ public class AsignacionesActivity extends AppCompatActivity
     private boolean advertencia;
     private ViewPager vpSalas;
     private SalasAdapter salasAdapter;
-    private int dia, mes, anual;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +117,9 @@ public class AsignacionesActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.action_fecha) {
             selecFecha();
+            return true;
+        } else if (id == R.id.action_delete) {
+            deleteSalas();
             return true;
         }
 
@@ -201,6 +210,98 @@ public class AsignacionesActivity extends AppCompatActivity
         }, anual, mes , dia);
         datePickerDialog.show();
     }
+
+    public void deleteSalas() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
+        dialog.setTitle("¡Advertencia!");
+        dialog.setMessage("Se borrará la programación de ambas salas.\n¿Desea continuar?");
+        dialog.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                eliminarSala1();
+                eliminarSala2();
+                Toast.makeText(getApplicationContext(), "Programción eliminada", Toast.LENGTH_SHORT).show();
+                recreate();
+            }
+        });
+        dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setIcon(R.drawable.ic_advertencia);
+        dialog.show();
+    }
+
+    public void eliminarSala1() {
+        ActualizarFechaSalaEliminada actualizarFechaSalaEliminada = new ActualizarFechaSalaEliminada();
+        Calendar calendario = Calendar.getInstance();
+        int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
+        String doc;
+        if (Utilidades.semanaSelec != 0) {
+            doc = String.valueOf(Utilidades.semanaSelec);
+            actualizarFechaSalaEliminada.cargarSala1(Utilidades.semanaSelec);
+        } else {
+            doc = String.valueOf(semanaActual);
+            actualizarFechaSalaEliminada.cargarSala1(semanaActual);
+        }
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("sala1");
+
+        reference.document(doc)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error al eliminar en Sala 1. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void eliminarSala2() {
+        ActualizarFechaSalaEliminada actualizarFechaSalaEliminada = new ActualizarFechaSalaEliminada();
+        Calendar calendario = Calendar.getInstance();
+        int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
+        String doc;
+        if (Utilidades.semanaSelec != 0) {
+            doc = String.valueOf(Utilidades.semanaSelec);
+            actualizarFechaSalaEliminada.cargarSala2(Utilidades.semanaSelec);
+        } else {
+            doc = String.valueOf(semanaActual);
+            actualizarFechaSalaEliminada.cargarSala2(semanaActual);
+        }
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("sala2");
+
+        reference.document(doc)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Error al eliminar en Sala 2. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

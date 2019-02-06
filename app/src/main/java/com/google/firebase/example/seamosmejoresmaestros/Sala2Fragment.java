@@ -2,10 +2,13 @@ package com.google.firebase.example.seamosmejoresmaestros;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +52,8 @@ public class Sala2Fragment extends Fragment {
     private ImageButton imgEditar;
     private LinearLayout linearSala;
     private ProgressDialog progress;
+    private int semanaActual;
+    private Date fechaActual;
 
     public Sala2Fragment() {
         // Required empty public constructor
@@ -115,6 +120,27 @@ public class Sala2Fragment extends Fragment {
             cargarFechaActual();
         }
 
+        imgEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final CharSequence [] opciones = {"Sustituir uno de los Publicadores", "Cancelar"};
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                dialog.setTitle("Seleccione una opción");
+                dialog.setItems(opciones, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (opciones[which].equals("Sustituir uno de los Publicadores")) {
+                            editSala();
+                            dialog.dismiss();
+                        } else if (opciones[which].equals("Cancelar")) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                dialog.show();
+            }
+        });
+
         return vista;
     }
 
@@ -159,8 +185,8 @@ public class Sala2Fragment extends Fragment {
 
     private void cargarFechaActual() {
         Calendar calendario = Calendar.getInstance();
-        int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
-        Date fechaActual = calendario.getTime();
+        semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
+        fechaActual = calendario.getTime();
         tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaActual));
 
         cargarSala(semanaActual);
@@ -314,5 +340,21 @@ public class Sala2Fragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void editSala() {
+        Intent myIntent = new Intent(getContext(), SustituirActivity.class);
+        Bundle myBundle = new Bundle();
+        myBundle.putInt("sala", 2);
+        if(Utilidades.semanaSelec != 0) {
+            myBundle.putInt("semana", Utilidades.semanaSelec);
+            myBundle.putLong("fecha", Utilidades.fechaSelec.getTime());
+
+        } else {
+            myBundle.putInt("semana", semanaActual);
+            myBundle.putLong("fecha", fechaActual.getTime());
+        }
+        myIntent.putExtras(myBundle);
+        startActivity(myIntent);
     }
 }

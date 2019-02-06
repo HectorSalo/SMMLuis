@@ -511,6 +511,13 @@ public class ResumenSalas extends AppCompatActivity {
                 publicador.put(UtilidadesStatic.BD_AYUDANTE2, Utilidades.ayudante2Sala1);
                 publicador.put(UtilidadesStatic.BD_ENCARGADO3, Utilidades.encargado3Sala1);
                 publicador.put(UtilidadesStatic.BD_AYUDANTE3, Utilidades.ayudante3Sala1);
+                publicador.put(UtilidadesStatic.BD_IDLECTOR, idLectorSala1);
+                publicador.put(UtilidadesStatic.BD_IDENCARGADO1, idEncargado1Sala1);
+                publicador.put(UtilidadesStatic.BD_IDAYUDANTE1, idAyudante1Sala1);
+                publicador.put(UtilidadesStatic.BD_IDENCARGADO2, idEncargado2Sala1);
+                publicador.put(UtilidadesStatic.BD_IDAYUDANTE2, idAyudante2Sala1);
+                publicador.put(UtilidadesStatic.BD_IDENCARGADO3, idEncargado3Sala1);
+                publicador.put(UtilidadesStatic.BD_IDAYUDANTE3, idAyudante3Sala1);
                 publicador.put(UtilidadesStatic.BD_ASIGNACION1, seleccion1Sala1);
                 publicador.put(UtilidadesStatic.BD_ASIGNACION2, seleccion2Sala1);
                 publicador.put(UtilidadesStatic.BD_ASIGNACION3, seleccion3Sala1);
@@ -545,6 +552,13 @@ public class ResumenSalas extends AppCompatActivity {
         publicador.put(UtilidadesStatic.BD_AYUDANTE2, Utilidades.ayudante2Sala2);
         publicador.put(UtilidadesStatic.BD_ENCARGADO3, Utilidades.encargado3Sala2);
         publicador.put(UtilidadesStatic.BD_AYUDANTE3, Utilidades.ayudante3Sala2);
+        publicador.put(UtilidadesStatic.BD_IDLECTOR, idLectorSala2);
+        publicador.put(UtilidadesStatic.BD_IDENCARGADO1, idEncargado1Sala2);
+        publicador.put(UtilidadesStatic.BD_IDAYUDANTE1, idAyudante1Sala2);
+        publicador.put(UtilidadesStatic.BD_IDENCARGADO2, idEncargado2Sala2);
+        publicador.put(UtilidadesStatic.BD_IDAYUDANTE2, idAyudante2Sala2);
+        publicador.put(UtilidadesStatic.BD_IDENCARGADO3, idEncargado3Sala2);
+        publicador.put(UtilidadesStatic.BD_IDAYUDANTE3, idAyudante3Sala2);
         publicador.put(UtilidadesStatic.BD_ASIGNACION1, seleccion1Sala2);
         publicador.put(UtilidadesStatic.BD_ASIGNACION2, seleccion2Sala2);
         publicador.put(UtilidadesStatic.BD_ASIGNACION3, seleccion3Sala2);

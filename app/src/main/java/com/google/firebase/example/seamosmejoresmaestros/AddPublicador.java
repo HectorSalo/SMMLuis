@@ -97,6 +97,8 @@ public class AddPublicador extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         progress.dismiss();
                         Toast.makeText(getApplicationContext(), "Guardado exitosamente", Toast.LENGTH_SHORT).show();
+                        Intent myIntent = new Intent(getApplicationContext(), PublicadoresActivity.class);
+                        startActivity(myIntent);
                         finish();
 
                     }

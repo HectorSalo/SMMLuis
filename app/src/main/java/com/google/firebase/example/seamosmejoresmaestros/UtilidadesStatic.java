@@ -24,6 +24,13 @@ public class UtilidadesStatic {
     public static final String BD_AYUDANTE2 = "ayudante2";
     public static final String BD_ENCARGADO3 = "encargado3";
     public static final String BD_AYUDANTE3 = "ayudante3";
+    public static final String BD_IDLECTOR = "idlector";
+    public static final String BD_IDENCARGADO1 = "idencargado1";
+    public static final String BD_IDAYUDANTE1 = "idayudante1";
+    public static final String BD_IDENCARGADO2 = "idencargado2";
+    public static final String BD_IDAYUDANTE2 = "idayudante2";
+    public static final String BD_IDENCARGADO3 = "idencargado3";
+    public static final String BD_IDAYUDANTE3 = "idayudante3";
     public static final String BD_ASAMBLEA = "asamblea";
     public static final String BD_VISITA = "visita";
     public static final String BD_ASIGNACION1 = "asignacion1";

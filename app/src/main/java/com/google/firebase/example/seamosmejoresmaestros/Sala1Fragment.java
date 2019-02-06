@@ -92,7 +92,7 @@ public class Sala1Fragment extends Fragment {
         imgEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final CharSequence [] opciones = {"Sustituir uno de los Publicadores", "Eliminar semana programada", "Cancelar"};
+                final CharSequence [] opciones = {"Sustituir uno de los Publicadores", "Cancelar"};
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 dialog.setTitle("Seleccione una opción");
                 dialog.setItems(opciones, new DialogInterface.OnClickListener() {
@@ -100,9 +100,6 @@ public class Sala1Fragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (opciones[which].equals("Sustituir uno de los Publicadores")) {
                             editSala();
-                            dialog.dismiss();
-                        } else if (opciones[which].equals("Eliminar semana programada")) {
-                            eliminarSala();
                             dialog.dismiss();
                         } else if (opciones[which].equals("Cancelar")) {
                             dialog.dismiss();
@@ -312,50 +309,6 @@ public class Sala1Fragment extends Fragment {
                 }
             }
         });
-    }
-
-    public void eliminarSala() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final CollectionReference reference = db.collection("sala1");
-
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext(), R.style.Theme_Dialog_Publicador);
-        dialog.setTitle("Confirmar");
-        dialog.setMessage("¿Eliminar la programación de esta semana?");
-        dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String doc;
-                if (Utilidades.semanaSelec != 0) {
-                    doc = String.valueOf(Utilidades.semanaSelec);
-                } else {
-                    doc = String.valueOf(semanaActual);
-                }
-                reference.document(doc)
-                        .delete()
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-
-                                Toast.makeText(getContext(),"Semana eliminada", Toast.LENGTH_SHORT).show();
-
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getContext(), "Error al eliminar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            }
-        });
-        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-
     }
 
     public void editSala() {

@@ -434,6 +434,8 @@ public class EditarPubActivity extends AppCompatActivity {
                     public void onSuccess(Void aVoid) {
 
                         Toast.makeText(getApplicationContext(), "Publicador modificado ", Toast.LENGTH_SHORT).show();
+                        Intent myIntent = new Intent(getApplicationContext(), PublicadoresActivity.class);
+                        startActivity(myIntent);
                         finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ConstructorPublicadores {
     private String NombrePublicador, ApellidoPublicador, telefono, correo, genero,idPublicador, imagen;
-    private Date ultAsignacion, ultAyudante, ultSustitucion;
+    private Date ultAsignacion, ultAyudante, ultSustitucion, viejaAsignacion, viejaAyudante, viejaSustitucion;
 
     public ConstructorPublicadores() {}
 
@@ -48,6 +48,18 @@ public class ConstructorPublicadores {
         return ultSustitucion;
     }
 
+    public Date getViejaAsignacion() {
+        return viejaAsignacion;
+    }
+
+    public Date getViejaAyudante() {
+        return viejaAyudante;
+    }
+
+    public Date getViejaSustitucion() {
+        return viejaSustitucion;
+    }
+
     public void setNombrePublicador(String nombrePublicador) {
         NombrePublicador = nombrePublicador;
     }
@@ -86,5 +98,17 @@ public class ConstructorPublicadores {
 
     public void setUltSustitucion(Date ultSustitucion) {
         this.ultSustitucion = ultSustitucion;
+    }
+
+    public void setViejaAsignacion(Date viejaAsignacion) {
+        this.viejaAsignacion = viejaAsignacion;
+    }
+
+    public void setViejaAyudante(Date viejaAyudante) {
+        this.viejaAyudante = viejaAyudante;
+    }
+
+    public void setViejaSustitucion(Date viejaSustitucion) {
+        this.viejaSustitucion = viejaSustitucion;
     }
 }
