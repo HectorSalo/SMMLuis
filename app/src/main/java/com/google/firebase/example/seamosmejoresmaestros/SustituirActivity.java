@@ -444,7 +444,8 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
                 if (task.isSuccessful()) {
                         DocumentSnapshot doc = task.getResult();
                         Utilidades.idPubCambiado = doc.getId();
-                        Utilidades.fechaPubCambiado = doc.getDate(UtilidadesStatic.BD_DISVIEJO);
+                        Utilidades.fechaDisCambiado = doc.getDate(UtilidadesStatic.BD_DISVIEJO);
+                        Utilidades.fechaAyuCambiado = doc.getDate(UtilidadesStatic.BD_AYUVIEJO);
 
                         if (encargado) {
                             actFechaEnc();
@@ -463,7 +464,7 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     public void actFechaEnc() {
         String idPub = Utilidades.idPubCambiado;
         Date fecha = new Date();
-        fecha = Utilidades.fechaPubCambiado;
+        fecha = Utilidades.fechaDisCambiado;
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
         dbEditar.collection("publicadores").document(idPub).update(UtilidadesStatic.BD_DISRECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -485,7 +486,7 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     public void actFechaAyu() {
         String idPub = Utilidades.idPubCambiado;
         Date fecha = new Date();
-        fecha = Utilidades.fechaPubCambiado;
+        fecha = Utilidades.fechaAyuCambiado;
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
         dbEditar.collection("publicadores").document(idPub).update(UtilidadesStatic.BD_AYURECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -21,8 +21,6 @@ import java.util.Date;
 
 public class ActualizarFechaSalaEliminada {
 
-   private boolean encargado = false;
-   private boolean ayudante = false;
    private String idSemana = "";
    private Context ctx;
 
@@ -44,48 +42,36 @@ public class ActualizarFechaSalaEliminada {
                         Log.d("ID:", "id: " + idSemana);
                         if (doc.getString(UtilidadesStatic.BD_LECTOR) != null) {
                             VariablesActualizacionFechas.lectorSala1 = doc.getString(UtilidadesStatic.BD_IDLECTOR);
-                            encargado = true;
-                            ayudante = false;
-                            buscarEncAyu(VariablesActualizacionFechas.lectorSala1);
+                            buscarEnc(VariablesActualizacionFechas.lectorSala1);
                         }
                         if (doc.getString(UtilidadesStatic.BD_ENCARGADO1) != null) {
                             VariablesActualizacionFechas.encargado1Sala1 = doc.getString(UtilidadesStatic.BD_IDENCARGADO1);
-                            encargado = true;
-                            ayudante = false;
-                            buscarEncAyu(VariablesActualizacionFechas.encargado1Sala1);
+                            buscarEnc(VariablesActualizacionFechas.encargado1Sala1);
                         }
                         if (doc.getString(UtilidadesStatic.BD_AYUDANTE1) != null) {
                             VariablesActualizacionFechas.ayudante1Sala1 = doc.getString(UtilidadesStatic.BD_IDAYUDANTE1);
-                            encargado = false;
-                            ayudante = true;
-                            buscarEncAyu(VariablesActualizacionFechas.ayudante1Sala1);
+                            buscarAyu(VariablesActualizacionFechas.ayudante1Sala1);
                         }
                         if (doc.getString(UtilidadesStatic.BD_ENCARGADO2) != null) {
                             VariablesActualizacionFechas.encargado2Sala1 = doc.getString(UtilidadesStatic.BD_IDENCARGADO2);
-                            encargado = true;
-                            ayudante = false;
-                            buscarEncAyu(VariablesActualizacionFechas.encargado2Sala1);
+                            buscarEnc(VariablesActualizacionFechas.encargado2Sala1);
                         }
                         if (doc.getString(UtilidadesStatic.BD_AYUDANTE2) != null) {
                             VariablesActualizacionFechas.ayudante2Sala1 = doc.getString(UtilidadesStatic.BD_IDAYUDANTE2);
-                            encargado = false;
-                            ayudante = true;
-                            buscarEncAyu(VariablesActualizacionFechas.ayudante2Sala1);
+                            buscarAyu(VariablesActualizacionFechas.ayudante2Sala1);
                         }
                         if (doc.getString(UtilidadesStatic.BD_ENCARGADO3) != null) {
                             VariablesActualizacionFechas.encargado3Sala1 = doc.getString(UtilidadesStatic.BD_IDENCARGADO3);
-                            encargado = true;
-                            ayudante = false;
-                            buscarEncAyu(VariablesActualizacionFechas.encargado3Sala1);
+                            buscarEnc(VariablesActualizacionFechas.encargado3Sala1);
                         }
                         if (doc.getString(UtilidadesStatic.BD_AYUDANTE3) != null) {
                             VariablesActualizacionFechas.ayudante3Sala1 = doc.getString(UtilidadesStatic.BD_IDAYUDANTE3);
-                            encargado = false;
-                            ayudante = true;
-                            buscarEncAyu(VariablesActualizacionFechas.ayudante3Sala1);
+                            buscarAyu(VariablesActualizacionFechas.ayudante3Sala1);
                         }
                         eliminarSala1(idSemana);
+                        cargarSala2(idSemana);
                     } else {
+                        Toast.makeText(ctx, "No se puede eliminar una semana sin programar", Toast.LENGTH_SHORT).show();
                         Log.d("Error", "No such document");
                     }
 
@@ -117,12 +103,12 @@ public class ActualizarFechaSalaEliminada {
 
 
 
-    public void cargarSala2(int i) {
-        idSemana = String.valueOf(i);
+    public void cargarSala2(String i) {
+
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
         CollectionReference reference = dbFirestore.collection("sala2");
 
-        reference.document(idSemana).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        reference.document(i).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -131,45 +117,31 @@ public class ActualizarFechaSalaEliminada {
                     if (doc.exists()) {
                         if (doc.getString(UtilidadesStatic.BD_LECTOR) != null) {
                             VariablesActualizacionFechas.lectorSala2 = doc.getString(UtilidadesStatic.BD_IDLECTOR);
-                            encargado = true;
-                            ayudante = false;
-                            buscarEncAyu(VariablesActualizacionFechas.lectorSala2);
+                            buscarEnc(VariablesActualizacionFechas.lectorSala2);
                         }
                         if (doc.getString(UtilidadesStatic.BD_ENCARGADO1) != null) {
                             VariablesActualizacionFechas.encargado1Sala2 = doc.getString(UtilidadesStatic.BD_IDENCARGADO1);
-                            encargado = true;
-                            ayudante = false;
-                            buscarEncAyu(VariablesActualizacionFechas.encargado1Sala2);
+                            buscarEnc(VariablesActualizacionFechas.encargado1Sala2);
                         }
                         if (doc.getString(UtilidadesStatic.BD_AYUDANTE1) != null) {
                             VariablesActualizacionFechas.ayudante1Sala2 = doc.getString(UtilidadesStatic.BD_IDAYUDANTE1);
-                            encargado = false;
-                            ayudante = true;
-                            buscarEncAyu(VariablesActualizacionFechas.ayudante1Sala2);
+                            buscarAyu(VariablesActualizacionFechas.ayudante1Sala2);
                         }
                         if (doc.getString(UtilidadesStatic.BD_ENCARGADO2) != null) {
                             VariablesActualizacionFechas.encargado2Sala2 = doc.getString(UtilidadesStatic.BD_IDENCARGADO2);
-                            encargado = true;
-                            ayudante = false;
-                            buscarEncAyu(VariablesActualizacionFechas.encargado2Sala2);
+                            buscarEnc(VariablesActualizacionFechas.encargado2Sala2);
                         }
                         if (doc.getString(UtilidadesStatic.BD_AYUDANTE2) != null) {
                             VariablesActualizacionFechas.ayudante2Sala2 = doc.getString(UtilidadesStatic.BD_IDAYUDANTE2);
-                            encargado = false;
-                            ayudante = true;
-                            buscarEncAyu(VariablesActualizacionFechas.ayudante2Sala2);
+                            buscarAyu(VariablesActualizacionFechas.ayudante2Sala2);
                         }
                         if (doc.getString(UtilidadesStatic.BD_ENCARGADO3) != null) {
                             VariablesActualizacionFechas.encargado3Sala2 = doc.getString(UtilidadesStatic.BD_IDENCARGADO3);
-                            encargado = true;
-                            ayudante = false;
-                            buscarEncAyu(VariablesActualizacionFechas.encargado3Sala2);
+                            buscarEnc(VariablesActualizacionFechas.encargado3Sala2);
                         }
                         if (doc.getString(UtilidadesStatic.BD_AYUDANTE3) != null) {
                             VariablesActualizacionFechas.ayudante3Sala2 = doc.getString(UtilidadesStatic.BD_IDAYUDANTE3);
-                            encargado = false;
-                            ayudante = true;
-                            buscarEncAyu(VariablesActualizacionFechas.ayudante3Sala2);
+                           buscarAyu(VariablesActualizacionFechas.ayudante3Sala2);
                         }
                         eliminarSala2(idSemana);
                     }
@@ -188,8 +160,9 @@ public class ActualizarFechaSalaEliminada {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                    Intent myIntent = new Intent(ctx, AsignacionesActivity.class);
-                    ctx.startActivity(myIntent);
+                        Toast.makeText(ctx, "Programción eliminada", Toast.LENGTH_SHORT).show();
+                        Intent myIntent = new Intent(ctx, AsignacionesActivity.class);
+                        ctx.startActivity(myIntent);
 
                     }
                 })
@@ -201,7 +174,7 @@ public class ActualizarFechaSalaEliminada {
                 });
     }
 
-    public void buscarEncAyu (String idEncargado) {
+    public void buscarEnc (String idEncargado) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
@@ -212,15 +185,9 @@ public class ActualizarFechaSalaEliminada {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     VariablesActualizacionFechas.idPubCambiado = doc.getId();
-                    VariablesActualizacionFechas.fechaPubCambiado = doc.getDate(UtilidadesStatic.BD_DISVIEJO);
+                    VariablesActualizacionFechas.fechaDisCambiado = doc.getDate(UtilidadesStatic.BD_DISVIEJO);
 
-                    if (encargado) {
-                        actFechaEnc();
-                    }  else if (ayudante) {
-                        actFechaAyu();
-                    }
-
-
+                    actFechaEnc();
 
                 }
             }
@@ -230,7 +197,7 @@ public class ActualizarFechaSalaEliminada {
     public void actFechaEnc() {
         String idPub = VariablesActualizacionFechas.idPubCambiado;
         Date fecha = new Date();
-        fecha = VariablesActualizacionFechas.fechaPubCambiado;
+        fecha = VariablesActualizacionFechas.fechaDisCambiado;
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
         dbEditar.collection("publicadores").document(idPub).update(UtilidadesStatic.BD_DISRECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -248,10 +215,30 @@ public class ActualizarFechaSalaEliminada {
         });
     }
 
+    public void buscarAyu (String idEncargado) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("publicadores");
+
+
+        reference.document(idEncargado).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    VariablesActualizacionFechas.idPubCambiado = doc.getId();
+                    VariablesActualizacionFechas.fechaAyuCambiado = doc.getDate(UtilidadesStatic.BD_AYUVIEJO);
+
+                    actFechaAyu();
+
+                }
+            }
+        });
+    }
+
     public void actFechaAyu() {
         String idPub = VariablesActualizacionFechas.idPubCambiado;
         Date fecha = new Date();
-        fecha = VariablesActualizacionFechas.fechaPubCambiado;
+        fecha = VariablesActualizacionFechas.fechaAyuCambiado;
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
         dbEditar.collection("publicadores").document(idPub).update(UtilidadesStatic.BD_AYURECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {

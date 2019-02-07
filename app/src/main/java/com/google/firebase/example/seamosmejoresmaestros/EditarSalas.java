@@ -29,6 +29,7 @@ import com.bumptech.glide.util.Util;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -60,6 +61,7 @@ public class EditarSalas extends AppCompatActivity {
     private String seleccion1Sala2, seleccion2Sala2, seleccion3Sala2, idLectorSala2, idEncargado1Sala2, idAyudante1Sala2, idEncargado2Sala2, idAyudante2Sala2, idEncargado3Sala2, idAyudante3Sala2;
     private String genero, generoAyudante;
     private int semanaSelec;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +159,9 @@ public class EditarSalas extends AppCompatActivity {
         btnIr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filtros();
+
+                fechaDisponible(semanaSelec);
+
             }
         });
     }
@@ -1882,6 +1886,37 @@ public class EditarSalas extends AppCompatActivity {
         }
 
         adapterEditSalas.updateListSelec(newList);
+    }
+
+    public void fechaDisponible(int i) {
+        String idSemana = String.valueOf(i);
+        FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
+        CollectionReference reference = dbFirestore.collection("sala1");
+
+        reference.document(idSemana).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    if (doc.exists()) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(EditarSalas.this);
+                        dialog.setTitle("¡Aviso!");
+                        dialog.setMessage("Esta semana ya fue programada.\nSi desea modificarla por completo, debe eliminarla primero y luego programarla como nueva.\nEn caso de querer susituir a alguno de los publicadores, puede hacerlo desde Asignaciones directamente");
+                        dialog.setIcon(R.drawable.ic_nopermitido);
+                        dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+                    } else {
+                        filtros();
+                    }
+                }
+            }
+        });
+
     }
 
 }

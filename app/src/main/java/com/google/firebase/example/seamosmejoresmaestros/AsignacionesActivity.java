@@ -220,8 +220,8 @@ public class AsignacionesActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 eliminarSala1();
-                eliminarSala2();
-                Toast.makeText(getApplicationContext(), "Programción eliminada", Toast.LENGTH_SHORT).show();
+
+
 
             }
         });
@@ -249,23 +249,6 @@ public class AsignacionesActivity extends AppCompatActivity
 
 
     }
-
-    public void eliminarSala2() {
-        ActualizarFechaSalaEliminada actualizarFechaSalaEliminada = new ActualizarFechaSalaEliminada(this);
-        Calendar calendario = Calendar.getInstance();
-        int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
-
-        if (Utilidades.semanaSelec != 0) {
-
-            actualizarFechaSalaEliminada.cargarSala2(Utilidades.semanaSelec);
-        } else {
-
-            actualizarFechaSalaEliminada.cargarSala2(semanaActual);
-        }
-
-
-    }
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {

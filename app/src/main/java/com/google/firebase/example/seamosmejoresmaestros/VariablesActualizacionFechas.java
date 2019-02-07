@@ -21,5 +21,9 @@ public class VariablesActualizacionFechas {
     public static String ayudante3Sala2 = null;
 
     public static String idPubCambiado = null;
-    public static Date fechaPubCambiado = null;
+    public static Date fechaDisCambiado = null;
+    public static Date fechaAyuCambiado = null;
+
+
+
 }

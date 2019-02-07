@@ -77,6 +77,7 @@ public class Sala1Fragment extends Fragment {
         linearSala = (LinearLayout) vista.findViewById(R.id.layoutSala1);
         imgEditar = (ImageButton) vista.findViewById(R.id.imgbtEditar);
 
+        tvAviso.setVisibility(View.INVISIBLE);
         progress = new ProgressDialog(getContext());
         progress.setMessage("Cargando...");
         progress.setCancelable(false);
