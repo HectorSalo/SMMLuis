@@ -222,7 +222,7 @@ public class AsignacionesActivity extends AppCompatActivity
                 eliminarSala1();
                 eliminarSala2();
                 Toast.makeText(getApplicationContext(), "Programción eliminada", Toast.LENGTH_SHORT).show();
-                recreate();
+
             }
         });
         dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -236,69 +236,33 @@ public class AsignacionesActivity extends AppCompatActivity
     }
 
     public void eliminarSala1() {
-        ActualizarFechaSalaEliminada actualizarFechaSalaEliminada = new ActualizarFechaSalaEliminada();
+        ActualizarFechaSalaEliminada actualizarFechaSalaEliminada = new ActualizarFechaSalaEliminada(this);
         Calendar calendario = Calendar.getInstance();
         int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
-        String doc;
+
         if (Utilidades.semanaSelec != 0) {
-            doc = String.valueOf(Utilidades.semanaSelec);
             actualizarFechaSalaEliminada.cargarSala1(Utilidades.semanaSelec);
         } else {
-            doc = String.valueOf(semanaActual);
             actualizarFechaSalaEliminada.cargarSala1(semanaActual);
+
         }
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("sala1");
 
-        reference.document(doc)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error al eliminar en Sala 1. Intente nuevamente", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     public void eliminarSala2() {
-        ActualizarFechaSalaEliminada actualizarFechaSalaEliminada = new ActualizarFechaSalaEliminada();
+        ActualizarFechaSalaEliminada actualizarFechaSalaEliminada = new ActualizarFechaSalaEliminada(this);
         Calendar calendario = Calendar.getInstance();
         int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
-        String doc;
+
         if (Utilidades.semanaSelec != 0) {
-            doc = String.valueOf(Utilidades.semanaSelec);
+
             actualizarFechaSalaEliminada.cargarSala2(Utilidades.semanaSelec);
         } else {
-            doc = String.valueOf(semanaActual);
+
             actualizarFechaSalaEliminada.cargarSala2(semanaActual);
         }
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("sala2");
-
-        reference.document(doc)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error al eliminar en Sala 2. Intente nuevamente", Toast.LENGTH_SHORT).show();
-                    }
-                });
 
     }
 
