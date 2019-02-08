@@ -3,68 +3,119 @@ package com.google.firebase.example.seamosmejoresmaestros;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.concurrent.TimeUnit;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TemporizadorFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TemporizadorFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TemporizadorFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private NumberPicker numberMinutos, numberSegundos;
+    private FloatingActionButton fabStart, fabPause, fabStop;
+    private TextView visorTiempo;
+    private int intMinutos, intSegundos;
+    private long tiempoRestante;
+    private String FORMAT = "%02d:%02d";
+    private CountDownTimer countDownTimer, countDownTimerRestante;
+    private LinearLayout layoutDuracion, layoutPauseStop;
+    private boolean tiempoCorriendo, contadorInicial, contadorRestante;
 
     public TemporizadorFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TemporizadorFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TemporizadorFragment newInstance(String param1, String param2) {
-        TemporizadorFragment fragment = new TemporizadorFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_temporizador, container, false);
+        View vista = inflater.inflate(R.layout.fragment_temporizador, container, false);
+
+        layoutDuracion = (LinearLayout) vista.findViewById(R.id.layoutDuracion);
+        layoutPauseStop = (LinearLayout) vista.findViewById(R.id.layoutPauseStop);
+        fabStart = (FloatingActionButton) vista.findViewById(R.id.fabPlay);
+        fabPause = (FloatingActionButton) vista.findViewById(R.id.fabPause);
+        fabStop = (FloatingActionButton) vista.findViewById(R.id.fabStop);
+        visorTiempo = (TextView) vista.findViewById(R.id.visorTiempo);
+        numberMinutos = (NumberPicker) vista.findViewById(R.id.numberMinutos);
+        numberSegundos = (NumberPicker) vista.findViewById(R.id.numberSegundos);
+        numberMinutos.setMaxValue(59);
+        numberMinutos.setMinValue(0);
+        numberSegundos.setMaxValue(59);
+        numberSegundos.setMinValue(0);
+
+        layoutPauseStop.setVisibility(View.INVISIBLE);
+
+        if (VariablesTemporizador.tiempoRestante > 0) {
+            visorTiempo.setText(String.format(FORMAT,
+                    TimeUnit.MILLISECONDS.toMinutes(VariablesTemporizador.tiempoRestante) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(VariablesTemporizador.tiempoRestante)),
+                    TimeUnit.MILLISECONDS.toSeconds(VariablesTemporizador.tiempoRestante) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(VariablesTemporizador.tiempoRestante))));
+        }
+
+
+        fabStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iniciarTiempo();
+            }
+        });
+        fabStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (VariablesTemporizador.contadorInicial) {
+                    layoutDuracion.setVisibility(View.VISIBLE);
+                    layoutPauseStop.setVisibility(View.INVISIBLE);
+                    countDownTimer.cancel();
+                    visorTiempo.setText("00:00");
+                    VariablesTemporizador.tiempoCorriendo = false;
+                } else if (VariablesTemporizador.contadorRestante) {
+                    layoutDuracion.setVisibility(View.VISIBLE);
+                    layoutPauseStop.setVisibility(View.INVISIBLE);
+                    countDownTimerRestante.cancel();
+                    visorTiempo.setText("00:00");
+                    VariablesTemporizador.tiempoCorriendo = false;
+                }
+            }
+        });
+        fabPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (VariablesTemporizador.tiempoCorriendo) {
+                    if (VariablesTemporizador.contadorInicial) {
+                        fabPause.setImageResource(R.drawable.ic_action_play);
+                        countDownTimer.cancel();
+                        VariablesTemporizador.tiempoCorriendo = false;
+                        VariablesTemporizador.contadorInicial = false;
+                    } else if (VariablesTemporizador.contadorRestante) {
+                        fabPause.setImageResource(R.drawable.ic_action_play);
+                        countDownTimerRestante.cancel();
+                        VariablesTemporizador.tiempoCorriendo = false;
+                    }
+                } else {
+                    fabPause.setImageResource(R.drawable.ic_action_pause);
+                    reanudarTiempo();
+                }
+            }
+        });
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,5 +155,66 @@ public class TemporizadorFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void iniciarTiempo() {
+        intMinutos = numberMinutos.getValue();
+        intSegundos = numberSegundos.getValue();
+        long longMinuto = intMinutos * 60000;
+        long longSegundo = intSegundos * 1000;
+        long tiempoBase = longMinuto + longSegundo;
+        long intervaloDecrecer = 1000;
+
+        if (tiempoBase == 0) {
+            Toast.makeText(getContext(), "El valor mínimo para iniciar es 1 segundo", Toast.LENGTH_SHORT).show();
+        } else {
+
+            countDownTimer = new CountDownTimer(tiempoBase, intervaloDecrecer) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    fabPause.setImageResource(R.drawable.ic_action_pause);
+                    layoutDuracion.setVisibility(View.INVISIBLE);
+                    layoutPauseStop.setVisibility(View.VISIBLE);
+                    VariablesTemporizador.contadorInicial = true;
+                    VariablesTemporizador.tiempoCorriendo = true;
+                    VariablesTemporizador.tiempoRestante = millisUntilFinished;
+                    visorTiempo.setText(String.format(FORMAT,
+                            TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                            TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                }
+
+                @Override
+                public void onFinish() {
+                    visorTiempo.setText("Finalizado");
+                    layoutDuracion.setVisibility(View.VISIBLE);
+                    layoutPauseStop.setVisibility(View.INVISIBLE);
+                    VariablesTemporizador.tiempoCorriendo = false;
+                    VariablesTemporizador.contadorInicial = false;
+                }
+            }.start();
+        }
+    }
+
+    private void reanudarTiempo() {
+        long intervaloDecrecer = 1000;
+        long tiempoBase = VariablesTemporizador.tiempoRestante;
+        countDownTimerRestante = new CountDownTimer(tiempoBase, intervaloDecrecer) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                VariablesTemporizador.contadorRestante = true;
+                VariablesTemporizador.tiempoCorriendo = true;
+                visorTiempo.setText(String.format(FORMAT,
+                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+                VariablesTemporizador.tiempoRestante = millisUntilFinished;
+            }
+
+            @Override
+            public void onFinish() {
+                VariablesTemporizador.contadorRestante = false;
+                visorTiempo.setText("Finalizado");
+                VariablesTemporizador.tiempoCorriendo = false;
+            }
+        }.start();
     }
 }

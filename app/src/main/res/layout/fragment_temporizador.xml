@@ -11,25 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="125dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            android:gravity="center"
-            android:text="Titulo"
-            android:textSize="22sp"
-            android:textColor="#FFFF"/>
 
         <LinearLayout
             android:id="@+id/layoutDuracion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="130dp"
+            android:layout_gravity="center"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -37,19 +27,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Duracion"
+                android:layout_marginEnd="18dp"
+                android:text="@string/duracion"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="14sp" />
+                android:textSize="24sp" />
 
-            <EditText
-                android:id="@+id/editTextMinutos"
+            <NumberPicker
+                android:id="@+id/numberMinutos"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="MM"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"></NumberPicker>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,21 +43,15 @@
                 android:layout_gravity="center"
                 android:text=":" />
 
-            <EditText
-                android:id="@+id/editTextSegundos"
+            <NumberPicker
+                android:id="@+id/numberSegundos"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:hint="ss"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:textSize="16sp" />
+                android:layout_height="wrap_content"></NumberPicker>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fabPlay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
                 android:layout_margin="@dimen/fab_margin"
                 app:backgroundTint="#ffff"
                 app:srcCompat="@drawable/ic_action_play" />
@@ -83,12 +63,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="16dp"
             android:text="00:00"
             android:textColor="#000000"
-            android:textSize="35sp" />
+            android:textSize="72sp" />
 
 
         <LinearLayout
+            android:id="@+id/layoutPauseStop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

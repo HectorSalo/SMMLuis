@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -138,27 +139,12 @@ public class EventosFragment extends Fragment {
         CollectionReference reference = dbFirestore.collection("sala1");
 
         Query query = reference.whereEqualTo(UtilidadesStatic.BD_ASAMBLEA, true).whereGreaterThanOrEqualTo(UtilidadesStatic.BD_IDSEMANA, semanaActual).orderBy(UtilidadesStatic.BD_IDSEMANA, Query.Direction.ASCENDING).limit(1);
-
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot doc : task.getResult()) {
-                        if(doc.exists()) {
-                            Date fecha = doc.getDate(UtilidadesStatic.BD_FECHA);
-                            tvAsamblea.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
-
-
-                        } else {
-
-                            tvAsamblea.setText("Sin programar");
-                        }
-
-                    }
-
-                } else {
-
-                    Toast.makeText(getContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for (QueryDocumentSnapshot doc : task.getResult()) {
+                    Date fecha = doc.getDate(UtilidadesStatic.BD_FECHA);
+                    tvAsamblea.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
                 }
             }
         });
@@ -170,10 +156,15 @@ public class EventosFragment extends Fragment {
 
         Query query = reference.whereEqualTo(UtilidadesStatic.BD_VISITA, true).whereGreaterThanOrEqualTo(UtilidadesStatic.BD_IDSEMANA, semanaActual).orderBy(UtilidadesStatic.BD_IDSEMANA, Query.Direction.ASCENDING).limit(1);
 
-        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        Date fecha = doc.getDate(UtilidadesStatic.BD_FECHA);
+                        tvVisita.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
+                    }
+                }
             }
         });
     }

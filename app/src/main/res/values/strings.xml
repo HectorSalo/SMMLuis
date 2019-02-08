@@ -73,12 +73,12 @@
     <string name="ultSemana">Última semana programada</string>
     <string name="proxVisita">Próxima Visita Superintendente</string>
     <string name="proxAsamblea">Próxima Asamblea</string>
+    <string name="sinprogramar">Sin programar</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="sustituir">Sustituir por:</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="duracion">Duración:</string>
 
 
 </resources>

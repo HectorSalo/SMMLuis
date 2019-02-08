@@ -35,10 +35,10 @@
                 android:id="@+id/tvInicioUltSemana"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/barFecha"
+                android:text="@string/sinprogramar"
                 android:textColor="@color/colorPrimary"
                 android:textSize="22sp" />
         </LinearLayout>
@@ -66,10 +66,10 @@
                 android:id="@+id/tvInicioAsamblea"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/barFecha"
+                android:text="@string/sinprogramar"
                 android:textColor="@color/colorPrimary"
                 android:textSize="22sp" />
         </LinearLayout>
@@ -97,10 +97,10 @@
                 android:id="@+id/tvInicioVisita"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/barFecha"
+                android:text="@string/sinprogramar"
                 android:textColor="@color/colorPrimary"
                 android:textSize="22sp" />
         </LinearLayout>
