@@ -36,5 +36,7 @@ public class UtilidadesStatic {
     public static final String BD_ASIGNACION1 = "asignacion1";
     public static final String BD_ASIGNACION2 = "asignacion2";
     public static final String BD_ASIGNACION3 = "asignacion3";
+    public static final String BD_IDSEMANA = "idSemana";
+    public static final String BD_FECHA = "fecha";
 
 }

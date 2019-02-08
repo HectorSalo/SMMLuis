@@ -9,63 +9,99 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView15"
-                android:layout_width="150dp"
+                android:id="@+id/textView20"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center"
                 android:paddingStart="20dp"
                 android:paddingEnd="5dp"
-                android:text="Asamblea"
+                android:text="@string/ultSemana"
                 android:textColor="#fff"
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/tvInicioAsamblea"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvInicioUltSemana"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="eventos"
-                android:textColor="#fff"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/barFecha"
+                android:textColor="@color/colorPrimary"
                 android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="64dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:paddingEnd="5dp"
+                android:text="@string/proxAsamblea"
+                android:textColor="#fff"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tvInicioAsamblea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/barFecha"
+                android:textColor="@color/colorPrimary"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="64dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView13"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center"
                 android:paddingStart="20dp"
                 android:paddingEnd="5dp"
-                android:text="titleVisita"
+                android:text="@string/proxVisita"
                 android:textColor="#fff"
                 android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/tvInicioVisita"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="eventos"
-                android:textColor="#fff"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/barFecha"
+                android:textColor="@color/colorPrimary"
                 android:textSize="22sp" />
         </LinearLayout>
     </LinearLayout>

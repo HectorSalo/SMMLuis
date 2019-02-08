@@ -69,6 +69,11 @@
     <string name="titleSala1">Primera Sala</string>
     <string name="titleSala2">Segunda Sala</string>
 
+    <!-- Fragment Inicio -->
+    <string name="ultSemana">Última semana programada</string>
+    <string name="proxVisita">Próxima Visita Superintendente</string>
+    <string name="proxAsamblea">Próxima Asamblea</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="sustituir">Sustituir por:</string>
 

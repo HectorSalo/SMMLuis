@@ -504,6 +504,8 @@ public class ResumenSalas extends AppCompatActivity {
         DocumentReference reference = db.collection("sala1").document(semana);
 
                 Map<String, Object> publicador = new HashMap<>();
+                publicador.put(UtilidadesStatic.BD_IDSEMANA, semanaSelec);
+                publicador.put(UtilidadesStatic.BD_FECHA, fechaDate);
                 publicador.put(UtilidadesStatic.BD_LECTOR, Utilidades.lectorSala1);
                 publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala1);
                 publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala1);
@@ -523,6 +525,7 @@ public class ResumenSalas extends AppCompatActivity {
                 publicador.put(UtilidadesStatic.BD_ASIGNACION3, seleccion3Sala1);
                 publicador.put(UtilidadesStatic.BD_ASAMBLEA, Utilidades.asamblea);
                 publicador.put(UtilidadesStatic.BD_VISITA, Utilidades.visita);
+
 
          reference.set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
              @Override
@@ -545,6 +548,8 @@ public class ResumenSalas extends AppCompatActivity {
         DocumentReference reference = db.collection("sala2").document(semana);
 
         Map<String, Object> publicador = new HashMap<>();
+        publicador.put(UtilidadesStatic.BD_IDSEMANA, semanaSelec);
+        publicador.put(UtilidadesStatic.BD_FECHA, fechaDate);
         publicador.put(UtilidadesStatic.BD_LECTOR, Utilidades.lectorSala2);
         publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala2);
         publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala2);
