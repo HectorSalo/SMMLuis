@@ -173,7 +173,7 @@ public class EventosFragment extends Fragment {
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                
+
             }
         });
     }
