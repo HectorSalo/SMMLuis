@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent myIntent = new Intent(this, SettingsActivity.class);
+            startActivity(myIntent);
             return true;
         }
 
@@ -102,6 +104,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_perfil) {
 
         } else if (id == R.id.nav_ajustes) {
+            Intent myIntent = new Intent(this, SettingsActivity.class);
+            startActivity(myIntent);
 
         }
 

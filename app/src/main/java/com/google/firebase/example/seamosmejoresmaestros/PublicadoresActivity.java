@@ -169,6 +169,8 @@ public class PublicadoresActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent myIntent = new Intent(this, SettingsActivity.class);
+            startActivity(myIntent);
             return true;
         }
 
@@ -205,7 +207,8 @@ public class PublicadoresActivity extends AppCompatActivity
         } else if (id == R.id.nav_perfil) {
 
         } else if (id == R.id.nav_ajustes) {
-
+            Intent myIntent = new Intent(this, SettingsActivity.class);
+            startActivity(myIntent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
