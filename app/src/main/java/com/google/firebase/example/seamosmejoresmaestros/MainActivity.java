@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -21,6 +22,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, EventosFragment.OnFragmentInteractionListener, TemporizadorFragment.OnFragmentInteractionListener {
@@ -81,17 +87,28 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
             return true;
         } else if (id == R.id.action_perfil) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-            dialog.setTitle("¡En Fase de Desarrollo!");
-            dialog.setMessage("La opción Mi Perfil actualmente se encuentra en elaboración.\nPróximamente podrá disfrutar de sus beneficios");
-            dialog.setIcon(R.drawable.ic_proximamente);
-            dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
+//            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+//            dialog.setTitle("¡En Fase de Desarrollo!");
+//            dialog.setMessage("La opción Mi Perfil actualmente se encuentra en elaboración.\nPróximamente podrá disfrutar de sus beneficios");
+//            dialog.setIcon(R.drawable.ic_proximamente);
+//            dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            dialog.show();
+
+            AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getApplicationContext(), "Sesión cerrada", Toast.LENGTH_SHORT).show();
+                            Intent myIntent = new Intent(getApplicationContext(), SplashActivity.class);
+                            startActivity(myIntent);
+                        }
+                    });
+
         }
 
         return super.onOptionsItemSelected(item);
