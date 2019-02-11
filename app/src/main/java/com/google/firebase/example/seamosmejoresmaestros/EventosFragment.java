@@ -115,9 +115,14 @@ public class EventosFragment extends Fragment {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         if(doc.exists()) {
-                            Date fecha = doc.getDate(UtilidadesStatic.BD_FECHA);
-                            tvUltFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
-                            progress.dismiss();
+                            if (doc.getDouble(UtilidadesStatic.BD_IDSEMANA) == 0) {
+                                progress.dismiss();
+                                tvUltFecha.setText("Sin programar");
+                            } else {
+                                Date fecha = doc.getDate(UtilidadesStatic.BD_FECHA);
+                                tvUltFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
+                                progress.dismiss();
+                            }
 
                         } else {
                             progress.dismiss();

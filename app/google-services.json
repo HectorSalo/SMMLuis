@@ -1,58 +1,27 @@
 {
   "project_info": {
-    "project_number": "439598493921",
-    "firebase_url": "https://mejoresmaestros-d9232.firebaseio.com",
-    "project_id": "mejoresmaestros-d9232",
-    "storage_bucket": "mejoresmaestros-d9232.appspot.com"
+    "project_number": "1091670341716",
+    "firebase_url": "https://mejoresmaestros-92295.firebaseio.com",
+    "project_id": "mejoresmaestros-92295",
+    "storage_bucket": "mejoresmaestros-92295.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:439598493921:android:bc9acfee7402a4a2",
-        "android_client_info": {
-          "package_name": "com.example.chirinos.mejoresmaestros"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "439598493921-ahejqse1993o8pj9lmsdlhujnqiqe5bm.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAL8HSXIMQ2XqbrS-u6Wn3fBtg4jKojdRM"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:439598493921:android:e3236d420ed5ce54",
+        "mobilesdk_app_id": "1:1091670341716:android:e3236d420ed5ce54",
         "android_client_info": {
           "package_name": "com.google.firebase.example.seamosmejoresmaestros"
         }
       },
       "oauth_client": [
         {
-          "client_id": "439598493921-ahejqse1993o8pj9lmsdlhujnqiqe5bm.apps.googleusercontent.com",
+          "client_id": "1091670341716-58eo5078uvedcfv3kg5na0f5oa5psc23.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAL8HSXIMQ2XqbrS-u6Wn3fBtg4jKojdRM"
+          "current_key": "AIzaSyBvwHFfwMZfbk56GMq-ZQIJfgYdVgLkqGE"
         }
       ],
       "services": {

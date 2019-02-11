@@ -353,7 +353,7 @@ public class EditarPubActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     if (opciones[which].equals("Cambiar foto del publicador")) {
                         cargarImagen();
-                    } else if (opciones[which].equals("Dejar sin foto al publicador")) {
+                    } else if (opciones[which].equals("Usar imagen por defecto")) {
                         if (genero.equals("Hombre")) {
                             imagePub.setImageResource(R.drawable.ic_caballero);
                             urlImagen = null;

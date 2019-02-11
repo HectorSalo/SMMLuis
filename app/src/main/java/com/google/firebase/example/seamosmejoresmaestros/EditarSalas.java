@@ -105,7 +105,24 @@ public class EditarSalas extends AppCompatActivity {
         fabClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(EditarSalas.this);
+                dialog.setTitle("Confirmar");
+                dialog.setMessage("¿Desea salir? Se perderán las asignaciones programadas de esta semana");
+                dialog.setIcon(R.drawable.ic_advertencia);
+                dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+
             }
         });
 

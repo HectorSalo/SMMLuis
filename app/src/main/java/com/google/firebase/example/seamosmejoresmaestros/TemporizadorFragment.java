@@ -92,6 +92,12 @@ public class TemporizadorFragment extends Fragment {
                     countDownTimerRestante.cancel();
                     visorTiempo.setText("00:00");
                     VariablesTemporizador.tiempoCorriendo = false;
+                } else if (!VariablesTemporizador.contadorRestante && !VariablesTemporizador.contadorInicial) {
+                    layoutDuracion.setVisibility(View.VISIBLE);
+                    layoutPauseStop.setVisibility(View.INVISIBLE);
+                    countDownTimer.cancel();
+                    visorTiempo.setText("00:00");
+                    VariablesTemporizador.tiempoCorriendo = false;
                 }
             }
         });
@@ -104,7 +110,7 @@ public class TemporizadorFragment extends Fragment {
                         countDownTimer.cancel();
                         VariablesTemporizador.tiempoCorriendo = false;
                         VariablesTemporizador.contadorInicial = false;
-                    } else if (VariablesTemporizador.contadorRestante) {
+                       } else if (VariablesTemporizador.contadorRestante) {
                         fabPause.setImageResource(R.drawable.ic_action_play);
                         countDownTimerRestante.cancel();
                         VariablesTemporizador.tiempoCorriendo = false;

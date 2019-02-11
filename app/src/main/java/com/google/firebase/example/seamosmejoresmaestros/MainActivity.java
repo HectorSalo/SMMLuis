@@ -1,5 +1,7 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -78,6 +80,18 @@ public class MainActivity extends AppCompatActivity
             Intent myIntent = new Intent(this, SettingsActivity.class);
             startActivity(myIntent);
             return true;
+        } else if (id == R.id.action_perfil) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+            dialog.setTitle("¡En Fase de Desarrollo!");
+            dialog.setMessage("La opción Mi Perfil actualmente se encuentra en elaboración.\nPróximamente podrá disfrutar de sus beneficios");
+            dialog.setIcon(R.drawable.ic_proximamente);
+            dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -100,8 +114,30 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav_grupoEstudio) {
+            android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(MainActivity.this);
+            dialog.setTitle("¡En Fase de Desarrollo!");
+            dialog.setMessage("La opción Grupo de Estudio actualmente se encuentra en elaboración.\nPróximamente podrá disfrutar de sus beneficios");
+            dialog.setIcon(R.drawable.ic_proximamente);
+            dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
 
         } else if (id == R.id.nav_perfil) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+            dialog.setTitle("¡En Fase de Desarrollo!");
+            dialog.setMessage("La opción Mi Perfil actualmente se encuentra en elaboración.\nPróximamente podrá disfrutar de sus beneficios");
+            dialog.setIcon(R.drawable.ic_proximamente);
+            dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
 
         } else if (id == R.id.nav_ajustes) {
             Intent myIntent = new Intent(this, SettingsActivity.class);
