@@ -23,11 +23,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -41,6 +46,8 @@ public class AsignacionesActivity extends AppCompatActivity
     private boolean advertencia;
     private ViewPager vpSalas;
     private SalasAdapter salasAdapter;
+    private ImageView imageNav;
+    private TextView tvName;
 
 
     @Override
@@ -84,6 +91,12 @@ public class AsignacionesActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View navHeader = navigationView.getHeaderView(0);
+        imageNav = navHeader.findViewById(R.id.imageViewNav);
+        tvName = navHeader.findViewById(R.id.tvNameNav);
+
+        datosNavDrawer();
+
     }
 
     @Override
@@ -114,8 +127,25 @@ public class AsignacionesActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent myIntent = new Intent(this, SettingsActivity.class);
-            startActivity(myIntent);
+            android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(AsignacionesActivity.this);
+            dialog.setTitle("Confirmar");
+            dialog.setMessage("¿Desea cerrar la sesión actual?");
+            dialog.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent myIntent = new Intent(getApplicationContext(), SplashActivity.class);
+                    startActivity(myIntent);
+                    finish();
+                }
+            });
+            dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
             return true;
         } else if (id == R.id.action_fecha) {
             selecFecha();
@@ -278,5 +308,30 @@ public class AsignacionesActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void datosNavDrawer () {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
+
+            if (name != null) {
+                if (name.isEmpty()) {
+                    tvName.setText(email);
+                } else {
+                    tvName.setText(name);
+                }
+            } else {
+                tvName.setText("");
+            }
+
+            if(photoUrl != null) {
+                Glide.with(this).load(photoUrl).into(imageNav);
+            }
+
+        }
     }
 }

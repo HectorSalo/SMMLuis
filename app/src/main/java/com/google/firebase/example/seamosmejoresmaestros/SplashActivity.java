@@ -1,15 +1,27 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.api.Distribution;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -18,87 +30,127 @@ import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
-    public static final int RC_SING_IN = 0;
-
-    List<AuthUI.IdpConfig> providers = Arrays.asList(
-            new AuthUI.IdpConfig.EmailBuilder().build(),
-            new AuthUI.IdpConfig.PhoneBuilder().build(),
-            new AuthUI.IdpConfig.GoogleBuilder().build());
-
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private AutoCompleteTextView emailView;
+    private EditText passwordView;
+    private ProgressDialog progress;
+    private TextView bienvenidaView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        authStateListener = new FirebaseAuth.AuthStateListener() {
+        mAuth = FirebaseAuth.getInstance();
+
+        bienvenidaView = (TextView) findViewById(R.id.textViewBienvenida);
+        emailView = (AutoCompleteTextView) findViewById(R.id.email);
+        passwordView = (EditText) findViewById(R.id.password);
+
+        Button btnIniciar = (Button) findViewById(R.id.sign_in_button);
+        btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .setIsSmartLockEnabled(false, true)
-                            .setLogo(R.drawable.logo)
-                            .build(),
-                    RC_SING_IN);
-
+            public void onClick(View v) {
+                validarInciarSesion();
             }
-        };
-
+        });
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        firebaseAuth.addAuthStateListener(authStateListener);
+    public void onBackPressed() {
+        Intent myIntent = new Intent(this, SplashActivity.class);
+        startActivity(myIntent);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        firebaseAuth.removeAuthStateListener(authStateListener);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SING_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
-            if (resultCode == RESULT_OK) {
-
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                ingresarApp();
-                Toast.makeText(getApplicationContext(), "Activity result", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(getApplicationContext(), "Error al inciar sesión. Intente nuevamente", Toast.LENGTH_SHORT).show();
-            }
-
-        } else {
-
-        }
-    }
-
-    public void ingresarApp() {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        user = mAuth.getCurrentUser();
         if (user != null) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }, 3500);
-        } else {
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(intent);
+            presentacion();
         }
+
+    }
+
+    public void validarInciarSesion() {
+        String email = emailView.getText().toString();
+        String password = passwordView.getText().toString();
+        boolean emailValido;
+        boolean passwordValido;
+
+       if (!email.isEmpty()) {
+            if (email.contains("@")) {
+                emailValido = true;
+            } else {
+                emailView.setError("Formato incorrecto para correo");
+                emailValido = false;
+            }
+       } else {
+           emailView.setError("El campo no puede estar vacío");
+           emailValido = false;
+       }
+
+       if (password.isEmpty() || (password.length() < 6)) {
+           passwordValido = false;
+           passwordView.setError("Mínimo 6 caracteres");
+       } else {
+           passwordValido = true;
+
+       }
+
+       if (passwordValido && emailValido) {
+           progress = new ProgressDialog(this);
+           progress.setMessage("Iniciando sesión...");
+           progress.setCancelable(false);
+           progress.show();
+           mAuth.signInWithEmailAndPassword(email, password)
+                   .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                       @Override
+                       public void onComplete(@NonNull Task<AuthResult> task) {
+                           if (task.isSuccessful()) {
+                               Log.d("msg", "signInWithEmail:success");
+                               user = mAuth.getCurrentUser();
+                               progress.dismiss();
+                               presentacion();
+                           } else {
+                               // If sign in fails, display a message to the user.
+                               progress.dismiss();
+                               Log.w("msg", "signInWithEmail:failure", task.getException());
+                               Toast.makeText(SplashActivity.this, "Error al iniciar sesión\nPor favor, verifique los datos del Usuario y su conexión a internet",
+                                       Toast.LENGTH_LONG).show();
+
+                           }
+
+                       }
+                   });
+       }
+    }
+
+
+    private void presentacion() {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.email_login_form);
+        linearLayout.setVisibility(View.GONE);
+        String userName = user.getDisplayName();
+        String userMail = user.getEmail();
+
+        if (userName != null) {
+            if (userName.isEmpty()) {
+                bienvenidaView.setText("Bienvenido " + userMail);
+            } else {
+                bienvenidaView.setText("Bienvenido " + userName);
+            }
+        } else {
+            bienvenidaView.setText("Bienvenido " + userMail);
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 3500);
     }
 }

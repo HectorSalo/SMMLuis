@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,11 +22,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -42,6 +48,8 @@ public class PublicadoresActivity extends AppCompatActivity
     private AdapterPublicadores adapterPublicadores;
     private ProgressDialog progress;
     private SwipeRefreshLayout swRefresh;
+    private ImageView imageNav;
+    private TextView tvName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +83,13 @@ public class PublicadoresActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View navHeader = navigationView.getHeaderView(0);
+        imageNav = navHeader.findViewById(R.id.imageViewNav);
+        tvName = navHeader.findViewById(R.id.tvNameNav);
+
+        datosNavDrawer();
+
 
         progress = new ProgressDialog(this);
         progress.setMessage("Cargando...");
@@ -169,8 +184,25 @@ public class PublicadoresActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent myIntent = new Intent(this, SettingsActivity.class);
-            startActivity(myIntent);
+            AlertDialog.Builder dialog = new AlertDialog.Builder(PublicadoresActivity.this);
+            dialog.setTitle("Confirmar");
+            dialog.setMessage("¿Desea cerrar la sesión actual?");
+            dialog.setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent myIntent = new Intent(getApplicationContext(), SplashActivity.class);
+                    startActivity(myIntent);
+                    finish();
+                }
+            });
+            dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
             return true;
         }
 
@@ -429,5 +461,30 @@ public class PublicadoresActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    public void datosNavDrawer () {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+
+            String name = user.getDisplayName();
+            String email = user.getEmail();
+            Uri photoUrl = user.getPhotoUrl();
+
+            if (name != null) {
+                if (name.isEmpty()) {
+                    tvName.setText(email);
+                } else {
+                    tvName.setText(name);
+                }
+            } else {
+                tvName.setText("");
+            }
+
+            if(photoUrl != null) {
+                Glide.with(this).load(photoUrl).into(imageNav);
+            }
+
+        }
     }
 }
