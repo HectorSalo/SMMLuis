@@ -13,8 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MiPerfilActivity"
-            android:theme="@style/Theme.Editar"></activity>
+        <activity android:name=".NotificacionesActivity"
+            android:theme="@style/Theme.Editar"
+            android:label="@string/ajustes_notificaciones"></activity>
+        <activity
+            android:name=".MiPerfilActivity"
+            android:label="@string/ajustes_miperfil"
+            android:theme="@style/Theme.Editar" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -40,7 +45,7 @@
         <activity
             android:name=".AddPublicador"
             android:label="@string/title_activity_agregar"
-            android:theme="@style/Theme.Dialog.Publicador" />
+            android:theme="@style/Theme.AppCompat.DayNight.DialogWhenLarge" />
         <activity
             android:name=".EditarPubActivity"
             android:label="@string/title_activity_editar"

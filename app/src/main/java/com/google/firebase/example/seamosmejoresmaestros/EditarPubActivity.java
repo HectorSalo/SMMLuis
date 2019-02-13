@@ -66,7 +66,6 @@ public class EditarPubActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarEditPub);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
         imagePub = (ImageView) findViewById(R.id.imageBtPublicador);
         nombrePub = (EditText) findViewById(R.id.etNombre);

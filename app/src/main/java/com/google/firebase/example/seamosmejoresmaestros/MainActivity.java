@@ -119,20 +119,11 @@ public class MainActivity extends AppCompatActivity
 
             return true;
         } else if (id == R.id.action_perfil) {
-//            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-//            dialog.setTitle("¡En Fase de Desarrollo!");
-//            dialog.setMessage("La opción Mi Perfil actualmente se encuentra en elaboración.\nPróximamente podrá disfrutar de sus beneficios");
-//            dialog.setIcon(R.drawable.ic_proximamente);
-//            dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            dialog.show();
-
-
-
+            Intent myIntent = new Intent(getApplicationContext(), MiPerfilActivity.class);
+            Bundle myBundle = new Bundle();
+            myBundle.putInt("ir", 1);
+            myIntent.putExtras(myBundle);
+            startActivity(myIntent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -158,19 +149,6 @@ public class MainActivity extends AppCompatActivity
             android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(MainActivity.this);
             dialog.setTitle("¡En Fase de Desarrollo!");
             dialog.setMessage("La opción Grupo de Estudio actualmente se encuentra en elaboración.\nPróximamente podrá disfrutar de sus beneficios");
-            dialog.setIcon(R.drawable.ic_proximamente);
-            dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-
-        } else if (id == R.id.nav_perfil) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-            dialog.setTitle("¡En Fase de Desarrollo!");
-            dialog.setMessage("La opción Mi Perfil actualmente se encuentra en elaboración.\nPróximamente podrá disfrutar de sus beneficios");
             dialog.setIcon(R.drawable.ic_proximamente);
             dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                 @Override

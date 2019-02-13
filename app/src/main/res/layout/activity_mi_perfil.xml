@@ -6,19 +6,89 @@
     android:layout_height="match_parent"
     tools:context=".MiPerfilActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout4"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_weight="1"
-        android:background="?attr/colorPrimary"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        app:title="@string/title_activity_editar">
+        app:layout_constraintTop_toTopOf="parent">
 
-    </android.support.v7.widget.Toolbar>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ImageView
+        android:id="@+id/imagePerfil"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout4"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabImagePerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="230dp"
+        android:layout_marginEnd="100dp"
+        android:backgroundTint="#000"
+        android:src="@drawable/ic_addiamge"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagePerfil">
+
+        <EditText
+            android:id="@+id/displayName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ajustes_labelNombrePerfil"
+            android:imeActionId="6"
+            android:imeActionLabel="@string/ajustes_nombrePerfil"
+            android:imeOptions="actionUnspecified"
+            android:inputType="textCapWords"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonUpdatePsw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/ajustes_btnUpdatePsw"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabPerfilGuardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:src="@drawable/ic_update_perfil"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

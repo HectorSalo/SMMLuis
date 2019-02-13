@@ -24,10 +24,7 @@
 
     <item android:title="@string/menuSubtitle">
         <menu>
-            <item
-                android:id="@+id/nav_perfil"
-                android:icon="@drawable/ic_menu_perfil"
-                android:title="@string/menuPerfil" />
+
             <item
                 android:id="@+id/nav_ajustes"
                 android:icon="@drawable/ic_menu_manage"

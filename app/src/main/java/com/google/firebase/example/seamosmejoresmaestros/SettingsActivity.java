@@ -40,10 +40,14 @@ public class SettingsActivity extends AppCompatActivity {
 
                 if (seleccion.equals("Mi Perfil")) {
                     Intent myIntent = new Intent(getApplicationContext(), MiPerfilActivity.class);
+                    Bundle myBundle = new Bundle();
+                    myBundle.putInt("ir", 0);
+                    myIntent.putExtras(myBundle);
                     startActivity(myIntent);
 
                 } else if (seleccion.equals("Notificaciones")) {
-
+                    Intent myInten = new Intent(getApplicationContext(), NotificacionesActivity.class);
+                    startActivity(myInten);
                 }
             }
         });
