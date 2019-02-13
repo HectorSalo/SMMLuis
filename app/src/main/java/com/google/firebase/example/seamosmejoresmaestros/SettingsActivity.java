@@ -1,14 +1,18 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -29,6 +33,20 @@ public class SettingsActivity extends AppCompatActivity {
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.ajustes, android.R.layout.simple_list_item_1);
         lista.setAdapter(adapter);
+        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String seleccion = parent.getItemAtPosition(position).toString();
+
+                if (seleccion.equals("Mi Perfil")) {
+                    Intent myIntent = new Intent(getApplicationContext(), MiPerfilActivity.class);
+                    startActivity(myIntent);
+
+                } else if (seleccion.equals("Notificaciones")) {
+
+                }
+            }
+        });
     }
 
     @Override
