@@ -59,4 +59,6 @@ public class Utilidades {
     public static String idPubCambiado = null;
     public static Date fechaDisCambiado = null;
     public static Date fechaAyuCambiado = null;
+
+    public static int gruposCongregacion = 1;
 }

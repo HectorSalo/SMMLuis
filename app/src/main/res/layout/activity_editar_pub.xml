@@ -205,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="14dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/asterisco"
                 android:textStyle="italic"
@@ -218,7 +218,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="320dp"
+                android:layout_marginTop="240dp"
                 android:layout_marginEnd="8dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -233,7 +233,7 @@
                     android:text="Grupo" />
 
                 <NumberPicker
-                    android:id="@+id/numberGrupo"
+                    android:id="@+id/numberGrupoEditar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 

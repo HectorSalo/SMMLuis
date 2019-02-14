@@ -175,17 +175,8 @@ public class AsignacionesActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav_grupoEstudio) {
-            android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(AsignacionesActivity.this);
-            dialog.setTitle("¡En Fase de Desarrollo!");
-            dialog.setMessage("La opción Grupo de Estudio actualmente se encuentra en elaboración.\nPróximamente podrá disfrutar de sus beneficios");
-            dialog.setIcon(R.drawable.ic_proximamente);
-            dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
+            Intent myIntent = new Intent(this, OrganigramaActivity.class);
+            startActivity(myIntent);
 
         } else if (id == R.id.nav_ajustes) {
             Intent myIntent = new Intent(this, SettingsActivity.class);

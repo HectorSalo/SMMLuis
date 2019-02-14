@@ -8,6 +8,7 @@
     <string name="title_activity_editar">Editar Publicador</string>
     <string name="title_activity_sustituir">Sustituciones</string>
     <string name="title_activity_resumen">Resumen de las asignaciones</string>
+    <string name="title_activity_organigrama">Organigrama</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -20,11 +21,12 @@
     <string name="cbHabilitar">Inhabilitar de Mejores Maestros</string>
     <string name="cbAnciano">Anciano</string>
     <string name="cbsiervo">Siervo Ministerial</string>
-    <string name="cbPrecursor">Precursor</string>
+    <string name="cbPrecursor">Precursor Regular</string>
     <string name="cbsuper">Superintendente de Grupo</string>
     <string name="cbAuxiliar">Auxiliar de Grupo</string>
     <string name="btnGuardar">Guardar</string>
     <string name="btnCancelar">Cancelar</string>
+
 
     <!-- Menu Nav Drawer -->
     <string name="nav_header_title">Perfil</string>
@@ -33,7 +35,7 @@
     <string name="menuAsignacines">Asignaciones</string>
     <string name="menuPublicador">Publicadores</string>
     <string name="menuPerfil">Mi Perfil</string>
-    <string name="menuGrupoEstudio">Grupos de Estudio</string>
+    <string name="menuGrupoEstudio">Congregación</string>
     <string name="menuSubtitle">Personal</string>
 
     <!-- Content Inicio -->
@@ -105,5 +107,6 @@
     <string name="ajustes_btnUpdatePsw">Actualizar contraseña</string>
 
     <string name="ajustes_notificaciones">Notificaciones</string>
+
 
 </resources>

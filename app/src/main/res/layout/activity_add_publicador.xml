@@ -121,6 +121,7 @@
               android:layout_height="wrap_content"
               android:text="Grupo"
               android:layout_gravity="center"/>
+
             <NumberPicker
                 android:id="@+id/numberGrupo"
                 android:layout_width="wrap_content"

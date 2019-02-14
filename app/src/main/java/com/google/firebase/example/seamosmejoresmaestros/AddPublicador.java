@@ -1,13 +1,16 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ public class AddPublicador extends AppCompatActivity {
     private EditText editNombrePub, editApellidoPub, editTelefonoPub, editCorreoPub;
     private RadioButton radioMasculino, radioFemenino;
     private String NombrePub, ApellidoPub, Telefono, Correo;
+    private NumberPicker numeroGrupo;
     private ProgressDialog progress;
 
     @Override
@@ -37,6 +41,13 @@ public class AddPublicador extends AppCompatActivity {
         editCorreoPub = (EditText)findViewById(R.id.editCorreo);
         radioMasculino = (RadioButton)findViewById(R.id.radioButtonMasculino);
         radioFemenino = (RadioButton)findViewById(R.id.radioButtonFemenino);
+        numeroGrupo = (NumberPicker) findViewById(R.id.numberGrupo);
+
+        SharedPreferences preferences = getSharedPreferences("grupos", Context.MODE_PRIVATE);
+        int gps = preferences.getInt("cantidad", 1);
+        numeroGrupo.setMinValue(1);
+        numeroGrupo.setMaxValue(gps);
+
         Button buttonAgregar = (Button)findViewById(R.id.bottomAgregar);
         Button buttonCancelar = (Button)findViewById(R.id.bottomCancelar);
 
@@ -64,6 +75,7 @@ public class AddPublicador extends AppCompatActivity {
         ApellidoPub = editApellidoPub.getText().toString();
         Telefono = editTelefonoPub.getText().toString();
         Correo = editCorreoPub.getText().toString();
+        int grupo = numeroGrupo.getValue();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -84,6 +96,12 @@ public class AddPublicador extends AppCompatActivity {
                 publicador.put(UtilidadesStatic.BD_AYUVIEJO, null);
                 publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, null);
                 publicador.put(UtilidadesStatic.BD_SUSTVIEJO, null);
+                publicador.put(UtilidadesStatic.BD_MINISTERIAL, false);
+                publicador.put(UtilidadesStatic.BD_SUPER, false);
+                publicador.put(UtilidadesStatic.BD_PRECURSOR, false);
+                publicador.put(UtilidadesStatic.BD_ANCIANO, false);
+                publicador.put(UtilidadesStatic.BD_AUXILIAR, false);
+                publicador.put(UtilidadesStatic.BD_GRUPO, grupo);
 
 
                 if (radioMasculino.isChecked()) {

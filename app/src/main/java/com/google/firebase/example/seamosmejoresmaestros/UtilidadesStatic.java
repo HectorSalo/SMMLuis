@@ -15,6 +15,12 @@ public class UtilidadesStatic {
     public static final String BD_AYUVIEJO = "ayuViejo";
     public static final String BD_SUSTRECIENTE = "sustReciente";
     public static final String BD_SUSTVIEJO = "sustViejo";
+    public static final String BD_ANCIANO = "anciano";
+    public static final String BD_MINISTERIAL = "ministerial";
+    public static final String BD_PRECURSOR = "precursor";
+    public static final String BD_SUPER = "superGrupo";
+    public static final String BD_AUXILIAR = "auxiliarGrupo";
+    public static final String BD_GRUPO = "grupo";
 
 
     public static final String BD_LECTOR = "lector";

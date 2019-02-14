@@ -23,7 +23,7 @@ import java.util.Date;
 public class VerActivity extends AppCompatActivity {
 
     private ImageView imagenPublicador;
-    private TextView tvNombre, tvApellido, tvTelefono, tvCorreo, tvfAsignacion, tvfAyudante, tvfSustitucion, tvHabilitar;
+    private TextView tvNombre, tvApellido, tvTelefono, tvCorreo, tvfAsignacion, tvfAyudante, tvfSustitucion, tvHabilitar, tvGrupo;
     private String idPublicador;
     private Date discurso, ayudante, sustitucion;
     private ProgressDialog progress;
@@ -43,6 +43,7 @@ public class VerActivity extends AppCompatActivity {
         tvfAyudante = (TextView) findViewById(R.id.textViewfayudante);
         tvfSustitucion = (TextView) findViewById(R.id.textViewfsustitucion);
         tvHabilitar = (TextView) findViewById(R.id.tvHabilitar);
+        tvGrupo = (TextView) findViewById(R.id.textViewGrupoVer);
 
         Bundle recibirBundle = this.getIntent().getExtras();
         idPublicador = recibirBundle.getString("idPublicador");
@@ -78,6 +79,9 @@ public class VerActivity extends AppCompatActivity {
                     discurso = doc.getDate(UtilidadesStatic.BD_DISRECIENTE);
                     ayudante = doc.getDate(UtilidadesStatic.BD_AYURECIENTE);
                     sustitucion = doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE);
+                    double grupo = doc.getDouble(UtilidadesStatic.BD_GRUPO);
+                    int x = (int)grupo;
+                    tvGrupo.setText(String.valueOf(x));
 
                     if (doc.getString(UtilidadesStatic.BD_GENERO).equals("Hombre")) {
                         if (doc.getString(UtilidadesStatic.BD_IMAGEN) != null) {

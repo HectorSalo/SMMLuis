@@ -134,11 +134,28 @@
             <TextView
                 android:id="@+id/tvHabilitar"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
                 android:gravity="center_vertical"
                 android:text="@string/tvHabilitado"
                 android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textView55"
+                android:layout_marginTop="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grupo"
+                android:gravity="end"
+                android:layout_marginEnd="10dp"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/textViewGrupoVer"
+                android:layout_marginTop="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvHabilitado" />
 
 
         </TableRow>

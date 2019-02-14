@@ -3,8 +3,10 @@ package com.google.firebase.example.seamosmejoresmaestros;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -21,6 +23,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,9 +55,11 @@ public class EditarPubActivity extends AppCompatActivity {
     private EditText nombrePub, apellidoPub, telefono, correo;
     private TextView fdiscurso, fayudante, fsustitucion;
     private RadioButton radioHombre, radioMujer;
-    private CheckBox cbHabilitar;
+    private CheckBox cbHabilitar, cbSuper, cbAnciano, cbPrecursor, cbMinisterial, cbAuxiliar;
     private String idPb, urlImagen, imgRecibir, genero;
     private Integer dia, mes, anual;
+    private Double grupoRecibir;
+    private NumberPicker numeroGrupo;
     private Date discurso, ayudante, sustitucion, disRecibir, ayuRecibir, sustRecibir;
     private ProgressDialog progress;
     private Uri mipath;
@@ -75,9 +80,20 @@ public class EditarPubActivity extends AppCompatActivity {
         radioHombre = (RadioButton) findViewById(R.id.radioHombre);
         radioMujer = (RadioButton) findViewById(R.id.radioMujer);
         cbHabilitar = (CheckBox) findViewById(R.id.cbHabilitar);
+        cbAnciano = (CheckBox) findViewById(R.id.cbAnciano);
+        cbMinisterial = (CheckBox) findViewById(R.id.cbSiervoM);
+        cbSuper = (CheckBox) findViewById(R.id.cbSuperintendente);
+        cbPrecursor = (CheckBox) findViewById(R.id.cbPrecursor);
+        cbAuxiliar = (CheckBox) findViewById(R.id.cbAuxiliar);
         fdiscurso = (TextView) findViewById(R.id.etfdiscurso);
         fayudante = (TextView) findViewById(R.id.etfayudante);
         fsustitucion = (TextView) findViewById(R.id.etfsustitucion);
+        numeroGrupo = (NumberPicker) findViewById(R.id.numberGrupoEditar);
+
+        SharedPreferences preferences = getSharedPreferences("grupos", Context.MODE_PRIVATE);
+        int gps = preferences.getInt("cantidad", 1);
+        numeroGrupo.setMinValue(1);
+        numeroGrupo.setMaxValue(gps);
 
 
         Bundle myBundle = this.getIntent().getExtras();
@@ -218,6 +234,9 @@ public class EditarPubActivity extends AppCompatActivity {
                     disRecibir = doc.getDate(UtilidadesStatic.BD_DISRECIENTE);
                     ayuRecibir = doc.getDate(UtilidadesStatic.BD_AYURECIENTE);
                     sustRecibir = doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE);
+                    grupoRecibir = doc.getDouble(UtilidadesStatic.BD_GRUPO);
+                    int x = (int)grupoRecibir.doubleValue();
+                    numeroGrupo.setValue(x);
 
 
                     if (genero.equals("Hombre")) {
@@ -240,6 +259,21 @@ public class EditarPubActivity extends AppCompatActivity {
 
                     if (!doc.getBoolean(UtilidadesStatic.BD_HABILITADO)) {
                         cbHabilitar.setChecked(true);
+                    }
+                    if (doc.getBoolean(UtilidadesStatic.BD_SUPER)){
+                        cbSuper.setChecked(true);
+                    }
+                    if (doc.getBoolean(UtilidadesStatic.BD_PRECURSOR)) {
+                        cbPrecursor.setChecked(true);
+                    }
+                    if (doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL)) {
+                        cbMinisterial.setChecked(true);
+                    }
+                    if (doc.getBoolean(UtilidadesStatic.BD_AUXILIAR)) {
+                        cbAuxiliar.setChecked(true);
+                    }
+                    if (doc.getBoolean(UtilidadesStatic.BD_ANCIANO)) {
+                        cbAnciano.setChecked(true);
                     }
 
                     if (disRecibir != null) {
@@ -377,6 +411,7 @@ public class EditarPubActivity extends AppCompatActivity {
 
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
+        int grupo = numeroGrupo.getValue();
         String NombrePub = nombrePub.getText().toString();
         String ApellidoPub = apellidoPub.getText().toString();
         String Telefono = telefono.getText().toString();
@@ -385,69 +420,104 @@ public class EditarPubActivity extends AppCompatActivity {
 
         if (!NombrePub.isEmpty() && !ApellidoPub.isEmpty()) {
             if (radioHombre.isChecked() || radioMujer.isChecked()) {
+                if (cbMinisterial.isChecked() || cbAnciano.isChecked()) {
 
-                Map<String, Object> publicador = new HashMap<>();
-                publicador.put(UtilidadesStatic.BD_NOMBRE, NombrePub);
-                publicador.put(UtilidadesStatic.BD_APELLIDO, ApellidoPub);
-                publicador.put(UtilidadesStatic.BD_TELEFONO, Telefono);
-                publicador.put(UtilidadesStatic.BD_CORREO, Correo);
-                publicador.put(UtilidadesStatic.BD_IMAGEN, imagen);
+                    Map<String, Object> publicador = new HashMap<>();
+                    publicador.put(UtilidadesStatic.BD_NOMBRE, NombrePub);
+                    publicador.put(UtilidadesStatic.BD_APELLIDO, ApellidoPub);
+                    publicador.put(UtilidadesStatic.BD_TELEFONO, Telefono);
+                    publicador.put(UtilidadesStatic.BD_CORREO, Correo);
+                    publicador.put(UtilidadesStatic.BD_IMAGEN, imagen);
+                    publicador.put(UtilidadesStatic.BD_GRUPO, grupo);
 
-                if (discurso != null) {
-                    publicador.put(UtilidadesStatic.BD_DISRECIENTE, discurso);
-                    publicador.put(UtilidadesStatic.BD_DISVIEJO, disRecibir);
-                } else {
-                    publicador.put(UtilidadesStatic.BD_DISRECIENTE, null);
-                    publicador.put(UtilidadesStatic.BD_DISVIEJO, null);
-                }
-                if (ayudante != null) {
-                    publicador.put(UtilidadesStatic.BD_AYURECIENTE, ayudante);
-                    publicador.put(UtilidadesStatic.BD_AYUVIEJO, ayuRecibir);
-                } else {
-                    publicador.put(UtilidadesStatic.BD_AYURECIENTE, null);
-                    publicador.put(UtilidadesStatic.BD_AYUVIEJO, null);
-                }
-                if (sustitucion != null) {
-                    publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, sustitucion);
-                    publicador.put(UtilidadesStatic.BD_SUSTVIEJO, sustRecibir);
-                } else {
-                    publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, null);
-                    publicador.put(UtilidadesStatic.BD_SUSTVIEJO, null);
-                }
-
-
-                if (radioHombre.isChecked()) {
-                    publicador.put(UtilidadesStatic.BD_GENERO, "Hombre");
-                } else if (radioMujer.isChecked()) {
-                    publicador.put(UtilidadesStatic.BD_GENERO, "Mujer");
-                }
-
-                if (cbHabilitar.isChecked()) {
-                    publicador.put(UtilidadesStatic.BD_HABILITADO, false);
-                } else {
-                    publicador.put(UtilidadesStatic.BD_HABILITADO, true);
-                }
-
-                dbEditar.collection("publicadores").document(idPb).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        Toast.makeText(getApplicationContext(), "Publicador modificado ", Toast.LENGTH_SHORT).show();
-                        Intent myIntent = new Intent(getApplicationContext(), PublicadoresActivity.class);
-                        startActivity(myIntent);
-                        finish();
+                    if (discurso != null) {
+                        publicador.put(UtilidadesStatic.BD_DISRECIENTE, discurso);
+                        publicador.put(UtilidadesStatic.BD_DISVIEJO, disRecibir);
+                    } else {
+                        publicador.put(UtilidadesStatic.BD_DISRECIENTE, null);
+                        publicador.put(UtilidadesStatic.BD_DISVIEJO, null);
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                        Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-
+                    if (ayudante != null) {
+                        publicador.put(UtilidadesStatic.BD_AYURECIENTE, ayudante);
+                        publicador.put(UtilidadesStatic.BD_AYUVIEJO, ayuRecibir);
+                    } else {
+                        publicador.put(UtilidadesStatic.BD_AYURECIENTE, null);
+                        publicador.put(UtilidadesStatic.BD_AYUVIEJO, null);
                     }
-                });
+                    if (sustitucion != null) {
+                        publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, sustitucion);
+                        publicador.put(UtilidadesStatic.BD_SUSTVIEJO, sustRecibir);
+                    } else {
+                        publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, null);
+                        publicador.put(UtilidadesStatic.BD_SUSTVIEJO, null);
+                    }
 
 
-            } else {
+                    if (radioHombre.isChecked()) {
+                        publicador.put(UtilidadesStatic.BD_GENERO, "Hombre");
+                    } else if (radioMujer.isChecked()) {
+                        publicador.put(UtilidadesStatic.BD_GENERO, "Mujer");
+                    }
+
+                    if (cbHabilitar.isChecked()) {
+                        publicador.put(UtilidadesStatic.BD_HABILITADO, false);
+                    } else {
+                        publicador.put(UtilidadesStatic.BD_HABILITADO, true);
+                    }
+
+                    if (cbAnciano.isChecked()) {
+                        publicador.put(UtilidadesStatic.BD_ANCIANO, true);
+                    } else {
+                        publicador.put(UtilidadesStatic.BD_ANCIANO, false);
+                    }
+
+                    if (cbAuxiliar.isChecked()) {
+                        publicador.put(UtilidadesStatic.BD_AUXILIAR, true);
+                    } else {
+                        publicador.put(UtilidadesStatic.BD_AUXILIAR, false);
+                    }
+
+                    if (cbMinisterial.isChecked()) {
+                        publicador.put(UtilidadesStatic.BD_MINISTERIAL, true);
+                    } else {
+                        publicador.put(UtilidadesStatic.BD_MINISTERIAL, false);
+                    }
+
+                    if (cbPrecursor.isChecked()) {
+                        publicador.put(UtilidadesStatic.BD_PRECURSOR, true);
+                    } else {
+                        publicador.put(UtilidadesStatic.BD_PRECURSOR, false);
+                    }
+
+                    if (cbSuper.isChecked()) {
+                        publicador.put(UtilidadesStatic.BD_SUPER, true);
+                    } else {
+                        publicador.put(UtilidadesStatic.BD_SUPER, false);
+                    }
+
+                    dbEditar.collection("publicadores").document(idPb).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            Toast.makeText(getApplicationContext(), "Publicador modificado ", Toast.LENGTH_SHORT).show();
+                            Intent myIntent = new Intent(getApplicationContext(), PublicadoresActivity.class);
+                            startActivity(myIntent);
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "No puede ser anciano y ministerial", Toast.LENGTH_SHORT).show();
+                }
+            }else {
                 Toast.makeText(getApplicationContext(), "Hay campos obligatorios vacíos", Toast.LENGTH_SHORT).show();
             }
         } else {
