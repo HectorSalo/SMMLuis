@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "1091670341716-hknkkfvlba6krf1jkgc81i0bu6rbeth7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.firebase.example.seamosmejoresmaestros",
+            "certificate_hash": "d827183ffa2847f9b61136ed17fedfabdf0dfd96"
+          }
+        },
+        {
+          "client_id": "1091670341716-7d376p4ti3d6fremrb71709gcndk8i39.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.firebase.example.seamosmejoresmaestros",
+            "certificate_hash": "3d0cd8a51cc8115f9c14940c8fb6cfe1b5be6930"
+          }
+        },
+        {
           "client_id": "1091670341716-58eo5078uvedcfv3kg5na0f5oa5psc23.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +45,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091670341716-58eo5078uvedcfv3kg5na0f5oa5psc23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

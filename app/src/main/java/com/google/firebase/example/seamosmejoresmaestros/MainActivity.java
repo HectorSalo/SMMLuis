@@ -1,8 +1,12 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -68,7 +72,13 @@ public class MainActivity extends AppCompatActivity
         imageNav = navHeader.findViewById(R.id.imageViewNav);
         tvName = navHeader.findViewById(R.id.tvNameNav);
 
+        SharedPreferences preferences = getSharedPreferences("sugerencia", Context.MODE_PRIVATE);
+        boolean sugerencia = preferences.getBoolean("activar", true);
+        if (sugerencia) {
+            sugerenciaMiPerfil();
+        }
         datosNavDrawer();
+
     }
 
     @Override
@@ -181,6 +191,37 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void sugerenciaMiPerfil() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+        dialog.setTitle("Sugerencia");
+        dialog.setMessage("Para un mejor desempeño de la aplicación, se sugiere configurar el número de Grupos Bíblicos en la opción Mi Perfil");
+        dialog.setPositiveButton("Ir Mi Perfil", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent myIntent = new Intent(MainActivity.this, MiPerfilActivity.class);
+                startActivity(myIntent);
+            }
+        });
+        dialog.setNegativeButton("Configurar luego", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setNeutralButton("Configurado. No mostrar de nuevo", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences preferences = getSharedPreferences("sugerencia", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("activar", false);
+                editor.commit();
+
+            }
+        });
+        dialog.setIcon(R.drawable.ic_sugerencia);
+        dialog.show();
+    }
+
     public void datosNavDrawer () {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -204,5 +245,13 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
+    }
+
+    private void alarmNotif () {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent myIntent = new Intent(MainActivity.this, NotificacionesRecibir.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
+        long updateInterval = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + updateInterval, updateInterval, pendingIntent);
     }
 }

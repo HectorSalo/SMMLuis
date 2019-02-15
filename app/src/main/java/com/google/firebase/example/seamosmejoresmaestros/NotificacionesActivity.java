@@ -1,5 +1,11 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +26,8 @@ public class NotificacionesActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getFragmentManager().beginTransaction().add(R.id.notifFragment, new NotifFragment()).commit();
 
+
+
     }
 
     @Override
@@ -32,4 +40,6 @@ public class NotificacionesActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

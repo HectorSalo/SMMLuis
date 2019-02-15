@@ -1,6 +1,7 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,7 +50,7 @@ public class OrganigramaActivity extends AppCompatActivity
     private AdapterOrganigrama adapterOrganigrama;
     private ImageView imageNav;
     private TextView tvName;
-    private int gps;
+    private ProgressDialog progress;
     private ArrayList<String> gruposList;
     private LinearLayout linearGrupos, linearAncianos, linearMinisteriales, linearPrecursores;
 
@@ -102,7 +103,7 @@ public class OrganigramaActivity extends AppCompatActivity
         tvName = navHeader.findViewById(R.id.tvNameNav);
 
         SharedPreferences preferences = getSharedPreferences("grupos", Context.MODE_PRIVATE);
-        gps = preferences.getInt("cantidad", 1);
+        int gps = preferences.getInt("cantidad", 1);
         gruposList = new ArrayList<>();
         for (int i = 1; i <= gps; i++) {
             gruposList.add("Grupo " + String.valueOf(i));
@@ -114,6 +115,7 @@ public class OrganigramaActivity extends AppCompatActivity
         grupos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 selecGrupo();
             }
         });
@@ -122,7 +124,35 @@ public class OrganigramaActivity extends AppCompatActivity
         ancianos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progress = new ProgressDialog(OrganigramaActivity.this);
+                progress.setMessage("Cargando...");
+                progress.setCancelable(false);
+                progress.show();
                 cargarAncianos();
+            }
+        });
+
+        ImageButton precursores = (ImageButton) findViewById(R.id.imageButtonPrecursores);
+        precursores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progress = new ProgressDialog(OrganigramaActivity.this);
+                progress.setMessage("Cargando...");
+                progress.setCancelable(false);
+                progress.show();
+                cargarPrecursores();
+            }
+        });
+
+        ImageButton ministeriales = (ImageButton) findViewById(R.id.imageButtonMinisteriales);
+        ministeriales.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progress = new ProgressDialog(OrganigramaActivity.this);
+                progress.setMessage("Cargando...");
+                progress.setCancelable(false);
+                progress.show();
+                cargarMinisteriales();
             }
         });
     }
@@ -244,7 +274,10 @@ public class OrganigramaActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (opciones[which].equals(gruposList.get(which))) {
-
+                    progress = new ProgressDialog(OrganigramaActivity.this);
+                    progress.setMessage("Cargando...");
+                    progress.setCancelable(false);
+                    progress.show();
                    String valor = String.valueOf(opciones[which].charAt(6));
                    cargarGrupos(valor);
                 }
@@ -257,7 +290,7 @@ public class OrganigramaActivity extends AppCompatActivity
 
     public void cargarGrupos(String grupo) {
         int grupoInt = Integer.parseInt(grupo);
-        recyclerOrg.setVisibility(View.VISIBLE);
+
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
@@ -292,9 +325,11 @@ public class OrganigramaActivity extends AppCompatActivity
 
                     }
                     adapterOrganigrama.updateList(listPublicadores);
+                    recyclerOrg.setVisibility(View.VISIBLE);
+                    progress.dismiss();
 
                 } else {
-
+                    progress.dismiss();
                     Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -302,7 +337,7 @@ public class OrganigramaActivity extends AppCompatActivity
     }
 
     public void cargarAncianos() {
-        recyclerOrg.setVisibility(View.VISIBLE);
+
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
@@ -313,7 +348,7 @@ public class OrganigramaActivity extends AppCompatActivity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_ANCIANO, true).orderBy(UtilidadesStatic.BD_GRUPO, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(UtilidadesStatic.BD_ANCIANO, true).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -337,9 +372,100 @@ public class OrganigramaActivity extends AppCompatActivity
 
                     }
                     adapterOrganigrama.updateList(listPublicadores);
-
+                    recyclerOrg.setVisibility(View.VISIBLE);
+                    progress.dismiss();
                 } else {
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
+    public void cargarPrecursores() {
+        linearGrupos.setVisibility(View.GONE);
+        linearAncianos.setVisibility(View.GONE);
+        linearMinisteriales.setVisibility(View.GONE);
+        linearPrecursores.setVisibility(View.GONE);
+
+        listPublicadores = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("publicadores");
+
+        Query query = reference.whereEqualTo(UtilidadesStatic.BD_PRECURSOR, true).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        publi.setIdPublicador(doc.getId());
+                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
+                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
+                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
+                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
+                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
+                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
+                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
+                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+
+                        listPublicadores.add(publi);
+
+                    }
+                    adapterOrganigrama.updateList(listPublicadores);
+                    recyclerOrg.setVisibility(View.VISIBLE);
+                    progress.dismiss();
+                } else {
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void cargarMinisteriales() {
+        linearGrupos.setVisibility(View.GONE);
+        linearAncianos.setVisibility(View.GONE);
+        linearMinisteriales.setVisibility(View.GONE);
+        linearPrecursores.setVisibility(View.GONE);
+
+        listPublicadores = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("publicadores");
+
+        Query query = reference.whereEqualTo(UtilidadesStatic.BD_MINISTERIAL, true).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        publi.setIdPublicador(doc.getId());
+                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
+                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
+                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
+                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
+                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
+                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
+                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
+                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+
+                        listPublicadores.add(publi);
+
+                    }
+                    adapterOrganigrama.updateList(listPublicadores);
+                    recyclerOrg.setVisibility(View.VISIBLE);
+                    progress.dismiss();
+                } else {
+                    progress.dismiss();
                     Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
                 }
             }
