@@ -9,8 +9,9 @@
     tools:showIn="@layout/app_bar_organigrama">
 
     <android.support.v7.widget.RecyclerView
-        android:layout_width="395dp"
-        android:layout_height="751dp"
+        android:id="@+id/recyclerOrganigrama"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +67,8 @@
             android:layout_height="match_parent"
             android:layout_marginTop="15dp"
             android:layout_gravity="center"
-            android:text="Ancianos"
+            android:gravity="center"
+            android:text="Cuerpo de Ancianos"
             android:textSize="24dp" />
     </LinearLayout>
 

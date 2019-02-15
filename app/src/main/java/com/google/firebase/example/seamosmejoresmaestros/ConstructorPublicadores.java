@@ -4,7 +4,9 @@ import java.util.Date;
 
 public class ConstructorPublicadores {
     private String NombrePublicador, ApellidoPublicador, telefono, correo, genero,idPublicador, imagen;
+    private Double grupo;
     private Date ultAsignacion, ultAyudante, ultSustitucion, viejaAsignacion, viejaAyudante, viejaSustitucion;
+    private boolean anciano, ministerial, precursor, superintendente, auxiliar;
 
     public ConstructorPublicadores() {}
 
@@ -60,6 +62,30 @@ public class ConstructorPublicadores {
         return viejaSustitucion;
     }
 
+    public Double getGrupo() {
+        return grupo;
+    }
+
+    public boolean isAnciano() {
+        return anciano;
+    }
+
+    public boolean isMinisterial() {
+        return ministerial;
+    }
+
+    public boolean isPrecursor() {
+        return precursor;
+    }
+
+    public boolean isSuperintendente() {
+        return superintendente;
+    }
+
+    public boolean isAuxiliar() {
+        return auxiliar;
+    }
+
     public void setNombrePublicador(String nombrePublicador) {
         NombrePublicador = nombrePublicador;
     }
@@ -110,5 +136,29 @@ public class ConstructorPublicadores {
 
     public void setViejaSustitucion(Date viejaSustitucion) {
         this.viejaSustitucion = viejaSustitucion;
+    }
+
+    public void setGrupo(Double grupo) {
+        this.grupo = grupo;
+    }
+
+    public void setAnciano(boolean anciano) {
+        this.anciano = anciano;
+    }
+
+    public void setMinisterial(boolean ministerial) {
+        this.ministerial = ministerial;
+    }
+
+    public void setPrecursor(boolean precursor) {
+        this.precursor = precursor;
+    }
+
+    public void setSuperintendente(boolean superintendente) {
+        this.superintendente = superintendente;
+    }
+
+    public void setAuxiliar(boolean auxiliar) {
+        this.auxiliar = auxiliar;
     }
 }

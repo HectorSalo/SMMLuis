@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,12 +23,20 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.SequenceInputStream;
 import java.util.ArrayList;
@@ -34,10 +44,14 @@ import java.util.ArrayList;
 public class OrganigramaActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private RecyclerView recyclerOrg;
+    private ArrayList<ConstructorPublicadores> listPublicadores;
+    private AdapterOrganigrama adapterOrganigrama;
     private ImageView imageNav;
     private TextView tvName;
     private int gps;
-    private ArrayList<Integer> gruposList;
+    private ArrayList<String> gruposList;
+    private LinearLayout linearGrupos, linearAncianos, linearMinisteriales, linearPrecursores;
 
 
     @Override
@@ -47,12 +61,30 @@ public class OrganigramaActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        listPublicadores = new ArrayList<>();
+        recyclerOrg = (RecyclerView) findViewById(R.id.recyclerOrganigrama);
+        recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
+        recyclerOrg.setHasFixedSize(true);
+        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
+        recyclerOrg.setAdapter(adapterOrganigrama);
+        recyclerOrg.setVisibility(View.GONE);
+
+        linearAncianos = (LinearLayout) findViewById(R.id.linearAncianos);
+        linearGrupos = (LinearLayout) findViewById(R.id.linearGrupos);
+        linearMinisteriales = (LinearLayout) findViewById(R.id.linearMinisteriales);
+        linearPrecursores = (LinearLayout) findViewById(R.id.linearPrecursores);
+
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                recyclerOrg.setVisibility(View.GONE);
+                linearGrupos.setVisibility(View.VISIBLE);
+                linearAncianos.setVisibility(View.VISIBLE);
+                linearMinisteriales.setVisibility(View.VISIBLE);
+                linearPrecursores.setVisibility(View.VISIBLE);
             }
         });
 
@@ -73,7 +105,7 @@ public class OrganigramaActivity extends AppCompatActivity
         gps = preferences.getInt("cantidad", 1);
         gruposList = new ArrayList<>();
         for (int i = 1; i <= gps; i++) {
-            gruposList.add(i);
+            gruposList.add("Grupo " + String.valueOf(i));
         }
 
         datosNavDrawer();
@@ -83,6 +115,14 @@ public class OrganigramaActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 selecGrupo();
+            }
+        });
+
+        ImageButton ancianos = (ImageButton) findViewById(R.id.imageButtonAncianos);
+        ancianos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cargarAncianos();
             }
         });
     }
@@ -197,5 +237,112 @@ public class OrganigramaActivity extends AppCompatActivity
     }
 
     public void selecGrupo() {
+        final CharSequence [] opciones = gruposList.toArray(new CharSequence[gruposList.size()]);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("¿Cuál Grupo desea ver?");
+        dialog.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (opciones[which].equals(gruposList.get(which))) {
+
+                   String valor = String.valueOf(opciones[which].charAt(6));
+                   cargarGrupos(valor);
+                }
+            }
+
+        });
+        dialog.setIcon(R.drawable.ic_select_image);
+        dialog.show();
+    }
+
+    public void cargarGrupos(String grupo) {
+        int grupoInt = Integer.parseInt(grupo);
+        recyclerOrg.setVisibility(View.VISIBLE);
+        linearGrupos.setVisibility(View.GONE);
+        linearAncianos.setVisibility(View.GONE);
+        linearMinisteriales.setVisibility(View.GONE);
+        linearPrecursores.setVisibility(View.GONE);
+
+        listPublicadores = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("publicadores");
+
+        Query query = reference.whereEqualTo(UtilidadesStatic.BD_GRUPO, grupoInt).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        publi.setIdPublicador(doc.getId());
+                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
+                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
+                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
+                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
+                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
+                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
+                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
+                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+
+                        listPublicadores.add(publi);
+
+                    }
+                    adapterOrganigrama.updateList(listPublicadores);
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void cargarAncianos() {
+        recyclerOrg.setVisibility(View.VISIBLE);
+        linearGrupos.setVisibility(View.GONE);
+        linearAncianos.setVisibility(View.GONE);
+        linearMinisteriales.setVisibility(View.GONE);
+        linearPrecursores.setVisibility(View.GONE);
+
+        listPublicadores = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("publicadores");
+
+        Query query = reference.whereEqualTo(UtilidadesStatic.BD_ANCIANO, true).orderBy(UtilidadesStatic.BD_GRUPO, Query.Direction.ASCENDING);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        publi.setIdPublicador(doc.getId());
+                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
+                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
+                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
+                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
+                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
+                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
+                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
+                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+
+                        listPublicadores.add(publi);
+
+                    }
+                    adapterOrganigrama.updateList(listPublicadores);
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
