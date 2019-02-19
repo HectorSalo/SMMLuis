@@ -104,7 +104,7 @@
     <string name="ajustes_miperfil">Mi Perfil</string>
     <string name="ajustes_nombrePerfil">Nombre</string>
     <string name="ajustes_labelNombrePerfil">Nombre de Usuario</string>
-    <string name="ajustes_btnUpdatePsw">Actualizar contraseña</string>
+    <string name="ajustes_btnUpdatePsw">Actualizar\ncontraseña</string>
 
     <string name="ajustes_notificaciones">Notificaciones</string>
 

@@ -64,6 +64,10 @@ public class MiPerfilActivity extends AppCompatActivity {
         cantidadGrupos.setMaxValue(30);
         cantidadGrupos.setMinValue(1);
 
+        SharedPreferences preferences = getSharedPreferences("grupos", Context.MODE_PRIVATE);
+        int gps = preferences.getInt("cantidad", 1);
+        cantidadGrupos.setValue(gps);
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             nombreUser = user.getDisplayName();
