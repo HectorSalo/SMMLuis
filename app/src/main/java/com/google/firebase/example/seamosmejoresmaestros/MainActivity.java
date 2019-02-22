@@ -247,11 +247,5 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void alarmNotif () {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent myIntent = new Intent(MainActivity.this, NotificacionesRecibir.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
-        long updateInterval = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + updateInterval, updateInterval, pendingIntent);
-    }
+
 }
