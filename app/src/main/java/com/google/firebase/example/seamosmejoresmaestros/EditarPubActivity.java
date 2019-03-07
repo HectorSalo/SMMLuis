@@ -420,8 +420,11 @@ public class EditarPubActivity extends AppCompatActivity {
 
         if (!NombrePub.isEmpty() && !ApellidoPub.isEmpty()) {
             if (radioHombre.isChecked() || radioMujer.isChecked()) {
-                if (cbMinisterial.isChecked() || cbAnciano.isChecked()) {
+                if (cbMinisterial.isChecked() && cbAnciano.isChecked()) {
 
+                    Toast.makeText(getApplicationContext(), "No puede ser anciano y ministerial", Toast.LENGTH_SHORT).show();
+
+                } else {
                     Map<String, Object> publicador = new HashMap<>();
                     publicador.put(UtilidadesStatic.BD_NOMBRE, NombrePub);
                     publicador.put(UtilidadesStatic.BD_APELLIDO, ApellidoPub);
@@ -512,10 +515,6 @@ public class EditarPubActivity extends AppCompatActivity {
 
                         }
                     });
-
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "No puede ser anciano y ministerial", Toast.LENGTH_SHORT).show();
                 }
             }else {
                 Toast.makeText(getApplicationContext(), "Hay campos obligatorios vacíos", Toast.LENGTH_SHORT).show();
