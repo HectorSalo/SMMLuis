@@ -51,7 +51,7 @@
         <activity
             android:name=".AddPublicador"
             android:label="@string/title_activity_agregar"
-            android:theme="@style/Theme.AppCompat.DayNight.DialogWhenLarge" />
+            android:theme="@style/Theme.AppCompat.Light.DialogWhenLarge" />
         <activity
             android:name=".EditarPubActivity"
             android:label="@string/title_activity_editar"
