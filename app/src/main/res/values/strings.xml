@@ -68,6 +68,7 @@
     <string name="btnAsignar">IR</string>
     <string name="checkboxVisita">Visita Superintendente</string>
     <string name="checkboxAsamblea">Asamblea</string>
+    <string name="checkboxSolo1">Sólo Sala 1</string>
 
     <!-- Content ResumenSalas -->
     <string name="tvEncargado">Encargado</string>

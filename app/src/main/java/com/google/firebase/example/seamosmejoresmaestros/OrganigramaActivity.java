@@ -163,9 +163,14 @@ public class OrganigramaActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Intent myIntent = new Intent(this, MainActivity.class);
-            startActivity(myIntent);
+            //Intent myIntent = new Intent(this, MainActivity.class);
+            //startActivity(myIntent);
             //super.onBackPressed();
+            recyclerOrg.setVisibility(View.GONE);
+            linearGrupos.setVisibility(View.VISIBLE);
+            linearAncianos.setVisibility(View.VISIBLE);
+            linearMinisteriales.setVisibility(View.VISIBLE);
+            linearPrecursores.setVisibility(View.VISIBLE);
         }
     }
 

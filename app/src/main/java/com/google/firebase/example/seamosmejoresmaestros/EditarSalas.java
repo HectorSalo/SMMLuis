@@ -51,7 +51,7 @@ public class EditarSalas extends AppCompatActivity {
     private FloatingActionButton fabBack;
     private EditText etBuscar;
     private TextView tvTitle;
-    private CheckBox cbVisita, cbAsamblea;
+    private CheckBox cbVisita, cbAsamblea, cbSoloSala1;
     private Button btnIr;
     private RadioGroup grupoCb;
     private Date fechaSelec, fechaActual;
@@ -74,6 +74,7 @@ public class EditarSalas extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.tvTitulo);
         cbAsamblea = (CheckBox) findViewById(R.id.cbAsamblea);
         cbVisita = (CheckBox) findViewById(R.id.cbVisita);
+        cbSoloSala1 = (CheckBox) findViewById(R.id.cbSoloSala1);
         btnIr = (Button) findViewById(R.id.buttonIr);
         grupoCb = (RadioGroup) findViewById(R.id.groupcb);
 
@@ -1782,7 +1783,7 @@ public class EditarSalas extends AppCompatActivity {
         myBundle.putString("asignacion2Sala2", seleccion2Sala2);
         myBundle.putString("asignacion3Sala2", seleccion3Sala2);
 
-        myBundle.putBoolean("visita", visita);
+        myBundle.putBoolean("visita", Utilidades.visita);
         myBundle.putBoolean("asamblea", asamblea);
         myBundle.putBoolean("activarSala2", activarSala2);
         myBundle.putLong("fecha", fechaSelec.getTime());
@@ -1797,7 +1798,7 @@ public class EditarSalas extends AppCompatActivity {
         if (visita) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(EditarSalas.this);
             dialog.setTitle("Confirmar");
-            dialog.setMessage("¿Desea programar la Sala 2 durante la Visita?");
+            dialog.setMessage("¿Desea programar la Sala 2?");
             dialog.setIcon(R.drawable.ic_select_image);
             dialog.setCancelable(false);
             dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
@@ -1838,8 +1839,8 @@ public class EditarSalas extends AppCompatActivity {
     public void filtros() {
         if (fechaSelec != null) {
             if (fechaSelec.after(fechaActual)) {
-               if (cbVisita.isChecked() && cbAsamblea.isChecked()) {
-                   Toast.makeText(this, "No puede haber Visita y Asamblea el mismo día", Toast.LENGTH_LONG).show();
+               if ((cbVisita.isChecked() && cbAsamblea.isChecked()) || (cbVisita.isChecked() && cbSoloSala1.isChecked()) || (cbSoloSala1.isChecked() && cbAsamblea.isChecked())) {
+                   Toast.makeText(this, "No puede programarse estos dos eventos para el mismo día", Toast.LENGTH_LONG).show();
                } else {
                    if (cbAsamblea.isChecked()) {
                        idLectorSala1 = null;
@@ -1874,7 +1875,15 @@ public class EditarSalas extends AppCompatActivity {
                        progress.show();
                        listaLecturaSala1();
 
-                   } else if (!cbVisita.isChecked() && !cbAsamblea.isChecked()) {
+                   } else if (cbSoloSala1.isChecked()) {
+                       visita = true;
+                       progress = new ProgressDialog(this);
+                       progress.setMessage("Cargando...");
+                       progress.setCancelable(false);
+                       progress.show();
+                       listaLecturaSala1();
+
+                   } else if (!cbVisita.isChecked() && !cbAsamblea.isChecked() && !cbSoloSala1.isChecked()) {
                        progress = new ProgressDialog(this);
                        progress.setMessage("Cargando...");
                        progress.setCancelable(false);

@@ -259,7 +259,7 @@ public class PublicadoresActivity extends AppCompatActivity
             Toast.makeText(this, "No hay lista cargada", Toast.LENGTH_SHORT).show();
         } else {
             String userInput = s.toLowerCase();
-            ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+            final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
 
             for (ConstructorPublicadores name : listPublicadores) {
 
@@ -270,6 +270,16 @@ public class PublicadoresActivity extends AppCompatActivity
             }
 
             adapterPublicadores.updateList(newList);
+            adapterPublicadores.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent myIntent = new Intent(getApplicationContext(), VerActivity.class);
+                    Bundle myBundle = new Bundle();
+                    myBundle.putString("idPublicador", newList.get(recyclerPublicadores.getChildAdapterPosition(v)).getIdPublicador());
+                    myIntent.putExtras(myBundle);
+                    startActivity(myIntent);
+                }
+            });
 
         }
         return false;
