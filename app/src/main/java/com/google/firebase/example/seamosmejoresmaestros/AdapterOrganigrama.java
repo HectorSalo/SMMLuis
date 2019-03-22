@@ -53,7 +53,7 @@ public class AdapterOrganigrama extends RecyclerView.Adapter<AdapterOrganigrama.
             viewHolderOrganigrama.puesto.setText("Auxiliar");
         }
         if (listPublicadores.get(i).isPrecursor()) {
-            viewHolderOrganigrama.precursor.setText("Precurosr Regular");
+            viewHolderOrganigrama.precursor.setText("Precursor Regular");
         }
 
         if (listPublicadores.get(i).getGenero().equals("Hombre")) {
