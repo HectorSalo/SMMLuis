@@ -13,6 +13,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Cerrar sesión</string>
+    <string name="action_exportar">Exportar mes</string>
     <string name="ajustes">Ajustes</string>
     <string name="titleFecha">Seleccione Fecha</string>
     <string name="GenMasculino">*Hombre</string>

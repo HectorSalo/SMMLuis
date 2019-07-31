@@ -13,6 +13,8 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
+
+import android.os.Environment;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -30,6 +32,8 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -41,6 +45,12 @@ public class AsignacionesActivity extends AppCompatActivity
     private SalasAdapter salasAdapter;
     private ImageView imageNav;
     private TextView tvName;
+    private String archivo = "testArchivo";
+    private String carpeta = "/testCarpeta/";
+    private String contenido;
+    File file;
+    String file_path = "";
+    String name = "";
 
 
     @Override
@@ -143,6 +153,9 @@ public class AsignacionesActivity extends AppCompatActivity
             });
             dialog.show();
             return true;
+        } else if (id == R.id.action_exportar) {
+            exportarMes();
+            return true;
         } else if (id == R.id.action_fecha) {
             selecFecha();
             return true;
@@ -215,6 +228,26 @@ public class AsignacionesActivity extends AppCompatActivity
         });
         dialog.setIcon(R.drawable.ic_advertencia);
         dialog.show();
+
+    }
+
+    private void exportarMes() {
+
+        this.file_path = (Environment.getExternalStorageDirectory() + this.carpeta);
+        File localFile = new File(this.file_path);
+
+        if (!localFile.exists()) {
+            localFile.mkdirs();
+        }
+
+        this.name = (this.archivo + ".txt");
+        this.file = new File(file_path, this.name);
+
+        try {
+            this.file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
