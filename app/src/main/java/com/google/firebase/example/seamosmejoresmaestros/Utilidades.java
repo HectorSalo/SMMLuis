@@ -60,5 +60,6 @@ public class Utilidades {
     public static Date fechaDisCambiado = null;
     public static Date fechaAyuCambiado = null;
 
-    public static int gruposCongregacion = 1;
+    public static int verAnual = 1000;
+    public static String verMes = null;
 }

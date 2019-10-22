@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VistaMensualActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <!-- TODO: Update blank fragment layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvFechaMensual"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:text="@string/barFecha"
+                    android:textColor="#ffff"
+                    android:textSize="22sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutMensual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvLectura"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/textViewPubsInicioLectura"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvEncargado"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:id="@+id/inicioAsignacion1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/tvAsignacion"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:id="@+id/textViewPubsInicioAsignacion1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvEncargado"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:id="@+id/textViewPubsInicioAsignacionAyu1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvAyudante"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="26sp" />
+
+
+                <TextView
+                    android:id="@+id/inicioAsignacion2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/tvAsignacion"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
+
+
+                <TextView
+                    android:id="@+id/textViewPubsInicioAsignacion2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvEncargado"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:id="@+id/textViewPubsInicioAsignacionAyu2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvAyudante"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="26sp" />
+
+
+                <TextView
+                    android:id="@+id/inicioAsignacion3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/tvAsignacion"
+                    android:textSize="16sp"
+                    android:gravity="center"/>
+
+
+                <TextView
+                    android:id="@+id/textViewPubsInicioAsignacion3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvEncargado"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="26sp" />
+
+
+                <TextView
+                    android:id="@+id/textViewPubsInicioAsignacionAyu3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tvAyudante"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="26sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

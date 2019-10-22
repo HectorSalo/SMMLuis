@@ -9,11 +9,12 @@
     <string name="title_activity_sustituir">Sustituciones</string>
     <string name="title_activity_resumen">Resumen de las asignaciones</string>
     <string name="title_activity_organigrama">Organigrama</string>
+    <string name="title_activity_vista_mensual">Vista Mensual</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Cerrar sesión</string>
-    <string name="action_exportar">Exportar mes</string>
+    <string name="action_exportar">Ver por mes</string>
     <string name="ajustes">Ajustes</string>
     <string name="titleFecha">Seleccione Fecha</string>
     <string name="GenMasculino">*Hombre</string>
@@ -109,6 +110,7 @@
     <string name="ajustes_btnUpdatePsw">Actualizar\ncontraseña</string>
 
     <string name="ajustes_notificaciones">Notificaciones</string>
+
 
 
 </resources>

@@ -26,6 +26,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -41,16 +43,8 @@ public class AsignacionesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Sala1Fragment.OnFragmentInteractionListener, Sala2Fragment.OnFragmentInteractionListener {
 
     private boolean advertencia;
-    private ViewPager vpSalas;
-    private SalasAdapter salasAdapter;
     private ImageView imageNav;
     private TextView tvName;
-    private String archivo = "testArchivo";
-    private String carpeta = "/testCarpeta/";
-    private String contenido;
-    File file;
-    String file_path = "";
-    String name = "";
 
 
     @Override
@@ -65,9 +59,9 @@ public class AsignacionesActivity extends AppCompatActivity
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.cancel(UtilidadesStatic.NOTIFICACION_ID);
 
-        salasAdapter = new SalasAdapter(getSupportFragmentManager());
+        SalasAdapter salasAdapter = new SalasAdapter(getSupportFragmentManager());
 
-        vpSalas = (ViewPager) findViewById(R.id.viewpagerSalas);
+        ViewPager vpSalas = (ViewPager) findViewById(R.id.viewpagerSalas);
         vpSalas.setAdapter(salasAdapter);
         vpSalas.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpSalas));
@@ -153,8 +147,8 @@ public class AsignacionesActivity extends AppCompatActivity
             });
             dialog.show();
             return true;
-        } else if (id == R.id.action_exportar) {
-            exportarMes();
+        } else if (id == R.id.action_verMes) {
+            verMes();
             return true;
         } else if (id == R.id.action_fecha) {
             selecFecha();
@@ -231,23 +225,52 @@ public class AsignacionesActivity extends AppCompatActivity
 
     }
 
-    private void exportarMes() {
+    private void verMes() {
+        Calendar calendar = Calendar.getInstance();
+        final String [] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        LinearLayout layout = new LinearLayout(this);
+        final NumberPicker monthPicker = new NumberPicker(this);
+        final NumberPicker yearPicker = new NumberPicker(this);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
 
-        this.file_path = (Environment.getExternalStorageDirectory() + this.carpeta);
-        File localFile = new File(this.file_path);
+        layout.setOrientation(LinearLayout.HORIZONTAL);
+        layout.setPadding(350, 5, 5, 5);
+        yearPicker.setMinValue(2019);
+        yearPicker.setMaxValue(2020);
+        yearPicker.setValue(calendar.get(Calendar.YEAR));
+        monthPicker.setMinValue(0);
+        monthPicker.setMaxValue(meses.length - 1);
+        monthPicker.setDisplayedValues(meses);
+        monthPicker.setValue(calendar.get(Calendar.MONTH));
 
-        if (!localFile.exists()) {
-            localFile.mkdirs();
-        }
+        layout.addView(monthPicker);
+        layout.addView(yearPicker);
 
-        this.name = (this.archivo + ".txt");
-        this.file = new File(file_path, this.name);
+        dialog.setTitle("Escoja un Mes")
+                .setView(layout)
+                .setPositiveButton("Seleccionar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Utilidades.verAnual = yearPicker.getValue();
+                        Utilidades.verMes = meses[monthPicker.getValue()];
+                        startActivity(new Intent(AsignacionesActivity.this, VistaMensualActivity.class));
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        dialog.show();
 
-        try {
-            this.file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+
+        int dia = calendar.get(Calendar.DAY_OF_MONTH);
+        int mes = calendar.get(Calendar.MONTH);
+        int anual = calendar.get(Calendar.YEAR);
+
+
 
     }
 

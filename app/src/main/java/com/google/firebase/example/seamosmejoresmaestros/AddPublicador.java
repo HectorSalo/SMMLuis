@@ -124,6 +124,7 @@ public class AddPublicador extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+
                                 progress.dismiss();
                                 Toast.makeText(getApplicationContext(), "Error al guadar. Intente nuevamente", Toast.LENGTH_SHORT).show();
                                 finish();
