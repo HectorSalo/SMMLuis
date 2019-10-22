@@ -108,8 +108,13 @@
     <string name="ajustes_nombrePerfil">Nombre</string>
     <string name="ajustes_labelNombrePerfil">Nombre de Usuario</string>
     <string name="ajustes_btnUpdatePsw">Actualizar\ncontraseña</string>
-
     <string name="ajustes_notificaciones">Notificaciones</string>
+
+    <string name="fecha_mensual">Fecha</string>
+    <string name="lector_mensual">Lector:</string>
+    <string name="asignacion1_mensual">Asig. #1:</string>
+    <string name="asignacion2_mensual">Asig. #2:</string>
+    <string name="asignacion3_mensual">Asig. #3:</string>
 
 
 
