@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view = "http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,11 +8,12 @@
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        card_view:cardBackgroundColor="@color/colorPrimary"
         card_view:cardElevation="@dimen/fab_margin"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="parent"
@@ -36,8 +37,7 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:text="@string/fecha_mensual"
-                    android:textSize="14sp"
-                     />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvFechaMensual"
@@ -58,16 +58,16 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:text="@string/lector_mensual"
-                    android:textSize="14sp"
-                     />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvLectorMensual"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:text="@string/tvHabilitado"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -80,8 +80,7 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:text="@string/asignacion1_mensual"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvEncargado1Mensual"
@@ -104,8 +103,7 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tvHabilitado"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvAyudante1Mensual"
@@ -126,8 +124,7 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:text="@string/asignacion2_mensual"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvEncargado2Mensual"
@@ -149,8 +146,7 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tvHabilitado"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvAyudante2Mensual"
@@ -171,8 +167,7 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:text="@string/asignacion3_mensual"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvEncargado3Mensual"
@@ -194,8 +189,7 @@
                     android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:text="@string/tvHabilitado"
-                    android:textSize="14sp"
-                    />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvAyudante3Mensual"
@@ -212,4 +206,4 @@
 
     </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

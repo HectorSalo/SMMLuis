@@ -36,10 +36,11 @@ public class VistaMensualActivity extends AppCompatActivity {
         //String fecha = Utilidades.verMes + ", " + Utilidades.verAnual;
         listMensual = new ArrayList<>();
         recyclerMensual = (RecyclerView) findViewById(R.id.recyclerMensual);
+        adapterVistaMensual = new AdapterVistaMensual(listMensual, this);
         recyclerMensual.setLayoutManager(new LinearLayoutManager(this));
         recyclerMensual.setHasFixedSize(true);
-        adapterVistaMensual = new AdapterVistaMensual(listMensual, this);
         recyclerMensual.setAdapter(adapterVistaMensual);
+
 
         cargarMes();
 
@@ -66,7 +67,7 @@ public class VistaMensualActivity extends AppCompatActivity {
                         mensual.setAyudante3(doc.getString(UtilidadesStatic.BD_AYUDANTE3));
 
                         listMensual.add(mensual);
-                        Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_LONG).show();
+                        
                     }
 
                     adapterVistaMensual.updateList(listMensual);
