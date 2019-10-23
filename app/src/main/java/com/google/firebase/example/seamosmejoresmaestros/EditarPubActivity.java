@@ -423,6 +423,9 @@ public class EditarPubActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "No puede ser anciano y ministerial", Toast.LENGTH_SHORT).show();
 
                 } else {
+                    if (radioMujer.isChecked() && (cbAnciano.isChecked() || cbMinisterial.isChecked() || cbSuper.isChecked() || cbAuxiliar.isChecked())) {
+                        Toast.makeText(getApplicationContext(), "El nombramiento no aplica para una hermana", Toast.LENGTH_SHORT).show();
+                    } else {
                     Map<String, Object> publicador = new HashMap<>();
                     publicador.put(UtilidadesStatic.BD_NOMBRE, NombrePub);
                     publicador.put(UtilidadesStatic.BD_APELLIDO, ApellidoPub);
@@ -514,6 +517,7 @@ public class EditarPubActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
             }else {
                 Toast.makeText(getApplicationContext(), "Hay campos obligatorios vacíos", Toast.LENGTH_SHORT).show();
             }

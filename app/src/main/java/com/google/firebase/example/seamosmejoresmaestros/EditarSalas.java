@@ -53,7 +53,7 @@ public class EditarSalas extends AppCompatActivity {
     private CheckBox cbVisita, cbAsamblea, cbSoloSala1;
     private Button btnIr;
     private RadioGroup grupoCb;
-    private Date fechaSelec, fechaActual;
+    private Date fechaSelec, fechaActual, fechaLunes;
     private ProgressDialog progress;
     private boolean visita, asamblea, activarSala2;
     private String seleccion1Sala1, seleccion2Sala1, seleccion3Sala1, idLectorSala1, idEncargado1Sala1, idAyudante1Sala1, idEncargado2Sala1, idAyudante2Sala1, idEncargado3Sala1, idAyudante3Sala1;
@@ -177,6 +177,9 @@ public class EditarSalas extends AppCompatActivity {
         tvTitle.setText("Seleccione el día de las asignaciones");
 
         final Calendar calendario = Calendar.getInstance();
+        final Calendar calendarioLunes = Calendar.getInstance();
+        calendarioLunes.clear();
+        calendarioLunes.setFirstDayOfWeek(Calendar.MONDAY);
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -185,6 +188,10 @@ public class EditarSalas extends AppCompatActivity {
                 fechaSelec = calendario.getTime();
                 semanaSelec = calendario.get(Calendar.WEEK_OF_YEAR);
                 tvTitle.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaSelec));
+
+                calendarioLunes.set(Calendar.WEEK_OF_YEAR, semanaSelec);
+                calendarioLunes.set(Calendar.YEAR, year);
+                fechaLunes = calendarioLunes.getTime();
             }
         });
         fabBack.setOnClickListener(new View.OnClickListener() {
@@ -2785,6 +2792,7 @@ public class EditarSalas extends AppCompatActivity {
         myBundle.putBoolean("asamblea", asamblea);
         myBundle.putBoolean("activarSala2", activarSala2);
         myBundle.putLong("fecha", fechaSelec.getTime());
+        myBundle.putLong("fechaLunes", fechaLunes.getTime());
         myBundle.putInt("semana", semanaSelec);
 
         myIntent.putExtras(myBundle);
@@ -2923,17 +2931,26 @@ public class EditarSalas extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(EditarSalas.this);
-                        dialog.setTitle("¡Aviso!");
-                        dialog.setMessage("Esta semana ya fue programada.\nSi desea modificarla por completo, debe eliminarla primero y luego programarla como nueva.\nEn caso de querer susituir a alguno de los publicadores, puede hacerlo desde Asignaciones directamente");
-                        dialog.setIcon(R.drawable.ic_nopermitido);
-                        dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                        Date date = doc.getDate(UtilidadesStatic.BD_FECHA_LUNES);
+                        if (date != null) {
+                            if (date.after(fechaLunes) || date.equals(fechaLunes)) {
+                                AlertDialog.Builder dialog = new AlertDialog.Builder(EditarSalas.this);
+                                dialog.setTitle("¡Aviso!");
+                                dialog.setMessage("Esta semana ya fue programada.\nSi desea modificarla por completo, debe eliminarla primero y luego programarla como nueva.\nEn caso de querer susituir a alguno de los publicadores, puede hacerlo desde Asignaciones directamente");
+                                dialog.setIcon(R.drawable.ic_nopermitido);
+                                dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                dialog.show();
+                            } else {
+                                filtros();
                             }
-                        });
-                        dialog.show();
+                        } else {
+                            finish();
+                        }
                     } else {
                         filtros();
                     }

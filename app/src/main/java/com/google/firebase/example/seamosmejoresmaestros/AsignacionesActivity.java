@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
 
 import android.os.Environment;
+import android.view.LayoutInflater;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -29,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -228,13 +230,12 @@ public class AsignacionesActivity extends AppCompatActivity
     private void verMes() {
         Calendar calendar = Calendar.getInstance();
         final String [] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-        LinearLayout layout = new LinearLayout(this);
-        final NumberPicker monthPicker = new NumberPicker(this);
-        final NumberPicker yearPicker = new NumberPicker(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View vista = inflater.inflate(R.layout.month_picker, null);
+        final NumberPicker monthPicker = (NumberPicker) vista.findViewById(R.id.mesPicker);
+        final NumberPicker yearPicker = (NumberPicker) vista.findViewById(R.id.anualPicker);
         AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
 
-        layout.setOrientation(LinearLayout.HORIZONTAL);
-        layout.setPadding(350, 5, 5, 5);
         yearPicker.setMinValue(2019);
         yearPicker.setMaxValue(2020);
         yearPicker.setValue(calendar.get(Calendar.YEAR));
@@ -243,16 +244,13 @@ public class AsignacionesActivity extends AppCompatActivity
         monthPicker.setDisplayedValues(meses);
         monthPicker.setValue(calendar.get(Calendar.MONTH));
 
-        layout.addView(monthPicker);
-        layout.addView(yearPicker);
-
         dialog.setTitle("Escoja un Mes")
-                .setView(layout)
+                .setView(vista)
                 .setPositiveButton("Seleccionar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Utilidades.verAnual = yearPicker.getValue();
-                        Utilidades.verMes = meses[monthPicker.getValue()];
+                        Utilidades.verMes = monthPicker.getValue();
                         startActivity(new Intent(AsignacionesActivity.this, VistaMensualActivity.class));
                     }
                 })
@@ -263,14 +261,6 @@ public class AsignacionesActivity extends AppCompatActivity
                     }
                 });
         dialog.show();
-
-
-
-        int dia = calendar.get(Calendar.DAY_OF_MONTH);
-        int mes = calendar.get(Calendar.MONTH);
-        int anual = calendar.get(Calendar.YEAR);
-
-
 
     }
 
@@ -287,8 +277,8 @@ public class AsignacionesActivity extends AppCompatActivity
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 dateDiscurso.set(year, month, dayOfMonth);
                 Utilidades.semanaSelec = dateDiscurso.get(Calendar.WEEK_OF_YEAR);
-                Date discurso = dateDiscurso.getTime();
-                Utilidades.fechaSelec = discurso;
+                Utilidades.fechaSelec = dateDiscurso.getTime();
+
                 recreate();
 
             }

@@ -44,6 +44,7 @@ public class UtilidadesStatic {
     public static final String BD_ASIGNACION3 = "asignacion3";
     public static final String BD_IDSEMANA = "idSemana";
     public static final String BD_FECHA = "fecha";
+    public static final String BD_FECHA_LUNES = "fechaLunes";
 
     public static final int NOTIFICACION_ID = 0;
 

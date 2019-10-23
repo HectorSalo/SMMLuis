@@ -24,13 +24,12 @@ public class ResumenSalas extends AppCompatActivity {
 
     private String seleccion1Sala1, seleccion2Sala1, seleccion3Sala1, idLectorSala1, idEncargado1Sala1, idAyudante1Sala1, idEncargado2Sala1, idAyudante2Sala1, idEncargado3Sala1, idAyudante3Sala1;
     private String seleccion1Sala2, seleccion2Sala2, seleccion3Sala2, idLectorSala2, idEncargado1Sala2, idAyudante1Sala2, idEncargado2Sala2, idAyudante2Sala2, idEncargado3Sala2, idAyudante3Sala2;
-    private long fecha;
     private boolean visita, asamblea, activarSala2;
     private int semanaSelec;
     private TextView tvFecha, tvLecturaSala1, tvLecturaSala2, tvAsignacion1Sala1, tvAsignacion2Sala1, tvAsignacion3Sala1, tvAsignacion1Sala2, tvAsignacion2Sala2, tvAsignacion3Sala2, tituloSala1, tituloSala2;
     private TextView tvLectorSala1, tvEncargado1Sala1, tvAyudante1Sala1, tvEncargado2Sala1, tvAyudante2Sala1, tvEncargado3Sala1, tvAyudante3Sala1;
     private TextView tvLectorSala2, tvEncargado1Sala2, tvAyudante1Sala2, tvEncargado2Sala2, tvAyudante2Sala2, tvEncargado3Sala2, tvAyudante3Sala2;
-    private Date fechaDate;
+    private Date fechaDate, fechaLunesDate;
 
 
     @Override
@@ -93,12 +92,14 @@ public class ResumenSalas extends AppCompatActivity {
         visita = bundleRecibir.getBoolean("visita");
         asamblea = bundleRecibir.getBoolean("asamblea");
         activarSala2 = bundleRecibir.getBoolean("activarSala2");
-        fecha = bundleRecibir.getLong("fecha");
+        long fecha = bundleRecibir.getLong("fecha");
+        long fechaLunes = bundleRecibir.getLong("fechaLunes");
         semanaSelec = bundleRecibir.getInt("semana");
 
         fechaDate = new Date();
+        fechaLunesDate = new Date();
         fechaDate.setTime(fecha);
-
+        fechaLunesDate.setTime(fechaLunes);
 
         llenarSalas();
 
@@ -497,6 +498,7 @@ public class ResumenSalas extends AppCompatActivity {
                 Map<String, Object> publicador = new HashMap<>();
                 publicador.put(UtilidadesStatic.BD_IDSEMANA, semanaSelec);
                 publicador.put(UtilidadesStatic.BD_FECHA, fechaDate);
+                publicador.put(UtilidadesStatic.BD_FECHA_LUNES, fechaLunesDate);
                 publicador.put(UtilidadesStatic.BD_LECTOR, Utilidades.lectorSala1);
                 publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala1);
                 publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala1);
@@ -541,6 +543,7 @@ public class ResumenSalas extends AppCompatActivity {
         Map<String, Object> publicador = new HashMap<>();
         publicador.put(UtilidadesStatic.BD_IDSEMANA, semanaSelec);
         publicador.put(UtilidadesStatic.BD_FECHA, fechaDate);
+        publicador.put(UtilidadesStatic.BD_FECHA_LUNES, fechaLunesDate);
         publicador.put(UtilidadesStatic.BD_LECTOR, Utilidades.lectorSala2);
         publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala2);
         publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala2);

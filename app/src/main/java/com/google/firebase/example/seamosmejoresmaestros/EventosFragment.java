@@ -30,8 +30,7 @@ public class EventosFragment extends Fragment {
 
     private TextView tvUltFecha, tvAsamblea, tvVisita;
     private ProgressDialog progress;
-    private int semanaActual;
-
+    private Date lunesActual;
     private OnFragmentInteractionListener mListener;
 
     public EventosFragment() {
@@ -53,7 +52,16 @@ public class EventosFragment extends Fragment {
         View vista = inflater.inflate(R.layout.fragment_eventos, container, false);
 
         Calendar calendario = Calendar.getInstance();
-        semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
+        Calendar calendarioLunes = Calendar.getInstance();
+        calendarioLunes.clear();
+        calendarioLunes.setFirstDayOfWeek(Calendar.MONDAY);
+        int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
+        int anualActual = calendario.get(Calendar.YEAR);
+
+        calendarioLunes.set(Calendar.WEEK_OF_YEAR, semanaActual);
+        calendarioLunes.set(Calendar.YEAR, anualActual);
+        lunesActual = new Date();
+        lunesActual = calendarioLunes.getTime();
 
         tvUltFecha = (TextView) vista.findViewById(R.id.tvInicioUltSemana);
         tvAsamblea = (TextView) vista.findViewById(R.id.tvInicioAsamblea);
@@ -104,7 +112,7 @@ public class EventosFragment extends Fragment {
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
         CollectionReference reference = dbFirestore.collection("sala1");
 
-        Query query = reference.orderBy(UtilidadesStatic.BD_IDSEMANA, Query.Direction.DESCENDING).limit(1);
+        Query query = reference.orderBy(UtilidadesStatic.BD_FECHA_LUNES, Query.Direction.DESCENDING).limit(1);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -140,7 +148,7 @@ public class EventosFragment extends Fragment {
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
         CollectionReference reference = dbFirestore.collection("sala1");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_ASAMBLEA, true).whereGreaterThanOrEqualTo(UtilidadesStatic.BD_IDSEMANA, semanaActual).orderBy(UtilidadesStatic.BD_IDSEMANA, Query.Direction.ASCENDING).limit(1);
+        Query query = reference.whereEqualTo(UtilidadesStatic.BD_ASAMBLEA, true).whereGreaterThanOrEqualTo(UtilidadesStatic.BD_FECHA_LUNES, lunesActual).orderBy(UtilidadesStatic.BD_FECHA_LUNES, Query.Direction.ASCENDING).limit(1);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -156,7 +164,7 @@ public class EventosFragment extends Fragment {
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
         CollectionReference reference = dbFirestore.collection("sala1");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_VISITA, true).whereGreaterThanOrEqualTo(UtilidadesStatic.BD_IDSEMANA, semanaActual).orderBy(UtilidadesStatic.BD_IDSEMANA, Query.Direction.ASCENDING).limit(1);
+        Query query = reference.whereEqualTo(UtilidadesStatic.BD_VISITA, true).whereGreaterThanOrEqualTo(UtilidadesStatic.BD_FECHA_LUNES, lunesActual).orderBy(UtilidadesStatic.BD_FECHA_LUNES, Query.Direction.ASCENDING).limit(1);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

@@ -61,5 +61,6 @@ public class Utilidades {
     public static Date fechaAyuCambiado = null;
 
     public static int verAnual = 1000;
-    public static String verMes = null;
+    public static int verMes = 1000;
+
 }
