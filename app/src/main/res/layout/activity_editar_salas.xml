@@ -6,20 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".EditarSalas">
 
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/tabEvento"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/titleSelec"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitulo">
 
         <Spinner
             android:id="@+id/spinnerSelec"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:dropDownWidth="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,10 +39,9 @@
 
         <EditText
             android:id="@+id/etBuscar"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:ems="10"
+            android:layout_weight="2"
             android:hint="@string/barBuscar"
             android:inputType="textPersonName" />
     </LinearLayout>
@@ -40,6 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -55,20 +67,12 @@
         android:id="@+id/calendarSelec"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
-
-    <TextView
-        android:id="@+id/tvTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/tabEvento"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
         android:id="@+id/groupcb"
@@ -86,14 +90,12 @@
             android:id="@+id/cbVisita"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/checkboxVisita" />
 
         <CheckBox
             android:id="@+id/cbAsamblea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/checkboxAsamblea" />
 
         <CheckBox
@@ -109,9 +111,11 @@
         android:id="@+id/buttonIr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/btnAsignar"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/groupcb" />
 

@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class OrganigramaActivity extends AppCompatActivity
     private ProgressDialog progress;
     private ArrayList<String> gruposList;
     private LinearLayout linearGrupos, linearAncianos, linearMinisteriales, linearPrecursores;
+
 
 
     @Override

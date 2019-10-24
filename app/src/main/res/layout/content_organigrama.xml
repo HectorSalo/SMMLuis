@@ -8,124 +8,145 @@
     tools:context=".OrganigramaActivity"
     tools:showIn="@layout/app_bar_organigrama">
 
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/linearGrupos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButtonGrupos"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/grupos"
+                    tools:layout_editor_absoluteX="84dp"
+                    tools:layout_editor_absoluteY="152dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Grupos"
+                    android:textSize="24dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearAncianos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButtonAncianos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/ancianos"
+                    tools:layout_editor_absoluteX="84dp"
+                    tools:layout_editor_absoluteY="152dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="Cuerpo de Ancianos"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingTop="24dp">
+
+            <LinearLayout
+                android:id="@+id/linearMinisteriales"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButtonMinisteriales"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/sm"
+                    tools:layout_editor_absoluteX="84dp"
+                    tools:layout_editor_absoluteY="152dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Siervos Ministeriales"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearPrecursores"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imageButtonPrecursores"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/precursores"
+                    tools:layout_editor_absoluteX="84dp"
+                    tools:layout_editor_absoluteY="152dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:text="Precursores Regulares"
+                    android:textSize="24sp" />
+            </LinearLayout>
+
+        </TableRow>
+
+    </TableLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerOrganigrama"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/linearGrupos"
-        android:layout_width="150dp"
-        android:layout_height="208dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="72dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/imageButtonGrupos"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            app:srcCompat="@drawable/grupos"
-            tools:layout_editor_absoluteX="84dp"
-            tools:layout_editor_absoluteY="152dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Grupos"
-            android:textSize="24dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearAncianos"
-        android:layout_width="150dp"
-        android:layout_height="208dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="72dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@+id/linearGrupos"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/imageButtonAncianos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ancianos"
-            tools:layout_editor_absoluteX="84dp"
-            tools:layout_editor_absoluteY="152dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Cuerpo de Ancianos"
-            android:textSize="24dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearMinisteriales"
-        android:layout_width="150dp"
-        android:layout_height="208dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearGrupos">
-
-        <ImageButton
-            android:id="@+id/imageButtonMinisteriales"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            app:srcCompat="@drawable/sm"
-            tools:layout_editor_absoluteX="84dp"
-            tools:layout_editor_absoluteY="152dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Siervos Ministeriales"
-            android:textSize="24dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearPrecursores"
-        android:layout_width="150dp"
-        android:layout_height="208dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="48dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toEndOf="@+id/linearMinisteriales"
-        app:layout_constraintTop_toBottomOf="@+id/linearAncianos">
-
-        <ImageButton
-            android:id="@+id/imageButtonPrecursores"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/precursores"
-            tools:layout_editor_absoluteX="84dp"
-            tools:layout_editor_absoluteY="152dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:text="Precursores Regulares"
-            android:textSize="24dp" />
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

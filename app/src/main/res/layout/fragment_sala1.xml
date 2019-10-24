@@ -18,175 +18,160 @@
 
 
         <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvFechaAsig"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/barFecha"
+            android:textColor="#ffff"
+            android:textSize="22sp" />
+
         <LinearLayout
+            android:id="@+id/layoutSala1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
             <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/tvFechaAsig"
-                    android:layout_width="300dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:text="@string/barFecha"
-                    android:textColor="#ffff"
-                    android:textSize="22sp" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layoutSala1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/tvTitulo"
-                        android:layout_width="340dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorPrimaryDark"
-                        android:gravity="center"
-                        android:text="@string/menuAsignacines"
-                        android:textColor="#fff"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <ImageButton
-                        android:id="@+id/imgbtEditar"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:backgroundTint="#ffffff"
-                        android:contentDescription="@string/titleFecha"
-                        android:src="@drawable/ic_edit_salas" />
-                </LinearLayout>
-
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tvTitulo"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:text="@string/tvLectura"
-                    android:textSize="16sp"
-                    android:gravity="center"/>
+                    android:layout_weight="3"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:text="@string/menuAsignacines"
+                    android:textColor="#fff"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/textViewPubsInicioLectura"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/tvEncargado"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="26sp" />
-
-                <TextView
-                    android:id="@+id/inicioAsignacion1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/tvAsignacion"
-                    android:textSize="16sp"
-                    android:gravity="center"/>
-
-                <TextView
-                    android:id="@+id/textViewPubsInicioAsignacion1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/tvEncargado"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="26sp" />
-
-                <TextView
-                    android:id="@+id/textViewPubsInicioAsignacionAyu1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/tvAyudante"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="26sp" />
-
-
-                <TextView
-                    android:id="@+id/inicioAsignacion2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/tvAsignacion"
-                    android:textSize="16sp"
-                    android:gravity="center"/>
-
-
-                <TextView
-                    android:id="@+id/textViewPubsInicioAsignacion2"
+                <ImageButton
+                    android:id="@+id/imgbtEditar"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tvEncargado"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="26sp" />
-
-                <TextView
-                    android:id="@+id/textViewPubsInicioAsignacionAyu2"
-                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/tvAyudante"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="26sp" />
-
-
-                <TextView
-                    android:id="@+id/inicioAsignacion3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/tvAsignacion"
-                    android:textSize="16sp"
-                    android:gravity="center"/>
-
-
-                <TextView
-                    android:id="@+id/textViewPubsInicioAsignacion3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tvEncargado"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="26sp" />
-
-
-                <TextView
-                    android:id="@+id/textViewPubsInicioAsignacionAyu3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tvAyudante"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="26sp" />
-
+                    android:backgroundTint="#ffffff"
+                    android:contentDescription="@string/titleFecha"
+                    android:src="@drawable/ic_edit_salas" />
             </LinearLayout>
 
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/tvLectura"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewPubsInicioLectura"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/tvEncargado"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/inicioAsignacion1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/tvAsignacion"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textViewPubsInicioAsignacion1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/tvEncargado"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/textViewPubsInicioAsignacionAyu1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/tvAyudante"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="26sp" />
+
+
+            <TextView
+                android:id="@+id/inicioAsignacion2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/tvAsignacion"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/textViewPubsInicioAsignacion2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvEncargado"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/textViewPubsInicioAsignacionAyu2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/tvAyudante"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="26sp" />
+
+
+            <TextView
+                android:id="@+id/inicioAsignacion3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/tvAsignacion"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/textViewPubsInicioAsignacion3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvEncargado"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="26sp" />
+
+
+            <TextView
+                android:id="@+id/textViewPubsInicioAsignacionAyu3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tvAyudante"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="26sp" />
 
         </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </FrameLayout>
