@@ -186,6 +186,9 @@ public class AsignacionesActivity extends AppCompatActivity
         } else if (id == R.id.nav_ajustes) {
             Intent myIntent = new Intent(this, SettingsActivity.class);
             startActivity(myIntent);
+
+        } else if (id == R.id.nav_acerca) {
+            startActivity(new Intent(this, AcercadeActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -42,18 +42,24 @@ public class AdapterOrganigrama extends RecyclerView.Adapter<AdapterOrganigrama.
 
         if (listPublicadores.get(i).isAnciano()) {
             viewHolderOrganigrama.nombramiento.setText("Anciano");
-        }
-        if (listPublicadores.get(i).isMinisterial()) {
+        } else if (listPublicadores.get(i).isMinisterial()) {
             viewHolderOrganigrama.nombramiento.setText("Ministerial");
+        } else {
+            viewHolderOrganigrama.nombramiento.setText("");
         }
+
         if (listPublicadores.get(i).isSuperintendente()) {
             viewHolderOrganigrama.puesto.setText("Superintendente");
-        }
-        if (listPublicadores.get(i).isAuxiliar()) {
+        } else if (listPublicadores.get(i).isAuxiliar()) {
             viewHolderOrganigrama.puesto.setText("Auxiliar");
+        } else {
+            viewHolderOrganigrama.puesto.setText("");
         }
+
         if (listPublicadores.get(i).isPrecursor()) {
             viewHolderOrganigrama.precursor.setText("Precursor Regular");
+        } else {
+            viewHolderOrganigrama.precursor.setText("");
         }
 
         if (listPublicadores.get(i).getGenero().equals("Hombre")) {
@@ -106,7 +112,7 @@ public class AdapterOrganigrama extends RecyclerView.Adapter<AdapterOrganigrama.
         }
     }
 
-    public void updateList (ArrayList<ConstructorPublicadores> newList) {
+    public void updateListOrganigrama (ArrayList<ConstructorPublicadores> newList) {
         listPublicadores = new ArrayList<>();
         listPublicadores.addAll(newList);
         notifyDataSetChanged();

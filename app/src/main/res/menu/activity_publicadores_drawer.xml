@@ -29,6 +29,11 @@
                 android:id="@+id/nav_ajustes"
                 android:icon="@drawable/ic_menu_manage"
                 android:title="@string/ajustes"/>
+
+            <item
+                android:id="@+id/nav_acerca"
+                android:icon="@drawable/ic_menu_acerca"
+                android:title="@string/acerca" />
         </menu>
     </item>
 

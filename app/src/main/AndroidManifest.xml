@@ -13,11 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VistaMensualActivity"
-            android:parentActivityName=".AsignacionesActivity"
-            android:label="@string/title_activity_vista_mensual">
-
-        </activity>
+        <activity android:name=".AcercadeActivity"></activity>
+        <activity
+            android:name=".VistaMensualActivity"
+            android:label="@string/title_activity_vista_mensual"
+            android:parentActivityName=".AsignacionesActivity"></activity>
         <activity
             android:name=".OrganigramaActivity"
             android:label="@string/title_activity_organigrama"

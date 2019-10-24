@@ -39,6 +39,7 @@
     <string name="menuPerfil">Mi Perfil</string>
     <string name="menuGrupoEstudio">Organigrama</string>
     <string name="menuSubtitle">Personal</string>
+    <string name="menuAcerca">Información de App</string>
 
     <!-- Content Inicio -->
     <string name="tabEvento">Eventos</string>
@@ -116,6 +117,12 @@
     <string name="asignacion2_mensual">Asig. #2:</string>
     <string name="asignacion3_mensual">Asig. #3:</string>
 
+
+    <string name="acerca">Información de App</string>
+    <string name="desarrollado">Desarrollado por</string>
+    <string name="skysam">Inversiones SkySam, C.A.</string>
+    <string name="atencion_cliente">Atención al usuario:</string>
+    <string name="contacto">inversionesskysam@gmail.com</string>
 
 
 </resources>

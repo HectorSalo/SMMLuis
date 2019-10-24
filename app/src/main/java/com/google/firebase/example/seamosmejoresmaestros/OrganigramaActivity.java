@@ -239,6 +239,9 @@ public class OrganigramaActivity extends AppCompatActivity
         } else if (id == R.id.nav_ajustes) {
             Intent myIntent = new Intent(this, SettingsActivity.class);
             startActivity(myIntent);
+
+        } else if (id == R.id.nav_acerca) {
+            startActivity(new Intent(this, AcercadeActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -329,7 +332,7 @@ public class OrganigramaActivity extends AppCompatActivity
                         listPublicadores.add(publi);
 
                     }
-                    adapterOrganigrama.updateList(listPublicadores);
+                    adapterOrganigrama.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     progress.dismiss();
 
@@ -376,7 +379,7 @@ public class OrganigramaActivity extends AppCompatActivity
                         listPublicadores.add(publi);
 
                     }
-                    adapterOrganigrama.updateList(listPublicadores);
+                    adapterOrganigrama.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     progress.dismiss();
                 } else {
@@ -421,7 +424,7 @@ public class OrganigramaActivity extends AppCompatActivity
                         listPublicadores.add(publi);
 
                     }
-                    adapterOrganigrama.updateList(listPublicadores);
+                    adapterOrganigrama.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     progress.dismiss();
                 } else {
@@ -466,7 +469,7 @@ public class OrganigramaActivity extends AppCompatActivity
                         listPublicadores.add(publi);
 
                     }
-                    adapterOrganigrama.updateList(listPublicadores);
+                    adapterOrganigrama.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     progress.dismiss();
                 } else {
