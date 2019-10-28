@@ -81,6 +81,9 @@ public class VistaMensualActivity extends AppCompatActivity {
                         mensual.setAyudante1(doc.getString(UtilidadesStatic.BD_AYUDANTE1));
                         mensual.setAyudante2(doc.getString(UtilidadesStatic.BD_AYUDANTE2));
                         mensual.setAyudante3(doc.getString(UtilidadesStatic.BD_AYUDANTE3));
+                        mensual.setAsigancion1(doc.getString(UtilidadesStatic.BD_ASIGNACION1));
+                        mensual.setAsignacion2(doc.getString(UtilidadesStatic.BD_ASIGNACION2));
+                        mensual.setAsignacion3(doc.getString(UtilidadesStatic.BD_ASIGNACION3));
 
                         listMensual.add(mensual);
                         

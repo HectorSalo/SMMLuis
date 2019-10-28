@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ConstructorVistaMensual {
     private Date fechaMensual;
-    private String lector, encargado1, encargado2, encargado3, ayudante1, ayudante2, ayudante3;
+    private String lector, encargado1, encargado2, encargado3, ayudante1, ayudante2, ayudante3, asigancion1, asignacion2, asignacion3;
 
     public ConstructorVistaMensual() {}
 
@@ -40,6 +40,18 @@ public class ConstructorVistaMensual {
         return ayudante3;
     }
 
+    public String getAsigancion1() {
+        return asigancion1;
+    }
+
+    public String getAsignacion2() {
+        return asignacion2;
+    }
+
+    public String getAsignacion3() {
+        return asignacion3;
+    }
+
     public void setFechaMensual(Date fechaMensual) {
         this.fechaMensual = fechaMensual;
     }
@@ -70,6 +82,18 @@ public class ConstructorVistaMensual {
 
     public void setAyudante3(String ayudante3) {
         this.ayudante3 = ayudante3;
+    }
+
+    public void setAsigancion1(String asigancion1) {
+        this.asigancion1 = asigancion1;
+    }
+
+    public void setAsignacion2(String asignacion2) {
+        this.asignacion2 = asignacion2;
+    }
+
+    public void setAsignacion3(String asignacion3) {
+        this.asignacion3 = asignacion3;
     }
 }
 

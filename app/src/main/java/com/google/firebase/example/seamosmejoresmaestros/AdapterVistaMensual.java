@@ -54,6 +54,15 @@ public class AdapterVistaMensual extends RecyclerView.Adapter<AdapterVistaMensua
         if (listMensual.get(position).getAyudante3() != null) {
             holder.ayudante3.setText(listMensual.get(position).getAyudante3());
         }
+        if (listMensual.get(position).getAsigancion1() != null) {
+            holder.asignacion1.setText(listMensual.get(position).getAsigancion1());
+        }
+        if (listMensual.get(position).getAsignacion2() != null) {
+            holder.asignacion2.setText(listMensual.get(position).getAsignacion2());
+        }
+        if (listMensual.get(position).getAsignacion3() != null) {
+            holder.asignacion3.setText(listMensual.get(position).getAsignacion3());
+        }
 
     }
 
@@ -68,7 +77,7 @@ public class AdapterVistaMensual extends RecyclerView.Adapter<AdapterVistaMensua
     }
 
     public class ViewHolderVistaMensual extends RecyclerView.ViewHolder {
-        TextView fecha, lector, encargado1, encargado2, encargado3, ayudante1, ayudante2, ayudante3;
+        TextView fecha, lector, encargado1, encargado2, encargado3, ayudante1, ayudante2, ayudante3, asignacion1, asignacion2, asignacion3;
 
         public ViewHolderVistaMensual(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +89,9 @@ public class AdapterVistaMensual extends RecyclerView.Adapter<AdapterVistaMensua
             ayudante1 = itemView.findViewById(R.id.tvAyudante1Mensual);
             ayudante2 = itemView.findViewById(R.id.tvAyudante2Mensual);
             ayudante3 = itemView.findViewById(R.id.tvAyudante3Mensual);
+            asignacion1 = itemView.findViewById(R.id.tvAsignacion1Mensual);
+            asignacion2 = itemView.findViewById(R.id.tvAsignacion2Mensual);
+            asignacion3 = itemView.findViewById(R.id.tvAsignacion3Mensual);
 
         }
     }

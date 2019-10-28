@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
@@ -47,6 +49,7 @@ public class OrganigramaActivity extends AppCompatActivity
     private RecyclerView recyclerOrg;
     private ArrayList<ConstructorPublicadores> listPublicadores;
     private AdapterOrganigrama adapterOrganigrama;
+    private AdapterVerTodosGrupos adapterVerTodosGrupos;
     private ImageView imageNav;
     private TextView tvName;
     private ProgressDialog progress;
@@ -67,8 +70,11 @@ public class OrganigramaActivity extends AppCompatActivity
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
         adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
+
         recyclerOrg.setAdapter(adapterOrganigrama);
         recyclerOrg.setVisibility(View.GONE);
+
+
 
         linearAncianos = (LinearLayout) findViewById(R.id.linearAncianos);
         linearGrupos = (LinearLayout) findViewById(R.id.linearGrupos);
@@ -86,6 +92,7 @@ public class OrganigramaActivity extends AppCompatActivity
                 linearAncianos.setVisibility(View.VISIBLE);
                 linearMinisteriales.setVisibility(View.VISIBLE);
                 linearPrecursores.setVisibility(View.VISIBLE);
+                getSupportActionBar().setTitle("Organigrama");
             }
         });
 
@@ -106,8 +113,9 @@ public class OrganigramaActivity extends AppCompatActivity
         int gps = preferences.getInt("cantidad", 1);
         gruposList = new ArrayList<>();
         for (int i = 1; i <= gps; i++) {
-            gruposList.add("Grupo " + String.valueOf(i));
+            gruposList.add("Grupo " + i);
         }
+        gruposList.add(gruposList.size(), "Ver todos");
 
         datosNavDrawer();
 
@@ -163,14 +171,12 @@ public class OrganigramaActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //Intent myIntent = new Intent(this, MainActivity.class);
-            //startActivity(myIntent);
-            //super.onBackPressed();
             recyclerOrg.setVisibility(View.GONE);
             linearGrupos.setVisibility(View.VISIBLE);
             linearAncianos.setVisibility(View.VISIBLE);
             linearMinisteriales.setVisibility(View.VISIBLE);
             linearPrecursores.setVisibility(View.VISIBLE);
+            getSupportActionBar().setTitle("Organigrama");
         }
     }
 
@@ -287,7 +293,12 @@ public class OrganigramaActivity extends AppCompatActivity
                     progress.setCancelable(false);
                     progress.show();
                    String valor = String.valueOf(opciones[which].charAt(6));
-                   cargarGrupos(valor);
+
+                   if (valor.equals("d")) {
+                       cargarTodosGrupos();
+                   } else {
+                       cargarGrupos(valor);
+                   }
                 }
             }
 
@@ -334,8 +345,59 @@ public class OrganigramaActivity extends AppCompatActivity
                     }
                     adapterOrganigrama.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
+                    getSupportActionBar().setTitle("Miembros: " + listPublicadores.size());
                     progress.dismiss();
 
+                } else {
+                    progress.dismiss();
+                    Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void cargarTodosGrupos() {
+        GridLayoutManager gM = new GridLayoutManager(this, 3);
+        recyclerOrg.setLayoutManager(gM);
+        recyclerOrg.setHasFixedSize(true);
+        adapterVerTodosGrupos = new AdapterVerTodosGrupos(listPublicadores, this);
+        recyclerOrg.setAdapter(adapterVerTodosGrupos);
+        linearGrupos.setVisibility(View.GONE);
+        linearAncianos.setVisibility(View.GONE);
+        linearMinisteriales.setVisibility(View.GONE);
+        linearPrecursores.setVisibility(View.GONE);
+
+        listPublicadores = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference reference = db.collection("publicadores");
+
+        Query query = reference.orderBy(UtilidadesStatic.BD_GRUPO, Query.Direction.ASCENDING);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        publi.setIdPublicador(doc.getId());
+                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
+                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
+                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
+                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
+                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
+                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
+                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
+                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
+                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+
+                        listPublicadores.add(publi);
+                    }
+                    adapterVerTodosGrupos.updateList(listPublicadores);
+                    recyclerOrg.setVisibility(View.VISIBLE);
+                    getSupportActionBar().setTitle("Publicadores: " + listPublicadores.size());
+                    progress.dismiss();
                 } else {
                     progress.dismiss();
                     Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
@@ -381,6 +443,7 @@ public class OrganigramaActivity extends AppCompatActivity
                     }
                     adapterOrganigrama.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
+                    getSupportActionBar().setTitle("Ancianos: " + listPublicadores.size());
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -426,6 +489,7 @@ public class OrganigramaActivity extends AppCompatActivity
                     }
                     adapterOrganigrama.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
+                    getSupportActionBar().setTitle("Precursores: " + listPublicadores.size());
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -471,6 +535,7 @@ public class OrganigramaActivity extends AppCompatActivity
                     }
                     adapterOrganigrama.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
+                    getSupportActionBar().setTitle("Ministeriales: " + listPublicadores.size());
                     progress.dismiss();
                 } else {
                     progress.dismiss();

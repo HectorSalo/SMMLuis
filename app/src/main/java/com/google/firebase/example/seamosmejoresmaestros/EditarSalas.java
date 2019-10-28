@@ -96,7 +96,7 @@ public class EditarSalas extends AppCompatActivity {
         asamblea = false;
         activarSala2 = true;
 
-        String [] spSelecccionar = {"Seleccionar Asignación", "Primera Conversación", "Primera Revisita", "Segunda Revisita", "Curso Bíblico", "Discurso", "Sin asignación"};
+        String [] spSelecccionar = {"Seleccionar Asignación", "Primera Conversación", "Primera Revisita", "Segunda Revisita","Tercera Revisita", "Curso Bíblico", "Discurso", "Sin asignación"};
         adapterSpSeleccionar = new ArrayAdapter<String>(this, R.layout.spinner_selec, spSelecccionar);
         spinnerSelec.setAdapter(adapterSpSeleccionar);
 

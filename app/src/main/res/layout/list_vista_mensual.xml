@@ -34,7 +34,7 @@
                 <TextView
                     android:id="@+id/tv1"
                     android:layout_width="75dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/fecha_mensual"
                     android:textSize="14sp" />
 
@@ -55,7 +55,7 @@
                 <TextView
                     android:id="@+id/tv2"
                     android:layout_width="75dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/lector_mensual"
                     android:textSize="14sp" />
 
@@ -72,12 +72,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="35dp">
 
                 <TextView
-                    android:id="@+id/tv3"
+                    android:id="@+id/tvAsignacion1Mensual"
                     android:layout_width="75dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/asignacion1_mensual"
                     android:textSize="14sp" />
 
@@ -116,12 +116,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="35dp">
 
                 <TextView
-                    android:id="@+id/tv4"
+                    android:id="@+id/tvAsignacion2Mensual"
                     android:layout_width="75dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/asignacion2_mensual"
                     android:textSize="14sp" />
 
@@ -159,12 +159,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="35dp">
 
                 <TextView
-                    android:id="@+id/tv5"
+                    android:id="@+id/tvAsignacion3Mensual"
                     android:layout_width="75dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/asignacion3_mensual"
                     android:textSize="14sp" />
 
