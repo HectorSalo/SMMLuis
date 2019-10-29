@@ -1,9 +1,11 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,9 +34,22 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
     @Override
     public void onBindViewHolder(@NonNull AdapterVerTodosGrupos.ViewHolderVerTodosGrupos holder, int position) {
 
+        double grupoD = listPublicadores.get(position).getGrupo();
+        int grupoInt = (int) grupoD;
+
         holder.nombre.setText(listPublicadores.get(position).getNombrePublicador());
         holder.apellido.setText(listPublicadores.get(position).getApellidoPublicador());
-        holder.grupo.setText(String.valueOf(listPublicadores.get(position).getGrupo()));
+        holder.grupo.setText("Grupo " + grupoInt);
+
+
+        if (grupoInt % 2 == 0) {
+            holder.linearverTodos.setBackgroundColor(Color.YELLOW);
+            holder.grupo.setTextColor(Color.RED);
+        } else {
+            holder.linearverTodos.setBackgroundColor(Color.LTGRAY);
+            holder.grupo.setTextColor(Color.MAGENTA);
+        }
+
 
     }
 
@@ -46,6 +61,7 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
     public class ViewHolderVerTodosGrupos extends RecyclerView.ViewHolder {
 
         TextView nombre, apellido, grupo;
+        LinearLayout linearverTodos;
 
         public ViewHolderVerTodosGrupos(@NonNull View itemView) {
             super(itemView);
@@ -53,6 +69,7 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
             nombre = itemView.findViewById(R.id.textViewNombreVerTodos);
             apellido = itemView.findViewById(R.id.textViewApellidoVerTodos);
             grupo = itemView.findViewById(R.id.textViewGrupoVerTodos);
+            linearverTodos = itemView.findViewById(R.id.linearVerTodos);
         }
     }
 

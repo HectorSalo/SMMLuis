@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -309,7 +310,11 @@ public class OrganigramaActivity extends AppCompatActivity
 
     public void cargarGrupos(String grupo) {
         int grupoInt = Integer.parseInt(grupo);
+        recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
+        recyclerOrg.setHasFixedSize(true);
+        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
 
+        recyclerOrg.setAdapter(adapterOrganigrama);
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
@@ -362,6 +367,8 @@ public class OrganigramaActivity extends AppCompatActivity
         recyclerOrg.setHasFixedSize(true);
         adapterVerTodosGrupos = new AdapterVerTodosGrupos(listPublicadores, this);
         recyclerOrg.setAdapter(adapterVerTodosGrupos);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, gM.getOrientation());
+        recyclerOrg.addItemDecoration(dividerItemDecoration);
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
@@ -407,6 +414,11 @@ public class OrganigramaActivity extends AppCompatActivity
     }
 
     public void cargarAncianos() {
+        recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
+        recyclerOrg.setHasFixedSize(true);
+        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
+
+        recyclerOrg.setAdapter(adapterOrganigrama);
 
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
@@ -454,6 +466,11 @@ public class OrganigramaActivity extends AppCompatActivity
     }
 
     public void cargarPrecursores() {
+        recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
+        recyclerOrg.setHasFixedSize(true);
+        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
+
+        recyclerOrg.setAdapter(adapterOrganigrama);
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
@@ -500,6 +517,11 @@ public class OrganigramaActivity extends AppCompatActivity
     }
 
     public void cargarMinisteriales() {
+        recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
+        recyclerOrg.setHasFixedSize(true);
+        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
+
+        recyclerOrg.setAdapter(adapterOrganigrama);
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
