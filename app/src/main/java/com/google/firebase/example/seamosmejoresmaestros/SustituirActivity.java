@@ -513,7 +513,7 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
             Toast.makeText(this, "No hay lista cargada", Toast.LENGTH_SHORT).show();
         } else {
             String userInput = newText.toLowerCase();
-            ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+            final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
 
             for (ConstructorPublicadores name : listSelecSust) {
 
@@ -524,6 +524,44 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
             }
 
             adapterSust.updateListSelec(newList);
+            adapterSust.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    nombreSustSelec = newList.get(recyclerSustituciones.getChildAdapterPosition(v)).getNombrePublicador();
+                    apellidoSustSelec = newList.get(recyclerSustituciones.getChildAdapterPosition(v)).getApellidoPublicador();
+                    fechaRecienteSust = newList.get(recyclerSustituciones.getChildAdapterPosition(v)).getUltSustitucion();
+                    sustSeleccionadoId = newList.get(recyclerSustituciones.getChildAdapterPosition(v)).getIdPublicador();
+                    sustSeleccionado =  nombreSustSelec + " " + apellidoSustSelec;
+                    if (!spinnerSeleccion.equals("Publicador a cambiar")) {
+                        if (!spinnerSeleccion.equals(sustSeleccionado)) {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(SustituirActivity.this);
+                            dialog.setTitle("Confirmar");
+                            dialog.setMessage("¿Desea sustituir a " + spinnerSeleccion + " por " + sustSeleccionado + "?");
+                            dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    hacerSust();
+                                    actFechaSust();
+                                    actFechaViejaSust();
+                                    buscarEncAyu();
+
+                                }
+                            });
+                            dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                            dialog.show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No puede sustituir por la misma persona", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Debe escoger a quién va a sustituir", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
         }
         return false;

@@ -76,7 +76,7 @@
     <!-- Content ResumenSalas -->
     <string name="tvEncargado">Encargado</string>
     <string name="tvAyudante">Ayudante</string>
-    <string name="tvAsignacion">Asignacion</string>
+    <string name="tvAsignacion">Asignación</string>
     <string name="tvLectura">Lectura Bíblica</string>
     <string name="titleSala1">Primera Sala</string>
     <string name="titleSala2">Segunda Sala</string>
@@ -84,7 +84,7 @@
     <!-- Fragment Inicio -->
     <string name="ultSemana">Última semana programada</string>
     <string name="proxVisita">Próxima Visita Superintendente</string>
-    <string name="proxAsamblea">Próxima Asamblea</string>
+    <string name="titleAsignaciones">Asignaciones de la Semana</string>
     <string name="sinprogramar">Sin programar</string>
 
     <!-- TODO: Remove or change this placeholder text -->

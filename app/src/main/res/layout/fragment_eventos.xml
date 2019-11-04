@@ -5,18 +5,150 @@
     android:layout_height="match_parent"
     tools:context=".EventosFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="8dp"
         android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:id="@+id/layoutSala1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tvTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:text="@string/titleAsignaciones"
+                    android:textColor="#fff"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/tvLectura"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvEventosPubsLectura"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvHabilitado"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tvEventosAsignacion1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/tvAsignacion"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tvEventosPubsAsignacion1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvHabilitado"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tvEventosPubsAsignacionAyu1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvHabilitado"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="22sp" />
+
+
+                <TextView
+                    android:id="@+id/tvEventosAsignacion2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/tvAsignacion"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/tvEventosPubsAsignacion2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvHabilitado"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tvEventosPubsAsignacionAyu2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvHabilitado"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="22sp" />
+
+
+                <TextView
+                    android:id="@+id/tvEventosAsignacion3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="@string/tvAsignacion"
+                    android:textSize="16sp" />
+
+
+                <TextView
+                    android:id="@+id/tvEventosPubsAsignacion3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvHabilitado"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="22sp" />
+
+
+                <TextView
+                    android:id="@+id/tvEventosPubsAsignacionAyu3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/tvHabilitado"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="22sp" />
+
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
 
             <TextView
                 android:id="@+id/textView20"
@@ -46,38 +178,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="64dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingEnd="5dp"
-                android:text="@string/proxAsamblea"
-                android:textColor="#fff"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/tvInicioAsamblea"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/sinprogramar"
-                android:textColor="@color/colorPrimary"
-                android:textSize="22sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="16dp"
             android:orientation="vertical">
 
             <TextView
@@ -105,5 +206,6 @@
                 android:textSize="22sp" />
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>
