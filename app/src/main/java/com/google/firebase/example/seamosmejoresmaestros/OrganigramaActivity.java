@@ -313,7 +313,6 @@ public class OrganigramaActivity extends AppCompatActivity
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
         adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
-
         recyclerOrg.setAdapter(adapterOrganigrama);
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
@@ -362,7 +361,7 @@ public class OrganigramaActivity extends AppCompatActivity
     }
 
     public void cargarTodosGrupos() {
-        GridLayoutManager gM = new GridLayoutManager(this, 3);
+        GridLayoutManager gM = new GridLayoutManager(this, 3, LinearLayoutManager.HORIZONTAL, false);
         recyclerOrg.setLayoutManager(gM);
         recyclerOrg.setHasFixedSize(true);
         adapterVerTodosGrupos = new AdapterVerTodosGrupos(listPublicadores, this);
