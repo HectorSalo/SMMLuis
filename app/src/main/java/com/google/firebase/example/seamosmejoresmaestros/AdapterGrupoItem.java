@@ -25,8 +25,8 @@ import java.util.ArrayList;
 public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.ViewHolderGrupoItem> {
 
     private ArrayList<String> listGrupoItem;
-    private ArrayList<ConstructorPublicadores> listPublicadores = new ArrayList<>();
     private Context mctx;
+
 
     public AdapterGrupoItem(ArrayList<String> listGrupoItem, Context mctx) {
         this.listGrupoItem = listGrupoItem;
@@ -43,12 +43,12 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
     @Override
     public void onBindViewHolder(@NonNull AdapterGrupoItem.ViewHolderGrupoItem holder, final int position) {
         holder.tvTitleGrupo.setText(listGrupoItem.get(position));
+        final ArrayList<ConstructorPublicadores> listPublicadores = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mctx, LinearLayoutManager.HORIZONTAL, false);
         holder.recyclerGrupoItem.setLayoutManager(layoutManager);
         holder.recyclerGrupoItem.setHasFixedSize(true);
         final AdapterVerTodosGrupos adapterVerTodosGrupos = new AdapterVerTodosGrupos(listPublicadores, mctx);
         holder.recyclerGrupoItem.setAdapter(adapterVerTodosGrupos);
-
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
@@ -63,15 +63,19 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
                         ConstructorPublicadores publi = new ConstructorPublicadores();
                         double grupoD = doc.getDouble(UtilidadesStatic.BD_GRUPO);
                         int grupoInt = (int) grupoD;
+                        if (listGrupoItem.get(position).equals("Grupo " + grupoInt)) {
+
 
                             publi.setIdPublicador(doc.getId());
                             publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
                             publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
                             publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
 
-                            listPublicadores.add(publi);
 
+                        }
+                        listPublicadores.add(publi);
                     }
+
                     adapterVerTodosGrupos.updateList(listPublicadores);
 
                 } else {
@@ -80,7 +84,6 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
                 }
             }
         });
-
 
 
     }
@@ -106,5 +109,7 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
         listGrupoItem = new ArrayList<>();
         listGrupoItem.addAll(newList);
         notifyDataSetChanged();
+
     }
+
 }

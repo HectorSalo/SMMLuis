@@ -34,19 +34,19 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
     @Override
     public void onBindViewHolder(@NonNull AdapterVerTodosGrupos.ViewHolderVerTodosGrupos holder, int position) {
 
-        double grupoD = listPublicadores.get(position).getGrupo();
-        int grupoInt = (int) grupoD;
+        //double grupoD = listPublicadores.get(position).getGrupo();
+        //int grupoInt = (int) grupoD;
 
         holder.nombre.setText(listPublicadores.get(position).getNombrePublicador());
         holder.apellido.setText(listPublicadores.get(position).getApellidoPublicador());
 
-        if (grupoInt % 2 == 0) {
+        /*if (grupoInt % 2 == 0) {
             holder.linearverTodos.setBackgroundColor(Color.YELLOW);
 
         } else {
             holder.linearverTodos.setBackgroundColor(Color.LTGRAY);
 
-        }
+        }*/
 
 
     }
