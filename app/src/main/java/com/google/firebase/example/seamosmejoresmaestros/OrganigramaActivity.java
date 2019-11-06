@@ -51,12 +51,13 @@ public class OrganigramaActivity extends AppCompatActivity
     private ArrayList<ConstructorPublicadores> listPublicadores;
     private AdapterOrganigrama adapterOrganigrama;
     private AdapterVerTodosGrupos adapterVerTodosGrupos;
+    private AdapterGrupoItem adapterGrupoItem;
     private ImageView imageNav;
     private TextView tvName;
     private ProgressDialog progress;
     private ArrayList<String> gruposList;
     private LinearLayout linearGrupos, linearAncianos, linearMinisteriales, linearPrecursores;
-
+    private int cantidadGrupos;
 
 
     @Override
@@ -71,7 +72,7 @@ public class OrganigramaActivity extends AppCompatActivity
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
         adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
-
+        adapterGrupoItem = new AdapterGrupoItem(gruposList, this);
         recyclerOrg.setAdapter(adapterOrganigrama);
         recyclerOrg.setVisibility(View.GONE);
 
@@ -111,9 +112,9 @@ public class OrganigramaActivity extends AppCompatActivity
         tvName = navHeader.findViewById(R.id.tvNameNav);
 
         SharedPreferences preferences = getSharedPreferences("grupos", Context.MODE_PRIVATE);
-        int gps = preferences.getInt("cantidad", 1);
+        cantidadGrupos = preferences.getInt("cantidad", 1);
         gruposList = new ArrayList<>();
-        for (int i = 1; i <= gps; i++) {
+        for (int i = 1; i <= cantidadGrupos; i++) {
             gruposList.add("Grupo " + i);
         }
         gruposList.add(gruposList.size(), "Ver todos");
@@ -361,55 +362,24 @@ public class OrganigramaActivity extends AppCompatActivity
     }
 
     public void cargarTodosGrupos() {
-        GridLayoutManager gM = new GridLayoutManager(this, 3, LinearLayoutManager.HORIZONTAL, false);
-        recyclerOrg.setLayoutManager(gM);
+        ArrayList<String> cantGrupos = new ArrayList<>();
+        for (int i = 1; i <= cantidadGrupos; i++) {
+            cantGrupos.add("Grupo " + i);
+        }
+        recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
-        adapterVerTodosGrupos = new AdapterVerTodosGrupos(listPublicadores, this);
-        recyclerOrg.setAdapter(adapterVerTodosGrupos);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, gM.getOrientation());
-        recyclerOrg.addItemDecoration(dividerItemDecoration);
+        adapterGrupoItem = new AdapterGrupoItem(cantGrupos, this);
+        recyclerOrg.setAdapter(adapterGrupoItem);
+        adapterGrupoItem.updateList(cantGrupos);
+
+        getSupportActionBar().setTitle("Grupos: " + cantGrupos.size());
+        recyclerOrg.setVisibility(View.VISIBLE);
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
         linearPrecursores.setVisibility(View.GONE);
+        progress.dismiss();
 
-        listPublicadores = new ArrayList<>();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
-
-        Query query = reference.orderBy(UtilidadesStatic.BD_GRUPO, Query.Direction.ASCENDING);
-
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
-                        publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
-                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
-                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
-                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
-                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
-                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
-
-                        listPublicadores.add(publi);
-                    }
-                    adapterVerTodosGrupos.updateList(listPublicadores);
-                    recyclerOrg.setVisibility(View.VISIBLE);
-                    getSupportActionBar().setTitle("Publicadores: " + listPublicadores.size());
-                    progress.dismiss();
-                } else {
-                    progress.dismiss();
-                    Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     public void cargarAncianos() {

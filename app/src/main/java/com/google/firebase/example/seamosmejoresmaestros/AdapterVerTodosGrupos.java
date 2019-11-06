@@ -39,15 +39,13 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
 
         holder.nombre.setText(listPublicadores.get(position).getNombrePublicador());
         holder.apellido.setText(listPublicadores.get(position).getApellidoPublicador());
-        holder.grupo.setText("Grupo " + grupoInt);
-
 
         if (grupoInt % 2 == 0) {
             holder.linearverTodos.setBackgroundColor(Color.YELLOW);
-            holder.grupo.setTextColor(Color.RED);
+
         } else {
             holder.linearverTodos.setBackgroundColor(Color.LTGRAY);
-            holder.grupo.setTextColor(Color.MAGENTA);
+
         }
 
 
@@ -60,7 +58,7 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
 
     public class ViewHolderVerTodosGrupos extends RecyclerView.ViewHolder {
 
-        TextView nombre, apellido, grupo;
+        TextView nombre, apellido;
         LinearLayout linearverTodos;
 
         public ViewHolderVerTodosGrupos(@NonNull View itemView) {
@@ -68,7 +66,6 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
 
             nombre = itemView.findViewById(R.id.textViewNombreVerTodos);
             apellido = itemView.findViewById(R.id.textViewApellidoVerTodos);
-            grupo = itemView.findViewById(R.id.textViewGrupoVerTodos);
             linearverTodos = itemView.findViewById(R.id.linearVerTodos);
         }
     }

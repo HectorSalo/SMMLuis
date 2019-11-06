@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/linearVerTodos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/textViewNombreVerTodos"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/textViewApellidoVerTodos"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -39,14 +39,5 @@
             android:textStyle="italic" />
 
 
-        <TextView
-            android:id="@+id/textViewGrupoVerTodos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/tvHabilitado"
-            android:textSize="18sp"
-            android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>
