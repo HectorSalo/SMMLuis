@@ -24,11 +24,11 @@ import java.util.ArrayList;
 
 public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.ViewHolderGrupoItem> {
 
-    private ArrayList<String> listGrupoItem;
+    private ArrayList<Integer> listGrupoItem;
     private Context mctx;
 
 
-    public AdapterGrupoItem(ArrayList<String> listGrupoItem, Context mctx) {
+    public AdapterGrupoItem(ArrayList<Integer> listGrupoItem, Context mctx) {
         this.listGrupoItem = listGrupoItem;
         this.mctx = mctx;
     }
@@ -42,7 +42,7 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
 
     @Override
     public void onBindViewHolder(@NonNull AdapterGrupoItem.ViewHolderGrupoItem holder, final int position) {
-        holder.tvTitleGrupo.setText(listGrupoItem.get(position));
+        holder.tvTitleGrupo.setText("Grupo " + listGrupoItem.get(position));
         final ArrayList<ConstructorPublicadores> listPublicadores = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mctx, LinearLayoutManager.HORIZONTAL, false);
         holder.recyclerGrupoItem.setLayoutManager(layoutManager);
@@ -59,11 +59,14 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         ConstructorPublicadores publi = new ConstructorPublicadores();
+
                         double grupoD = doc.getDouble(UtilidadesStatic.BD_GRUPO);
                         int grupoInt = (int) grupoD;
-                        if (listGrupoItem.get(position).equals("Grupo " + grupoInt)) {
+
+                        if (listGrupoItem.get(position) == grupoInt) {
 
 
                             publi.setIdPublicador(doc.getId());
@@ -74,6 +77,7 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
 
                         }
                         listPublicadores.add(publi);
+
                     }
 
                     adapterVerTodosGrupos.updateList(listPublicadores);
@@ -105,7 +109,7 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
         }
     }
 
-    public void updateList (ArrayList<String> newList) {
+    public void updateList (ArrayList<Integer> newList) {
         listGrupoItem = new ArrayList<>();
         listGrupoItem.addAll(newList);
         notifyDataSetChanged();

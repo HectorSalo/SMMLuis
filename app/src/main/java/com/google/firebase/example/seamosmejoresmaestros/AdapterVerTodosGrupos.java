@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,20 +35,16 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
     @Override
     public void onBindViewHolder(@NonNull AdapterVerTodosGrupos.ViewHolderVerTodosGrupos holder, int position) {
 
-        //double grupoD = listPublicadores.get(position).getGrupo();
-        //int grupoInt = (int) grupoD;
+            String test = listPublicadores.get(position).getNombrePublicador();
 
-        holder.nombre.setText(listPublicadores.get(position).getNombrePublicador());
-        holder.apellido.setText(listPublicadores.get(position).getApellidoPublicador());
+            /*if (test.isEmpty()) {
+                Toast.makeText(mctx, "Test", Toast.LENGTH_SHORT).show();
+            }*/
 
-        /*if (grupoInt % 2 == 0) {
+            holder.nombre.setText(listPublicadores.get(position).getNombrePublicador());
+            holder.apellido.setText(listPublicadores.get(position).getApellidoPublicador());
+
             holder.linearverTodos.setBackgroundColor(Color.YELLOW);
-
-        } else {
-            holder.linearverTodos.setBackgroundColor(Color.LTGRAY);
-
-        }*/
-
 
     }
 

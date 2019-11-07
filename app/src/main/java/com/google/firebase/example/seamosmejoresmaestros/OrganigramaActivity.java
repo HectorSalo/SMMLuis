@@ -50,7 +50,6 @@ public class OrganigramaActivity extends AppCompatActivity
     private RecyclerView recyclerOrg;
     private ArrayList<ConstructorPublicadores> listPublicadores;
     private AdapterOrganigrama adapterOrganigrama;
-    private AdapterVerTodosGrupos adapterVerTodosGrupos;
     private AdapterGrupoItem adapterGrupoItem;
     private ImageView imageNav;
     private TextView tvName;
@@ -72,7 +71,6 @@ public class OrganigramaActivity extends AppCompatActivity
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
         adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
-        adapterGrupoItem = new AdapterGrupoItem(gruposList, this);
         recyclerOrg.setAdapter(adapterOrganigrama);
         recyclerOrg.setVisibility(View.GONE);
 
@@ -362,9 +360,9 @@ public class OrganigramaActivity extends AppCompatActivity
     }
 
     public void cargarTodosGrupos() {
-        ArrayList<String> cantGrupos = new ArrayList<>();
+        ArrayList<Integer> cantGrupos = new ArrayList<>();
         for (int i = 1; i <= cantidadGrupos; i++) {
-            cantGrupos.add("Grupo " + i);
+            cantGrupos.add(i);
         }
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
