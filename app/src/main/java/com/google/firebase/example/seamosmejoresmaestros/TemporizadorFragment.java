@@ -1,11 +1,16 @@
 package com.google.firebase.example.seamosmejoresmaestros;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
+
+import android.provider.AlarmClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +19,7 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
@@ -29,7 +35,7 @@ public class TemporizadorFragment extends Fragment {
     private String FORMAT = "%02d:%02d";
     private CountDownTimer countDownTimer, countDownTimerRestante;
     private LinearLayout layoutDuracion, layoutPauseStop;
-    private boolean tiempoCorriendo, contadorInicial, contadorRestante;
+    private MediaPlayer mediaPlayer;
 
     public TemporizadorFragment() {
         // Required empty public constructor
@@ -61,6 +67,9 @@ public class TemporizadorFragment extends Fragment {
         numberMinutos.setMinValue(0);
         numberSegundos.setMaxValue(59);
         numberSegundos.setMinValue(0);
+
+        Objects.requireNonNull(getActivity()).setVolumeControlStream(AudioManager.STREAM_ALARM);
+        mediaPlayer = new MediaPlayer();
 
         layoutPauseStop.setVisibility(View.INVISIBLE);
 
@@ -196,6 +205,8 @@ public class TemporizadorFragment extends Fragment {
                     layoutPauseStop.setVisibility(View.INVISIBLE);
                     VariablesTemporizador.tiempoCorriendo = false;
                     VariablesTemporizador.contadorInicial = false;
+
+                    sonarAlarma();
                 }
             }.start();
         }
@@ -220,7 +231,13 @@ public class TemporizadorFragment extends Fragment {
                 VariablesTemporizador.contadorRestante = false;
                 visorTiempo.setText("Finalizado");
                 VariablesTemporizador.tiempoCorriendo = false;
+                sonarAlarma();
             }
         }.start();
+    }
+
+    public void sonarAlarma(){
+        mediaPlayer = MediaPlayer.create(getContext(), R.raw.alarm);
+        mediaPlayer.start();
     }
 }

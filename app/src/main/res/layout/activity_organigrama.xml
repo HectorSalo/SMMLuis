@@ -20,6 +20,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_organigrama"
-        app:menu="@menu/activity_organigrama_drawer" />
+        app:menu="@menu/activity_organigrama_drawer"
+        app:itemTextColor="#fff"
+        android:background="#757575"
+        app:itemIconTint="#fff"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

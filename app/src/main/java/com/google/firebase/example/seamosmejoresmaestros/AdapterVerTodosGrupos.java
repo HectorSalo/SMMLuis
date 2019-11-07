@@ -35,16 +35,8 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
     @Override
     public void onBindViewHolder(@NonNull AdapterVerTodosGrupos.ViewHolderVerTodosGrupos holder, int position) {
 
-            String test = listPublicadores.get(position).getNombrePublicador();
-
-            /*if (test.isEmpty()) {
-                Toast.makeText(mctx, "Test", Toast.LENGTH_SHORT).show();
-            }*/
-
             holder.nombre.setText(listPublicadores.get(position).getNombrePublicador());
             holder.apellido.setText(listPublicadores.get(position).getApellidoPublicador());
-
-            holder.linearverTodos.setBackgroundColor(Color.YELLOW);
 
     }
 

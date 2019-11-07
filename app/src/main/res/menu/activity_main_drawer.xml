@@ -7,7 +7,8 @@
         <item
             android:id="@+id/nav_inicio"
             android:icon="@drawable/ic_menu_home"
-            android:title="@string/menuInicio" />
+            android:title="@string/menuInicio"
+            />
         <item
             android:id="@+id/nav_asignaciones"
             android:icon="@drawable/ic_menu_asignaciones"
@@ -28,7 +29,8 @@
             <item
                 android:id="@+id/nav_ajustes"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="@string/ajustes" />
+                android:title="@string/ajustes"
+                />
 
             <item
                 android:id="@+id/nav_acerca"

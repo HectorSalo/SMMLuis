@@ -41,7 +41,7 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterGrupoItem.ViewHolderGrupoItem holder, final int position) {
+    public void onBindViewHolder(@NonNull final AdapterGrupoItem.ViewHolderGrupoItem holder, final int position) {
         holder.tvTitleGrupo.setText("Grupo " + listGrupoItem.get(position));
         final ArrayList<ConstructorPublicadores> listPublicadores = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mctx, LinearLayoutManager.HORIZONTAL, false);
@@ -53,7 +53,7 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.orderBy(UtilidadesStatic.BD_GRUPO, Query.Direction.ASCENDING);
+        Query query = reference.orderBy(UtilidadesStatic.BD_GRUPO).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -68,15 +68,13 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
 
                         if (listGrupoItem.get(position) == grupoInt) {
 
-
                             publi.setIdPublicador(doc.getId());
                             publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
                             publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
                             publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
 
-
+                            listPublicadores.add(publi);
                         }
-                        listPublicadores.add(publi);
 
                     }
 
@@ -89,7 +87,16 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
             }
         });
 
-
+        holder.tvTitleGrupo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.recyclerGrupoItem.isShown()) {
+                    holder.recyclerGrupoItem.setVisibility(View.GONE);
+                } else {
+                    holder.recyclerGrupoItem.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
