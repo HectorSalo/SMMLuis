@@ -1,39 +1,40 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Adaptadores;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.R;
+
 import java.util.ArrayList;
 
-public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosGrupos.ViewHolderVerTodosGrupos> {
+public class VerTodosGruposAdapter extends RecyclerView.Adapter<VerTodosGruposAdapter.ViewHolderVerTodosGrupos> {
 
-    private ArrayList<ConstructorPublicadores> listPublicadores;
+    private ArrayList<PublicadoresConstructor> listPublicadores;
     private Context mctx;
 
-    public  AdapterVerTodosGrupos (ArrayList<ConstructorPublicadores> listPublicadores, Context mctx) {
+    public VerTodosGruposAdapter(ArrayList<PublicadoresConstructor> listPublicadores, Context mctx) {
         this.listPublicadores = listPublicadores;
         this.mctx = mctx;
     }
 
     @NonNull
     @Override
-    public AdapterVerTodosGrupos.ViewHolderVerTodosGrupos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public VerTodosGruposAdapter.ViewHolderVerTodosGrupos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_ver_todos_grupos, null, false);
 
         return new ViewHolderVerTodosGrupos(vista);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterVerTodosGrupos.ViewHolderVerTodosGrupos holder, int position) {
+    public void onBindViewHolder(@NonNull VerTodosGruposAdapter.ViewHolderVerTodosGrupos holder, int position) {
 
             holder.nombre.setText(listPublicadores.get(position).getNombrePublicador());
             holder.apellido.setText(listPublicadores.get(position).getApellidoPublicador());
@@ -59,7 +60,7 @@ public class AdapterVerTodosGrupos extends RecyclerView.Adapter<AdapterVerTodosG
         }
     }
 
-    public void updateList (ArrayList<ConstructorPublicadores> newList) {
+    public void updateList (ArrayList<PublicadoresConstructor> newList) {
         listPublicadores = new ArrayList<>();
         listPublicadores.addAll(newList);
         notifyDataSetChanged();

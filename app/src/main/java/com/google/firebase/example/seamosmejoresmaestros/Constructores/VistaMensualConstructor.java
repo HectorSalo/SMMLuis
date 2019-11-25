@@ -1,12 +1,12 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Constructores;
 
 import java.util.Date;
 
-public class ConstructorVistaMensual {
+public class VistaMensualConstructor {
     private Date fechaMensual;
     private String lector, encargado1, encargado2, encargado3, ayudante1, ayudante2, ayudante3, asigancion1, asignacion2, asignacion3;
 
-    public ConstructorVistaMensual() {}
+    public VistaMensualConstructor() {}
 
     public Date getFechaMensual() {
         return fechaMensual;

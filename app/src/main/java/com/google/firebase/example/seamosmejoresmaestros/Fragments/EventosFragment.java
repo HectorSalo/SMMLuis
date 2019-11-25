@@ -1,4 +1,4 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.example.seamosmejoresmaestros.R;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -127,7 +129,7 @@ public class EventosFragment extends Fragment {
                 if(task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
-                        if (doc.getBoolean(UtilidadesStatic.BD_ASAMBLEA)) {
+                        if (doc.getBoolean(VariablesEstaticas.BD_ASAMBLEA)) {
                             progress.dismiss();
                             tvLector.setText("Sin asignaciones por Asamblea");
                             tvAsignacion1.setVisibility(View.GONE);
@@ -142,51 +144,51 @@ public class EventosFragment extends Fragment {
 
                         } else {
 
-                            if (doc.getString(UtilidadesStatic.BD_LECTOR) != null) {
-                                tvLector.setText(doc.getString(UtilidadesStatic.BD_LECTOR));
+                            if (doc.getString(VariablesEstaticas.BD_LECTOR) != null) {
+                                tvLector.setText(doc.getString(VariablesEstaticas.BD_LECTOR));
                             }
-                            if (doc.getString(UtilidadesStatic.BD_ASIGNACION1) != null) {
-                                tvAsignacion1.setText(doc.getString(UtilidadesStatic.BD_ASIGNACION1));
+                            if (doc.getString(VariablesEstaticas.BD_ASIGNACION1) != null) {
+                                tvAsignacion1.setText(doc.getString(VariablesEstaticas.BD_ASIGNACION1));
                             } else {
                                 tvAsignacion1.setVisibility(View.GONE);
                             }
-                            if (doc.getString(UtilidadesStatic.BD_ENCARGADO1) != null) {
-                                tvEncargado1.setText(doc.getString(UtilidadesStatic.BD_ENCARGADO1));
+                            if (doc.getString(VariablesEstaticas.BD_ENCARGADO1) != null) {
+                                tvEncargado1.setText(doc.getString(VariablesEstaticas.BD_ENCARGADO1));
                             } else {
                                 tvEncargado1.setVisibility(View.GONE);
                             }
-                            if (doc.getString(UtilidadesStatic.BD_AYUDANTE1) != null) {
-                                tvAyudante1.setText(doc.getString(UtilidadesStatic.BD_AYUDANTE1));
+                            if (doc.getString(VariablesEstaticas.BD_AYUDANTE1) != null) {
+                                tvAyudante1.setText(doc.getString(VariablesEstaticas.BD_AYUDANTE1));
                             } else {
                                 tvAyudante1.setVisibility(View.GONE);
                             }
-                            if (doc.getString(UtilidadesStatic.BD_ASIGNACION2) != null) {
-                                tvAsignacion2.setText(doc.getString(UtilidadesStatic.BD_ASIGNACION2));
+                            if (doc.getString(VariablesEstaticas.BD_ASIGNACION2) != null) {
+                                tvAsignacion2.setText(doc.getString(VariablesEstaticas.BD_ASIGNACION2));
                             } else {
                                 tvAsignacion2.setVisibility(View.GONE);
                             }
-                            if (doc.getString(UtilidadesStatic.BD_ENCARGADO2) != null) {
-                                tvEncargado2.setText(doc.getString(UtilidadesStatic.BD_ENCARGADO2));
+                            if (doc.getString(VariablesEstaticas.BD_ENCARGADO2) != null) {
+                                tvEncargado2.setText(doc.getString(VariablesEstaticas.BD_ENCARGADO2));
                             } else {
                                 tvEncargado2.setVisibility(View.GONE);
                             }
-                            if (doc.getString(UtilidadesStatic.BD_AYUDANTE2) != null) {
-                                tvAyudante2.setText(doc.getString(UtilidadesStatic.BD_AYUDANTE2));
+                            if (doc.getString(VariablesEstaticas.BD_AYUDANTE2) != null) {
+                                tvAyudante2.setText(doc.getString(VariablesEstaticas.BD_AYUDANTE2));
                             } else {
                                 tvAyudante2.setVisibility(View.GONE);
                             }
-                            if (doc.getString(UtilidadesStatic.BD_ASIGNACION3) != null) {
-                                tvAsignacion3.setText(doc.getString(UtilidadesStatic.BD_ASIGNACION3));
+                            if (doc.getString(VariablesEstaticas.BD_ASIGNACION3) != null) {
+                                tvAsignacion3.setText(doc.getString(VariablesEstaticas.BD_ASIGNACION3));
                             } else {
                                 tvAsignacion3.setVisibility(View.GONE);
                             }
-                            if (doc.getString(UtilidadesStatic.BD_ENCARGADO3) != null) {
-                                tvEncargado3.setText(doc.getString(UtilidadesStatic.BD_ENCARGADO3));
+                            if (doc.getString(VariablesEstaticas.BD_ENCARGADO3) != null) {
+                                tvEncargado3.setText(doc.getString(VariablesEstaticas.BD_ENCARGADO3));
                             } else {
                                 tvEncargado3.setVisibility(View.GONE);
                             }
-                            if (doc.getString(UtilidadesStatic.BD_AYUDANTE3) != null) {
-                                tvAyudante3.setText(doc.getString(UtilidadesStatic.BD_AYUDANTE3));
+                            if (doc.getString(VariablesEstaticas.BD_AYUDANTE3) != null) {
+                                tvAyudante3.setText(doc.getString(VariablesEstaticas.BD_AYUDANTE3));
                             } else {
                                 tvAyudante3.setVisibility(View.GONE);
                             }
@@ -210,7 +212,7 @@ public class EventosFragment extends Fragment {
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
         CollectionReference reference = dbFirestore.collection("sala1");
 
-        Query query = reference.orderBy(UtilidadesStatic.BD_FECHA_LUNES, Query.Direction.DESCENDING).limit(1);
+        Query query = reference.orderBy(VariablesEstaticas.BD_FECHA_LUNES, Query.Direction.DESCENDING).limit(1);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -218,11 +220,11 @@ public class EventosFragment extends Fragment {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         if(doc.exists()) {
-                            if (doc.getDouble(UtilidadesStatic.BD_IDSEMANA) == 0) {
+                            if (doc.getDouble(VariablesEstaticas.BD_IDSEMANA) == 0) {
                                 progress.dismiss();
                                 tvUltFecha.setText("Sin programar");
                             } else {
-                                Date fecha = doc.getDate(UtilidadesStatic.BD_FECHA);
+                                Date fecha = doc.getDate(VariablesEstaticas.BD_FECHA);
                                 tvUltFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
                                 progress.dismiss();
                             }
@@ -246,14 +248,14 @@ public class EventosFragment extends Fragment {
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
         CollectionReference reference = dbFirestore.collection("sala1");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_VISITA, true).whereGreaterThanOrEqualTo(UtilidadesStatic.BD_FECHA_LUNES, lunesActual).orderBy(UtilidadesStatic.BD_FECHA_LUNES, Query.Direction.ASCENDING).limit(1);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_VISITA, true).whereGreaterThanOrEqualTo(VariablesEstaticas.BD_FECHA_LUNES, lunesActual).orderBy(VariablesEstaticas.BD_FECHA_LUNES, Query.Direction.ASCENDING).limit(1);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        Date fecha = doc.getDate(UtilidadesStatic.BD_FECHA);
+                        Date fecha = doc.getDate(VariablesEstaticas.BD_FECHA);
                         tvVisita.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
                     }
                 }

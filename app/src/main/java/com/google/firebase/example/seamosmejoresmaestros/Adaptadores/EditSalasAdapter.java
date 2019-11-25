@@ -1,4 +1,4 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Adaptadores;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -8,29 +8,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.R;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class AdapterEditSalas extends RecyclerView.Adapter<AdapterEditSalas.ViewHolderEditSalas> implements View.OnClickListener {
+public class EditSalasAdapter extends RecyclerView.Adapter<EditSalasAdapter.ViewHolderEditSalas> implements View.OnClickListener {
 
-    ArrayList<ConstructorPublicadores> listSelecPub;
+    ArrayList<PublicadoresConstructor> listSelecPub;
     Context ctx;
     private View.OnClickListener listenerSeleccionar;
 
-    public AdapterEditSalas(ArrayList<ConstructorPublicadores> listSelecPub, Context ctx){
+    public EditSalasAdapter(ArrayList<PublicadoresConstructor> listSelecPub, Context ctx){
         this.listSelecPub = listSelecPub;
         this.ctx = ctx;
     }
     @NonNull
     @Override
-    public AdapterEditSalas.ViewHolderEditSalas onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public EditSalasAdapter.ViewHolderEditSalas onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.seleccionar_publicadores, null, false);
         view.setOnClickListener(this);
         return new ViewHolderEditSalas(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterEditSalas.ViewHolderEditSalas viewHolderEditSalas, int i) {
+    public void onBindViewHolder(@NonNull EditSalasAdapter.ViewHolderEditSalas viewHolderEditSalas, int i) {
         viewHolderEditSalas.nombrePub.setText(listSelecPub.get(i).getNombrePublicador());
         viewHolderEditSalas.apellidoPub.setText(listSelecPub.get(i).getApellidoPublicador());
 
@@ -82,7 +85,7 @@ public class AdapterEditSalas extends RecyclerView.Adapter<AdapterEditSalas.View
         }
     }
 
-    public void updateListSelec (ArrayList<ConstructorPublicadores> newList) {
+    public void updateListSelec (ArrayList<PublicadoresConstructor> newList) {
         listSelecPub = new ArrayList<>();
         listSelecPub.addAll(newList);
         notifyDataSetChanged();

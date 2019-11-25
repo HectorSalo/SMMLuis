@@ -32,6 +32,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.example.seamosmejoresmaestros.Adaptadores.PublicadoresAdapter;
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -44,8 +47,8 @@ public class PublicadoresActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemSelectedListener {
 
     private RecyclerView recyclerPublicadores;
-    private ArrayList<ConstructorPublicadores> listPublicadores;
-    private AdapterPublicadores adapterPublicadores;
+    private ArrayList<PublicadoresConstructor> listPublicadores;
+    private PublicadoresAdapter publicadoresAdapter;
     private ProgressDialog progress;
     private SwipeRefreshLayout swRefresh;
     private ImageView imageNav;
@@ -95,14 +98,14 @@ public class PublicadoresActivity extends AppCompatActivity
         progress.setMessage("Cargando...");
         progress.setCancelable(false);
         progress.show();
-        adapterPublicadores = new AdapterPublicadores(listPublicadores, this);
-        recyclerPublicadores.setAdapter(adapterPublicadores);
+        publicadoresAdapter = new PublicadoresAdapter(listPublicadores, this);
+        recyclerPublicadores.setAdapter(publicadoresAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, gM.getOrientation());
         recyclerPublicadores.addItemDecoration(dividerItemDecoration);
 
         cargarLista ();
 
-        adapterPublicadores.setOnClickListener(new View.OnClickListener() {
+        publicadoresAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getApplicationContext(), VerActivity.class);
@@ -128,22 +131,22 @@ public class PublicadoresActivity extends AppCompatActivity
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPublicadores.add(publi);
 
                     }
-                    adapterPublicadores.updateList(listPublicadores);
+                    publicadoresAdapter.updateList(listPublicadores);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -242,8 +245,6 @@ public class PublicadoresActivity extends AppCompatActivity
             Intent myIntent = new Intent(this, SettingsActivity.class);
             startActivity(myIntent);
 
-        } else if (id == R.id.nav_acerca) {
-            startActivity(new Intent(this, AcercadeActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -262,9 +263,9 @@ public class PublicadoresActivity extends AppCompatActivity
             Toast.makeText(this, "No hay lista cargada", Toast.LENGTH_SHORT).show();
         } else {
             String userInput = s.toLowerCase();
-            final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+            final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-            for (ConstructorPublicadores name : listPublicadores) {
+            for (PublicadoresConstructor name : listPublicadores) {
 
                 if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -272,8 +273,8 @@ public class PublicadoresActivity extends AppCompatActivity
                 }
             }
 
-            adapterPublicadores.updateList(newList);
-            adapterPublicadores.setOnClickListener(new View.OnClickListener() {
+            publicadoresAdapter.updateList(newList);
+            publicadoresAdapter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(getApplicationContext(), VerActivity.class);
@@ -353,22 +354,22 @@ public class PublicadoresActivity extends AppCompatActivity
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPublicadores.add(publi);
 
                     }
-                    adapterPublicadores.updateList(listPublicadores);
+                    publicadoresAdapter.updateList(listPublicadores);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -391,22 +392,22 @@ public class PublicadoresActivity extends AppCompatActivity
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPublicadores.add(publi);
 
                     }
-                    adapterPublicadores.updateList(listPublicadores);
+                    publicadoresAdapter.updateList(listPublicadores);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -429,22 +430,22 @@ public class PublicadoresActivity extends AppCompatActivity
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPublicadores.add(publi);
 
                     }
-                    adapterPublicadores.updateList(listPublicadores);
+                    publicadoresAdapter.updateList(listPublicadores);
                     progress.dismiss();
                 } else {
                     progress.dismiss();

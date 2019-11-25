@@ -1,4 +1,4 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Variables;
 
 public class VariablesTemporizador {
 

@@ -14,7 +14,6 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
 
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
@@ -27,19 +26,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.example.seamosmejoresmaestros.Adaptadores.SalasAdapter;
+import com.google.firebase.example.seamosmejoresmaestros.Fragments.Sala1Fragment;
+import com.google.firebase.example.seamosmejoresmaestros.Fragments.Sala2Fragment;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesGenerales;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 
 public class AsignacionesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Sala1Fragment.OnFragmentInteractionListener, Sala2Fragment.OnFragmentInteractionListener {
@@ -59,7 +58,7 @@ public class AsignacionesActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
-        notificationManagerCompat.cancel(UtilidadesStatic.NOTIFICACION_ID);
+        notificationManagerCompat.cancel(VariablesEstaticas.NOTIFICACION_ID);
 
         SalasAdapter salasAdapter = new SalasAdapter(getSupportFragmentManager());
 
@@ -187,8 +186,6 @@ public class AsignacionesActivity extends AppCompatActivity
             Intent myIntent = new Intent(this, SettingsActivity.class);
             startActivity(myIntent);
 
-        } else if (id == R.id.nav_acerca) {
-            startActivity(new Intent(this, AcercadeActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -252,8 +249,8 @@ public class AsignacionesActivity extends AppCompatActivity
                 .setPositiveButton("Seleccionar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Utilidades.verAnual = yearPicker.getValue();
-                        Utilidades.verMes = monthPicker.getValue();
+                        VariablesGenerales.verAnual = yearPicker.getValue();
+                        VariablesGenerales.verMes = monthPicker.getValue();
                         startActivity(new Intent(AsignacionesActivity.this, VistaMensualActivity.class));
                     }
                 })
@@ -279,8 +276,8 @@ public class AsignacionesActivity extends AppCompatActivity
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 dateDiscurso.set(year, month, dayOfMonth);
-                Utilidades.semanaSelec = dateDiscurso.get(Calendar.WEEK_OF_YEAR);
-                Utilidades.fechaSelec = dateDiscurso.getTime();
+                VariablesGenerales.semanaSelec = dateDiscurso.get(Calendar.WEEK_OF_YEAR);
+                VariablesGenerales.fechaSelec = dateDiscurso.getTime();
 
                 recreate();
 
@@ -318,8 +315,8 @@ public class AsignacionesActivity extends AppCompatActivity
         Calendar calendario = Calendar.getInstance();
         int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
 
-        if (Utilidades.semanaSelec != 0) {
-            actualizarFechaSalaEliminada.cargarSala1(Utilidades.semanaSelec);
+        if (VariablesGenerales.semanaSelec != 0) {
+            actualizarFechaSalaEliminada.cargarSala1(VariablesGenerales.semanaSelec);
         } else {
             actualizarFechaSalaEliminada.cargarSala1(semanaActual);
 

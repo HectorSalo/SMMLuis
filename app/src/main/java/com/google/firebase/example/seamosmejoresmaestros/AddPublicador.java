@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -84,30 +85,30 @@ public class AddPublicador extends AppCompatActivity {
 
 
                 Map<String, Object> publicador = new HashMap<>();
-                publicador.put(UtilidadesStatic.BD_NOMBRE, NombrePub);
-                publicador.put(UtilidadesStatic.BD_APELLIDO, ApellidoPub);
-                publicador.put(UtilidadesStatic.BD_TELEFONO, Telefono);
-                publicador.put(UtilidadesStatic.BD_CORREO, Correo);
-                publicador.put(UtilidadesStatic.BD_HABILITADO, true);
-                publicador.put(UtilidadesStatic.BD_IMAGEN, null);
-                publicador.put(UtilidadesStatic.BD_DISRECIENTE, null);
-                publicador.put(UtilidadesStatic.BD_DISVIEJO, null);
-                publicador.put(UtilidadesStatic.BD_AYURECIENTE, null);
-                publicador.put(UtilidadesStatic.BD_AYUVIEJO, null);
-                publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, null);
-                publicador.put(UtilidadesStatic.BD_SUSTVIEJO, null);
-                publicador.put(UtilidadesStatic.BD_MINISTERIAL, false);
-                publicador.put(UtilidadesStatic.BD_SUPER, false);
-                publicador.put(UtilidadesStatic.BD_PRECURSOR, false);
-                publicador.put(UtilidadesStatic.BD_ANCIANO, false);
-                publicador.put(UtilidadesStatic.BD_AUXILIAR, false);
-                publicador.put(UtilidadesStatic.BD_GRUPO, grupo);
+                publicador.put(VariablesEstaticas.BD_NOMBRE, NombrePub);
+                publicador.put(VariablesEstaticas.BD_APELLIDO, ApellidoPub);
+                publicador.put(VariablesEstaticas.BD_TELEFONO, Telefono);
+                publicador.put(VariablesEstaticas.BD_CORREO, Correo);
+                publicador.put(VariablesEstaticas.BD_HABILITADO, true);
+                publicador.put(VariablesEstaticas.BD_IMAGEN, null);
+                publicador.put(VariablesEstaticas.BD_DISRECIENTE, null);
+                publicador.put(VariablesEstaticas.BD_DISVIEJO, null);
+                publicador.put(VariablesEstaticas.BD_AYURECIENTE, null);
+                publicador.put(VariablesEstaticas.BD_AYUVIEJO, null);
+                publicador.put(VariablesEstaticas.BD_SUSTRECIENTE, null);
+                publicador.put(VariablesEstaticas.BD_SUSTVIEJO, null);
+                publicador.put(VariablesEstaticas.BD_MINISTERIAL, false);
+                publicador.put(VariablesEstaticas.BD_SUPER, false);
+                publicador.put(VariablesEstaticas.BD_PRECURSOR, false);
+                publicador.put(VariablesEstaticas.BD_ANCIANO, false);
+                publicador.put(VariablesEstaticas.BD_AUXILIAR, false);
+                publicador.put(VariablesEstaticas.BD_GRUPO, grupo);
 
 
                 if (radioMasculino.isChecked()) {
-                    publicador.put(UtilidadesStatic.BD_GENERO, "Hombre");
+                    publicador.put(VariablesEstaticas.BD_GENERO, "Hombre");
                 } else if (radioFemenino.isChecked()) {
-                    publicador.put(UtilidadesStatic.BD_GENERO, "Mujer");
+                    publicador.put(VariablesEstaticas.BD_GENERO, "Mujer");
                 }
 
                 db.collection("publicadores").add(publicador).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

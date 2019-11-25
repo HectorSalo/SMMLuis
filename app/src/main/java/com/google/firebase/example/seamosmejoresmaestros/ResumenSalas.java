@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesGenerales;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -142,7 +144,7 @@ public class ResumenSalas extends AppCompatActivity {
                     tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaDate));
 
                     if (idLectorSala1 != null) {
-                        tvLectorSala1.setText(Utilidades.lectorSala1);
+                        tvLectorSala1.setText(VariablesGenerales.lectorSala1);
                     } else {
                         tvLecturaSala1.setText("");
                         tvLectorSala1.setText("");
@@ -150,42 +152,42 @@ public class ResumenSalas extends AppCompatActivity {
 
                     if (idEncargado1Sala1 != null) {
                         tvAsignacion1Sala1.setText(seleccion1Sala1);
-                        tvEncargado1Sala1.setText(Utilidades.encargado1Sala1);
+                        tvEncargado1Sala1.setText(VariablesGenerales.encargado1Sala1);
                     } else {
                         tvAsignacion1Sala1.setText("");
                         tvEncargado1Sala1.setText("");
                     }
 
                     if (idAyudante1Sala1 != null) {
-                        tvAyudante1Sala1.setText(Utilidades.ayudante1Sala1);
+                        tvAyudante1Sala1.setText(VariablesGenerales.ayudante1Sala1);
                     } else {
                         tvAyudante1Sala1.setText("");
                     }
 
                     if (idEncargado2Sala1 != null) {
                         tvAsignacion2Sala1.setText(seleccion2Sala1);
-                        tvEncargado2Sala1.setText(Utilidades.encargado2Sala1);
+                        tvEncargado2Sala1.setText(VariablesGenerales.encargado2Sala1);
                     } else {
                         tvAsignacion2Sala1.setText("");
                         tvEncargado2Sala1.setText("");
                     }
 
                     if (idAyudante2Sala1 != null) {
-                        tvAyudante2Sala1.setText(Utilidades.ayudante2Sala1);
+                        tvAyudante2Sala1.setText(VariablesGenerales.ayudante2Sala1);
                     } else {
                         tvAyudante2Sala1.setText("");
                     }
 
                     if (idEncargado3Sala1 != null) {
                         tvAsignacion3Sala1.setText(seleccion3Sala1);
-                        tvEncargado3Sala1.setText(Utilidades.encargado3Sala1);
+                        tvEncargado3Sala1.setText(VariablesGenerales.encargado3Sala1);
                     } else {
                         tvAsignacion3Sala1.setText("");
                         tvEncargado3Sala1.setText("");
                     }
 
                     if (idAyudante3Sala1 != null) {
-                        tvAyudante3Sala1.setText(Utilidades.ayudante3Sala1);
+                        tvAyudante3Sala1.setText(VariablesGenerales.ayudante3Sala1);
                     } else {
                         tvAyudante3Sala1.setText("");
                     }
@@ -238,7 +240,7 @@ public class ResumenSalas extends AppCompatActivity {
         tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaDate));
 
         if (idLectorSala1 != null) {
-            tvLectorSala1.setText(Utilidades.lectorSala1);
+            tvLectorSala1.setText(VariablesGenerales.lectorSala1);
         } else {
             tvLecturaSala1.setText("");
             tvLectorSala1.setText("");
@@ -246,48 +248,48 @@ public class ResumenSalas extends AppCompatActivity {
 
         if (idEncargado1Sala1 != null) {
             tvAsignacion1Sala1.setText(seleccion1Sala1);
-            tvEncargado1Sala1.setText(Utilidades.encargado1Sala1);
+            tvEncargado1Sala1.setText(VariablesGenerales.encargado1Sala1);
         } else {
             tvAsignacion1Sala1.setText("");
             tvEncargado1Sala1.setText("");
         }
 
         if (idAyudante1Sala1 != null) {
-            tvAyudante1Sala1.setText(Utilidades.ayudante1Sala1);
+            tvAyudante1Sala1.setText(VariablesGenerales.ayudante1Sala1);
         } else {
             tvAyudante1Sala1.setText("");
         }
 
         if (idEncargado2Sala1 != null) {
             tvAsignacion2Sala1.setText(seleccion2Sala1);
-            tvEncargado2Sala1.setText(Utilidades.encargado2Sala1);
+            tvEncargado2Sala1.setText(VariablesGenerales.encargado2Sala1);
         } else {
             tvAsignacion2Sala1.setText("");
             tvEncargado2Sala1.setText("");
         }
 
         if (idAyudante2Sala1 != null) {
-            tvAyudante2Sala1.setText(Utilidades.ayudante2Sala1);
+            tvAyudante2Sala1.setText(VariablesGenerales.ayudante2Sala1);
         } else {
             tvAyudante2Sala1.setText("");
         }
 
         if (idEncargado3Sala1 != null) {
             tvAsignacion3Sala1.setText(seleccion3Sala1);
-            tvEncargado3Sala1.setText(Utilidades.encargado3Sala1);
+            tvEncargado3Sala1.setText(VariablesGenerales.encargado3Sala1);
         } else {
             tvAsignacion3Sala1.setText("");
             tvEncargado3Sala1.setText("");
         }
 
         if (idAyudante3Sala1 != null) {
-            tvAyudante3Sala1.setText(Utilidades.ayudante3Sala1);
+            tvAyudante3Sala1.setText(VariablesGenerales.ayudante3Sala1);
         } else {
             tvAyudante3Sala1.setText("");
         }
     //Sala 2
         if (idLectorSala2 != null) {
-            tvLectorSala2.setText(Utilidades.lectorSala2);
+            tvLectorSala2.setText(VariablesGenerales.lectorSala2);
         } else {
             tvLecturaSala2.setText("");
             tvLectorSala2.setText("");
@@ -295,42 +297,42 @@ public class ResumenSalas extends AppCompatActivity {
 
         if (idEncargado1Sala2 != null) {
             tvAsignacion1Sala2.setText(seleccion1Sala2);
-            tvEncargado1Sala2.setText(Utilidades.encargado1Sala2);
+            tvEncargado1Sala2.setText(VariablesGenerales.encargado1Sala2);
         } else {
             tvAsignacion1Sala2.setText("");
             tvEncargado1Sala2.setText("");
         }
 
         if (idAyudante1Sala2 != null) {
-            tvAyudante1Sala2.setText(Utilidades.ayudante1Sala2);
+            tvAyudante1Sala2.setText(VariablesGenerales.ayudante1Sala2);
         } else {
             tvAyudante1Sala2.setText("");
         }
 
         if (idEncargado2Sala2 != null) {
             tvAsignacion2Sala2.setText(seleccion2Sala2);
-            tvEncargado2Sala2.setText(Utilidades.encargado2Sala2);
+            tvEncargado2Sala2.setText(VariablesGenerales.encargado2Sala2);
         } else {
             tvAsignacion2Sala2.setText("");
             tvEncargado2Sala2.setText("");
         }
 
         if (idAyudante2Sala2 != null) {
-            tvAyudante2Sala2.setText(Utilidades.ayudante2Sala2);
+            tvAyudante2Sala2.setText(VariablesGenerales.ayudante2Sala2);
         } else {
             tvAyudante2Sala2.setText("");
         }
 
         if (idEncargado3Sala2 != null) {
             tvAsignacion3Sala2.setText(seleccion3Sala2);
-            tvEncargado3Sala2.setText(Utilidades.encargado3Sala2);
+            tvEncargado3Sala2.setText(VariablesGenerales.encargado3Sala2);
         } else {
             tvAsignacion3Sala2.setText("");
             tvEncargado3Sala2.setText("");
         }
 
         if (idAyudante3Sala2 != null) {
-            tvAyudante3Sala2.setText(Utilidades.ayudante3Sala2);
+            tvAyudante3Sala2.setText(VariablesGenerales.ayudante3Sala2);
         } else {
             tvAyudante3Sala2.setText("");
         }
@@ -340,72 +342,72 @@ public class ResumenSalas extends AppCompatActivity {
 
         if (idLectorSala1 != null) {
             actualizarFechasEncargados(idLectorSala1);
-            actualizarFechaViejaEncargados(idLectorSala1, Utilidades.lectorSala1Date);
+            actualizarFechaViejaEncargados(idLectorSala1, VariablesGenerales.lectorSala1Date);
         }
 
         if (idEncargado1Sala1 != null) {
             actualizarFechasEncargados(idEncargado1Sala1);
-            actualizarFechaViejaEncargados(idEncargado1Sala1, Utilidades.encargado1Sala1Date);
+            actualizarFechaViejaEncargados(idEncargado1Sala1, VariablesGenerales.encargado1Sala1Date);
         }
 
         if (idAyudante1Sala1 != null) {
             actualizarFechasAyudantes(idAyudante1Sala1);
-            actualizarFechaViejaAyudantes(idAyudante1Sala1, Utilidades.ayudante1Sala1Date);
+            actualizarFechaViejaAyudantes(idAyudante1Sala1, VariablesGenerales.ayudante1Sala1Date);
         }
 
         if (idEncargado2Sala1 != null) {
             actualizarFechasEncargados(idEncargado2Sala1);
-            actualizarFechaViejaEncargados(idEncargado2Sala1, Utilidades.encargado2Sala1Date);
+            actualizarFechaViejaEncargados(idEncargado2Sala1, VariablesGenerales.encargado2Sala1Date);
         }
 
         if (idAyudante2Sala1 != null) {
             actualizarFechasAyudantes(idAyudante2Sala1);
-            actualizarFechaViejaAyudantes(idAyudante2Sala1, Utilidades.ayudante2Sala1Date);
+            actualizarFechaViejaAyudantes(idAyudante2Sala1, VariablesGenerales.ayudante2Sala1Date);
         }
 
         if (idEncargado3Sala1 != null) {
             actualizarFechasEncargados(idEncargado3Sala1);
-            actualizarFechaViejaEncargados(idEncargado3Sala1, Utilidades.encargado3Sala1Date);
+            actualizarFechaViejaEncargados(idEncargado3Sala1, VariablesGenerales.encargado3Sala1Date);
         }
 
         if (idAyudante3Sala1 != null) {
             actualizarFechasAyudantes(idAyudante3Sala1);
-            actualizarFechaViejaAyudantes(idAyudante3Sala1, Utilidades.ayudante3Sala1Date);
+            actualizarFechaViejaAyudantes(idAyudante3Sala1, VariablesGenerales.ayudante3Sala1Date);
         }
         //Sala 2
         if (idLectorSala2 != null) {
             actualizarFechasEncargados(idLectorSala2);
-            actualizarFechaViejaEncargados(idLectorSala2, Utilidades.lectorSala2Date);
+            actualizarFechaViejaEncargados(idLectorSala2, VariablesGenerales.lectorSala2Date);
         }
 
         if (idEncargado1Sala2 != null) {
             actualizarFechasEncargados(idEncargado1Sala2);
-            actualizarFechaViejaEncargados(idEncargado1Sala2, Utilidades.encargado1Sala2Date);
+            actualizarFechaViejaEncargados(idEncargado1Sala2, VariablesGenerales.encargado1Sala2Date);
         }
 
         if (idAyudante1Sala2 != null) {
             actualizarFechasAyudantes(idAyudante1Sala2);
-            actualizarFechaViejaAyudantes(idAyudante1Sala2, Utilidades.ayudante1Sala2Date);
+            actualizarFechaViejaAyudantes(idAyudante1Sala2, VariablesGenerales.ayudante1Sala2Date);
         }
 
         if (idEncargado2Sala2 != null) {
             actualizarFechasEncargados(idEncargado2Sala2);
-            actualizarFechaViejaEncargados(idEncargado2Sala2, Utilidades.encargado2Sala2Date);
+            actualizarFechaViejaEncargados(idEncargado2Sala2, VariablesGenerales.encargado2Sala2Date);
         }
 
         if (idAyudante2Sala2 != null) {
             actualizarFechasAyudantes(idAyudante2Sala2);
-            actualizarFechaViejaAyudantes(idAyudante2Sala2, Utilidades.ayudante2Sala2Date);
+            actualizarFechaViejaAyudantes(idAyudante2Sala2, VariablesGenerales.ayudante2Sala2Date);
         }
 
         if (idEncargado3Sala2 != null) {
             actualizarFechasEncargados(idEncargado3Sala2);
-            actualizarFechaViejaEncargados(idEncargado3Sala2, Utilidades.encargado3Sala2Date);
+            actualizarFechaViejaEncargados(idEncargado3Sala2, VariablesGenerales.encargado3Sala2Date);
         }
 
         if (idAyudante3Sala2 != null) {
             actualizarFechasAyudantes(idAyudante3Sala2);
-            actualizarFechaViejaAyudantes(idAyudante3Sala2, Utilidades.ayudante3Sala2Date);
+            actualizarFechaViejaAyudantes(idAyudante3Sala2, VariablesGenerales.ayudante3Sala2Date);
         }
         Toast.makeText(this, "Proceso finalizado correctamente", Toast.LENGTH_LONG).show();
         Intent myIntent = new Intent(ResumenSalas.this, AsignacionesActivity.class);
@@ -416,7 +418,7 @@ public class ResumenSalas extends AppCompatActivity {
     public void actualizarFechasEncargados(String id) {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(id).update(UtilidadesStatic.BD_DISRECIENTE, fechaDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(id).update(VariablesEstaticas.BD_DISRECIENTE, fechaDate).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -435,7 +437,7 @@ public class ResumenSalas extends AppCompatActivity {
     public void actualizarFechaViejaEncargados(String id, Date fechaVieja) {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(id).update(UtilidadesStatic.BD_DISVIEJO, fechaVieja).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(id).update(VariablesEstaticas.BD_DISVIEJO, fechaVieja).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -454,7 +456,7 @@ public class ResumenSalas extends AppCompatActivity {
     public void actualizarFechasAyudantes(String id) {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(id).update(UtilidadesStatic.BD_AYURECIENTE, fechaDate).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(id).update(VariablesEstaticas.BD_AYURECIENTE, fechaDate).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -473,7 +475,7 @@ public class ResumenSalas extends AppCompatActivity {
     public void actualizarFechaViejaAyudantes(String id, Date fechaVieja) {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(id).update(UtilidadesStatic.BD_AYUVIEJO, fechaVieja).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(id).update(VariablesEstaticas.BD_AYUVIEJO, fechaVieja).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -496,28 +498,28 @@ public class ResumenSalas extends AppCompatActivity {
         DocumentReference reference = db.collection("sala1").document(semana);
 
                 Map<String, Object> publicador = new HashMap<>();
-                publicador.put(UtilidadesStatic.BD_IDSEMANA, semanaSelec);
-                publicador.put(UtilidadesStatic.BD_FECHA, fechaDate);
-                publicador.put(UtilidadesStatic.BD_FECHA_LUNES, fechaLunesDate);
-                publicador.put(UtilidadesStatic.BD_LECTOR, Utilidades.lectorSala1);
-                publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala1);
-                publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala1);
-                publicador.put(UtilidadesStatic.BD_ENCARGADO2, Utilidades.encargado2Sala1);
-                publicador.put(UtilidadesStatic.BD_AYUDANTE2, Utilidades.ayudante2Sala1);
-                publicador.put(UtilidadesStatic.BD_ENCARGADO3, Utilidades.encargado3Sala1);
-                publicador.put(UtilidadesStatic.BD_AYUDANTE3, Utilidades.ayudante3Sala1);
-                publicador.put(UtilidadesStatic.BD_IDLECTOR, idLectorSala1);
-                publicador.put(UtilidadesStatic.BD_IDENCARGADO1, idEncargado1Sala1);
-                publicador.put(UtilidadesStatic.BD_IDAYUDANTE1, idAyudante1Sala1);
-                publicador.put(UtilidadesStatic.BD_IDENCARGADO2, idEncargado2Sala1);
-                publicador.put(UtilidadesStatic.BD_IDAYUDANTE2, idAyudante2Sala1);
-                publicador.put(UtilidadesStatic.BD_IDENCARGADO3, idEncargado3Sala1);
-                publicador.put(UtilidadesStatic.BD_IDAYUDANTE3, idAyudante3Sala1);
-                publicador.put(UtilidadesStatic.BD_ASIGNACION1, seleccion1Sala1);
-                publicador.put(UtilidadesStatic.BD_ASIGNACION2, seleccion2Sala1);
-                publicador.put(UtilidadesStatic.BD_ASIGNACION3, seleccion3Sala1);
-                publicador.put(UtilidadesStatic.BD_ASAMBLEA, Utilidades.asamblea);
-                publicador.put(UtilidadesStatic.BD_VISITA, Utilidades.visita);
+                publicador.put(VariablesEstaticas.BD_IDSEMANA, semanaSelec);
+                publicador.put(VariablesEstaticas.BD_FECHA, fechaDate);
+                publicador.put(VariablesEstaticas.BD_FECHA_LUNES, fechaLunesDate);
+                publicador.put(VariablesEstaticas.BD_LECTOR, VariablesGenerales.lectorSala1);
+                publicador.put(VariablesEstaticas.BD_ENCARGADO1, VariablesGenerales.encargado1Sala1);
+                publicador.put(VariablesEstaticas.BD_AYUDANTE1, VariablesGenerales.ayudante1Sala1);
+                publicador.put(VariablesEstaticas.BD_ENCARGADO2, VariablesGenerales.encargado2Sala1);
+                publicador.put(VariablesEstaticas.BD_AYUDANTE2, VariablesGenerales.ayudante2Sala1);
+                publicador.put(VariablesEstaticas.BD_ENCARGADO3, VariablesGenerales.encargado3Sala1);
+                publicador.put(VariablesEstaticas.BD_AYUDANTE3, VariablesGenerales.ayudante3Sala1);
+                publicador.put(VariablesEstaticas.BD_IDLECTOR, idLectorSala1);
+                publicador.put(VariablesEstaticas.BD_IDENCARGADO1, idEncargado1Sala1);
+                publicador.put(VariablesEstaticas.BD_IDAYUDANTE1, idAyudante1Sala1);
+                publicador.put(VariablesEstaticas.BD_IDENCARGADO2, idEncargado2Sala1);
+                publicador.put(VariablesEstaticas.BD_IDAYUDANTE2, idAyudante2Sala1);
+                publicador.put(VariablesEstaticas.BD_IDENCARGADO3, idEncargado3Sala1);
+                publicador.put(VariablesEstaticas.BD_IDAYUDANTE3, idAyudante3Sala1);
+                publicador.put(VariablesEstaticas.BD_ASIGNACION1, seleccion1Sala1);
+                publicador.put(VariablesEstaticas.BD_ASIGNACION2, seleccion2Sala1);
+                publicador.put(VariablesEstaticas.BD_ASIGNACION3, seleccion3Sala1);
+                publicador.put(VariablesEstaticas.BD_ASAMBLEA, VariablesGenerales.asamblea);
+                publicador.put(VariablesEstaticas.BD_VISITA, VariablesGenerales.visita);
 
 
          reference.set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -541,28 +543,28 @@ public class ResumenSalas extends AppCompatActivity {
         DocumentReference reference = db.collection("sala2").document(semana);
 
         Map<String, Object> publicador = new HashMap<>();
-        publicador.put(UtilidadesStatic.BD_IDSEMANA, semanaSelec);
-        publicador.put(UtilidadesStatic.BD_FECHA, fechaDate);
-        publicador.put(UtilidadesStatic.BD_FECHA_LUNES, fechaLunesDate);
-        publicador.put(UtilidadesStatic.BD_LECTOR, Utilidades.lectorSala2);
-        publicador.put(UtilidadesStatic.BD_ENCARGADO1, Utilidades.encargado1Sala2);
-        publicador.put(UtilidadesStatic.BD_AYUDANTE1, Utilidades.ayudante1Sala2);
-        publicador.put(UtilidadesStatic.BD_ENCARGADO2, Utilidades.encargado2Sala2);
-        publicador.put(UtilidadesStatic.BD_AYUDANTE2, Utilidades.ayudante2Sala2);
-        publicador.put(UtilidadesStatic.BD_ENCARGADO3, Utilidades.encargado3Sala2);
-        publicador.put(UtilidadesStatic.BD_AYUDANTE3, Utilidades.ayudante3Sala2);
-        publicador.put(UtilidadesStatic.BD_IDLECTOR, idLectorSala2);
-        publicador.put(UtilidadesStatic.BD_IDENCARGADO1, idEncargado1Sala2);
-        publicador.put(UtilidadesStatic.BD_IDAYUDANTE1, idAyudante1Sala2);
-        publicador.put(UtilidadesStatic.BD_IDENCARGADO2, idEncargado2Sala2);
-        publicador.put(UtilidadesStatic.BD_IDAYUDANTE2, idAyudante2Sala2);
-        publicador.put(UtilidadesStatic.BD_IDENCARGADO3, idEncargado3Sala2);
-        publicador.put(UtilidadesStatic.BD_IDAYUDANTE3, idAyudante3Sala2);
-        publicador.put(UtilidadesStatic.BD_ASIGNACION1, seleccion1Sala2);
-        publicador.put(UtilidadesStatic.BD_ASIGNACION2, seleccion2Sala2);
-        publicador.put(UtilidadesStatic.BD_ASIGNACION3, seleccion3Sala2);
-        publicador.put(UtilidadesStatic.BD_ASAMBLEA, Utilidades.asamblea);
-        publicador.put(UtilidadesStatic.BD_VISITA, Utilidades.visita);
+        publicador.put(VariablesEstaticas.BD_IDSEMANA, semanaSelec);
+        publicador.put(VariablesEstaticas.BD_FECHA, fechaDate);
+        publicador.put(VariablesEstaticas.BD_FECHA_LUNES, fechaLunesDate);
+        publicador.put(VariablesEstaticas.BD_LECTOR, VariablesGenerales.lectorSala2);
+        publicador.put(VariablesEstaticas.BD_ENCARGADO1, VariablesGenerales.encargado1Sala2);
+        publicador.put(VariablesEstaticas.BD_AYUDANTE1, VariablesGenerales.ayudante1Sala2);
+        publicador.put(VariablesEstaticas.BD_ENCARGADO2, VariablesGenerales.encargado2Sala2);
+        publicador.put(VariablesEstaticas.BD_AYUDANTE2, VariablesGenerales.ayudante2Sala2);
+        publicador.put(VariablesEstaticas.BD_ENCARGADO3, VariablesGenerales.encargado3Sala2);
+        publicador.put(VariablesEstaticas.BD_AYUDANTE3, VariablesGenerales.ayudante3Sala2);
+        publicador.put(VariablesEstaticas.BD_IDLECTOR, idLectorSala2);
+        publicador.put(VariablesEstaticas.BD_IDENCARGADO1, idEncargado1Sala2);
+        publicador.put(VariablesEstaticas.BD_IDAYUDANTE1, idAyudante1Sala2);
+        publicador.put(VariablesEstaticas.BD_IDENCARGADO2, idEncargado2Sala2);
+        publicador.put(VariablesEstaticas.BD_IDAYUDANTE2, idAyudante2Sala2);
+        publicador.put(VariablesEstaticas.BD_IDENCARGADO3, idEncargado3Sala2);
+        publicador.put(VariablesEstaticas.BD_IDAYUDANTE3, idAyudante3Sala2);
+        publicador.put(VariablesEstaticas.BD_ASIGNACION1, seleccion1Sala2);
+        publicador.put(VariablesEstaticas.BD_ASIGNACION2, seleccion2Sala2);
+        publicador.put(VariablesEstaticas.BD_ASIGNACION3, seleccion3Sala2);
+        publicador.put(VariablesEstaticas.BD_ASAMBLEA, VariablesGenerales.asamblea);
+        publicador.put(VariablesEstaticas.BD_VISITA, VariablesGenerales.visita);
 
 
         reference.set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {

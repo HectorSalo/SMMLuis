@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,11 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AcercadeActivity"></activity>
+        <activity
+            android:name=".ConfiguracionesActivity"
+            android:label="@string/title_activity_configuraciones"></activity>
+        <activity android:name=".AcercadeActivity" />
         <activity
             android:name=".VistaMensualActivity"
             android:label="@string/title_activity_vista_mensual"
-            android:parentActivityName=".AsignacionesActivity"></activity>
+            android:parentActivityName=".AsignacionesActivity" />
         <activity
             android:name=".OrganigramaActivity"
             android:label="@string/title_activity_organigrama"

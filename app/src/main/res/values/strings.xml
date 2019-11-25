@@ -123,6 +123,29 @@
     <string name="skysam">Inversiones SkySam, C.A.</string>
     <string name="atencion_cliente">Atención al usuario:</string>
     <string name="contacto">inversionesskysam@gmail.com</string>
+    <string name="title_activity_configuraciones">Configuraciones</string>
+
+    <!-- Preference Titles -->
+    <string name="perfil_header">Mi Perfil</string>
+    <string name="personalizar_header">Personalizar</string>
+
+    <!-- Perfil Preferences -->
+    <string name="perfil_title">Tu Nombre de Perfil</string>
+    <string name="numero_grupos">N° Grupos</string>
+    <string name="actualizar_contrasena">Actualizar contraseña</string>
+
+    <!-- Personalizar Preferences -->
+    <string name="notif_title">Permitir Notificaciones</string>
+    <string name="vibracion_title">Vibración</string>
+    <string name="vibracion_summary_on">Vibrar y sonar al recibir la notificación</string>
+    <string name="vibracion_summary_off">Recibir la notificación sólo con sonido</string>
+    <string name="tema_title">Tema Oscuro</string>
+    <string name="tema_summary_on">Desactivar Modo Oscuro</string>
+    <string name="tema_summary_off">Activar Modo Oscuro</string>
+
+    <!-- Acerca Preferences -->
+    <string name="acerca_title">Desarrollado por&#8230;</string>
+
 
 
 </resources>

@@ -1,16 +1,17 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.example.seamosmejoresmaestros.R;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesTemporizador;
+
 import androidx.fragment.app.Fragment;
 
-import android.provider.AlarmClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

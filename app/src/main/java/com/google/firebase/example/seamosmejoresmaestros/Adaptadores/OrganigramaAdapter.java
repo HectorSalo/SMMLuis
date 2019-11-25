@@ -1,4 +1,4 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Adaptadores;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -10,29 +10,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.R;
 
 import java.util.ArrayList;
 
-public class AdapterOrganigrama extends RecyclerView.Adapter<AdapterOrganigrama.ViewHolderOrganigrama> implements View.OnClickListener {
+public class OrganigramaAdapter extends RecyclerView.Adapter<OrganigramaAdapter.ViewHolderOrganigrama> implements View.OnClickListener {
 
-    private ArrayList<ConstructorPublicadores> listPublicadores;
+    private ArrayList<PublicadoresConstructor> listPublicadores;
     private View.OnClickListener listener;
     private Context mctx;
 
-    public AdapterOrganigrama(ArrayList<ConstructorPublicadores> listPublicadores, Context mctx) {
+    public OrganigramaAdapter(ArrayList<PublicadoresConstructor> listPublicadores, Context mctx) {
         this.listPublicadores = listPublicadores;
         this.mctx = mctx;
     }
     @NonNull
     @Override
-    public AdapterOrganigrama.ViewHolderOrganigrama onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public OrganigramaAdapter.ViewHolderOrganigrama onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.organigrama_list, null, false);
         view.setOnClickListener(this);
-        return new AdapterOrganigrama.ViewHolderOrganigrama(view);
+        return new OrganigramaAdapter.ViewHolderOrganigrama(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterOrganigrama.ViewHolderOrganigrama viewHolderOrganigrama, int i) {
+    public void onBindViewHolder(@NonNull OrganigramaAdapter.ViewHolderOrganigrama viewHolderOrganigrama, int i) {
         viewHolderOrganigrama.nombre.setText(listPublicadores.get(i).getNombrePublicador());
         viewHolderOrganigrama.apellido.setText(listPublicadores.get(i).getApellidoPublicador());
 
@@ -112,7 +114,7 @@ public class AdapterOrganigrama extends RecyclerView.Adapter<AdapterOrganigrama.
         }
     }
 
-    public void updateListOrganigrama (ArrayList<ConstructorPublicadores> newList) {
+    public void updateListOrganigrama (ArrayList<PublicadoresConstructor> newList) {
         listPublicadores = new ArrayList<>();
         listPublicadores.addAll(newList);
         notifyDataSetChanged();

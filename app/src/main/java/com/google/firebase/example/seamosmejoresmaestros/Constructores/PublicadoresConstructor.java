@@ -1,14 +1,14 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Constructores;
 
 import java.util.Date;
 
-public class ConstructorPublicadores {
+public class PublicadoresConstructor {
     private String NombrePublicador, ApellidoPublicador, telefono, correo, genero,idPublicador, imagen;
     private Double grupo;
     private Date ultAsignacion, ultAyudante, ultSustitucion, viejaAsignacion, viejaAyudante, viejaSustitucion;
     private boolean anciano, ministerial, precursor, superintendente, auxiliar;
 
-    public ConstructorPublicadores() {}
+    public PublicadoresConstructor() {}
 
     public String getNombrePublicador() {
         return NombrePublicador;

@@ -24,6 +24,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.example.seamosmejoresmaestros.Adaptadores.EditSalasAdapter;
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesGenerales;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,8 +41,8 @@ import java.util.Date;
 public class SustituirActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, SearchView.OnQueryTextListener {
 
     private RecyclerView recyclerSustituciones;
-    private ArrayList<ConstructorPublicadores> listSelecSust;
-    private AdapterEditSalas adapterSust;
+    private ArrayList<PublicadoresConstructor> listSelecSust;
+    private EditSalasAdapter adapterSust;
     private Spinner spinnerEncargados;
     private Integer semana, idSala;
     private Date fechaRecibir, fechaRecienteSust;
@@ -143,40 +147,40 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
 
                     listEncargados = new ArrayList<>();
                     listEncargados.add("Publicador a cambiar");
-                    if (doc.getString(UtilidadesStatic.BD_LECTOR) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_LECTOR));
-                        Utilidades.lectorSust = doc.getString(UtilidadesStatic.BD_LECTOR);
-                        Utilidades.idlectorSust = doc.getString(UtilidadesStatic.BD_IDLECTOR);
+                    if (doc.getString(VariablesEstaticas.BD_LECTOR) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_LECTOR));
+                        VariablesGenerales.lectorSust = doc.getString(VariablesEstaticas.BD_LECTOR);
+                        VariablesGenerales.idlectorSust = doc.getString(VariablesEstaticas.BD_IDLECTOR);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_ENCARGADO1) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_ENCARGADO1));
-                        Utilidades.encargado1Sust = doc.getString(UtilidadesStatic.BD_ENCARGADO1);
-                        Utilidades.idencargado1Sust = doc.getString(UtilidadesStatic.BD_IDENCARGADO1);
+                    if (doc.getString(VariablesEstaticas.BD_ENCARGADO1) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO1));
+                        VariablesGenerales.encargado1Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO1);
+                        VariablesGenerales.idencargado1Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO1);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_AYUDANTE1) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_AYUDANTE1));
-                        Utilidades.ayudante1Sust = doc.getString(UtilidadesStatic.BD_AYUDANTE1);
-                        Utilidades.idayudante1Sust = doc.getString(UtilidadesStatic.BD_IDAYUDANTE1);
+                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE1) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE1));
+                        VariablesGenerales.ayudante1Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE1);
+                        VariablesGenerales.idayudante1Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE1);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_ENCARGADO2) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_ENCARGADO2));
-                        Utilidades.encargado2Sust = doc.getString(UtilidadesStatic.BD_ENCARGADO2);
-                        Utilidades.idencargado2Sust = doc.getString(UtilidadesStatic.BD_IDENCARGADO2);
+                    if (doc.getString(VariablesEstaticas.BD_ENCARGADO2) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO2));
+                        VariablesGenerales.encargado2Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO2);
+                        VariablesGenerales.idencargado2Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO2);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_AYUDANTE2) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_AYUDANTE2));
-                        Utilidades.ayudante2Sust = doc.getString(UtilidadesStatic.BD_AYUDANTE2);
-                        Utilidades.idayudante2Sust = doc.getString(UtilidadesStatic.BD_IDAYUDANTE2);
+                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE2) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE2));
+                        VariablesGenerales.ayudante2Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE2);
+                        VariablesGenerales.idayudante2Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE2);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_ENCARGADO3) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_ENCARGADO3));
-                        Utilidades.encargado3Sust = doc.getString(UtilidadesStatic.BD_ENCARGADO3);
-                        Utilidades.idencargado3Sust = doc.getString(UtilidadesStatic.BD_IDENCARGADO3);
+                    if (doc.getString(VariablesEstaticas.BD_ENCARGADO3) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO3));
+                        VariablesGenerales.encargado3Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO3);
+                        VariablesGenerales.idencargado3Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO3);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_AYUDANTE3) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_AYUDANTE3));
-                        Utilidades.ayudante3Sust = doc.getString(UtilidadesStatic.BD_AYUDANTE3);
-                        Utilidades.idayudante3Sust = doc.getString(UtilidadesStatic.BD_IDAYUDANTE3);
+                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE3) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE3));
+                        VariablesGenerales.ayudante3Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE3);
+                        VariablesGenerales.idayudante3Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE3);
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_selec, listEncargados);
                     spinnerEncargados.setAdapter(adapter);
@@ -199,40 +203,40 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
 
                     listEncargados = new ArrayList<>();
                     listEncargados.add("Publicador a cambiar");
-                    if (doc.getString(UtilidadesStatic.BD_LECTOR) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_LECTOR));
-                        Utilidades.lectorSust = doc.getString(UtilidadesStatic.BD_LECTOR);
-                        Utilidades.idlectorSust = doc.getString(UtilidadesStatic.BD_IDLECTOR);
+                    if (doc.getString(VariablesEstaticas.BD_LECTOR) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_LECTOR));
+                        VariablesGenerales.lectorSust = doc.getString(VariablesEstaticas.BD_LECTOR);
+                        VariablesGenerales.idlectorSust = doc.getString(VariablesEstaticas.BD_IDLECTOR);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_ENCARGADO1) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_ENCARGADO1));
-                        Utilidades.encargado1Sust = doc.getString(UtilidadesStatic.BD_ENCARGADO1);
-                        Utilidades.idencargado1Sust = doc.getString(UtilidadesStatic.BD_IDENCARGADO1);
+                    if (doc.getString(VariablesEstaticas.BD_ENCARGADO1) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO1));
+                        VariablesGenerales.encargado1Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO1);
+                        VariablesGenerales.idencargado1Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO1);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_AYUDANTE1) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_AYUDANTE1));
-                        Utilidades.ayudante1Sust = doc.getString(UtilidadesStatic.BD_AYUDANTE1);
-                        Utilidades.idayudante1Sust = doc.getString(UtilidadesStatic.BD_IDAYUDANTE1);
+                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE1) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE1));
+                        VariablesGenerales.ayudante1Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE1);
+                        VariablesGenerales.idayudante1Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE1);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_ENCARGADO2) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_ENCARGADO2));
-                        Utilidades.encargado2Sust = doc.getString(UtilidadesStatic.BD_ENCARGADO2);
-                        Utilidades.idencargado2Sust = doc.getString(UtilidadesStatic.BD_IDENCARGADO2);
+                    if (doc.getString(VariablesEstaticas.BD_ENCARGADO2) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO2));
+                        VariablesGenerales.encargado2Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO2);
+                        VariablesGenerales.idencargado2Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO2);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_AYUDANTE2) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_AYUDANTE2));
-                        Utilidades.ayudante2Sust = doc.getString(UtilidadesStatic.BD_AYUDANTE2);
-                        Utilidades.idayudante2Sust = doc.getString(UtilidadesStatic.BD_IDAYUDANTE2);
+                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE2) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE2));
+                        VariablesGenerales.ayudante2Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE2);
+                        VariablesGenerales.idayudante2Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE2);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_ENCARGADO3) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_ENCARGADO3));
-                        Utilidades.encargado3Sust = doc.getString(UtilidadesStatic.BD_ENCARGADO3);
-                        Utilidades.idencargado3Sust = doc.getString(UtilidadesStatic.BD_IDENCARGADO3);
+                    if (doc.getString(VariablesEstaticas.BD_ENCARGADO3) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO3));
+                        VariablesGenerales.encargado3Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO3);
+                        VariablesGenerales.idencargado3Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO3);
                     }
-                    if (doc.getString(UtilidadesStatic.BD_AYUDANTE3) != null) {
-                        listEncargados.add(doc.getString(UtilidadesStatic.BD_AYUDANTE3));
-                        Utilidades.ayudante3Sust = doc.getString(UtilidadesStatic.BD_AYUDANTE3);
-                        Utilidades.idayudante3Sust = doc.getString(UtilidadesStatic.BD_IDAYUDANTE3);
+                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE3) != null) {
+                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE3));
+                        VariablesGenerales.ayudante3Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE3);
+                        VariablesGenerales.idayudante3Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE3);
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_selec, listEncargados);
                     spinnerEncargados.setAdapter(adapter);
@@ -247,30 +251,30 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
         progress.setMessage("Cargando...");
         progress.setCancelable(false);
         progress.show();
-        adapterSust = new AdapterEditSalas(listSelecSust, getApplicationContext());
+        adapterSust = new EditSalasAdapter(listSelecSust, getApplicationContext());
         listSelecSust = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_SUSTRECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_SUSTRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listSelecSust.add(publi);
 
@@ -338,39 +342,39 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
             id = "sala2";
         }
 
-        if (spinnerSeleccion.equals(Utilidades.lectorSust)){
-            asignacion = UtilidadesStatic.BD_LECTOR;
-            idEncargado = Utilidades.idlectorSust;
+        if (spinnerSeleccion.equals(VariablesGenerales.lectorSust)){
+            asignacion = VariablesEstaticas.BD_LECTOR;
+            idEncargado = VariablesGenerales.idlectorSust;
             encargado = true;
             ayudante = false;
-        } else if (spinnerSeleccion.equals(Utilidades.encargado1Sust)) {
-            asignacion = UtilidadesStatic.BD_ENCARGADO1;
-            idEncargado = Utilidades.idencargado1Sust;
+        } else if (spinnerSeleccion.equals(VariablesGenerales.encargado1Sust)) {
+            asignacion = VariablesEstaticas.BD_ENCARGADO1;
+            idEncargado = VariablesGenerales.idencargado1Sust;
             encargado = true;
             ayudante = false;
-        } else if (spinnerSeleccion.equals(Utilidades.ayudante1Sust)) {
-            asignacion = UtilidadesStatic.BD_AYUDANTE1;
-            idEncargado = Utilidades.idayudante1Sust;
+        } else if (spinnerSeleccion.equals(VariablesGenerales.ayudante1Sust)) {
+            asignacion = VariablesEstaticas.BD_AYUDANTE1;
+            idEncargado = VariablesGenerales.idayudante1Sust;
             ayudante = true;
             encargado = false;
-        } else if (spinnerSeleccion.equals(Utilidades.encargado2Sust)) {
-            asignacion = UtilidadesStatic.BD_ENCARGADO2;
-            idEncargado = Utilidades.idencargado2Sust;
+        } else if (spinnerSeleccion.equals(VariablesGenerales.encargado2Sust)) {
+            asignacion = VariablesEstaticas.BD_ENCARGADO2;
+            idEncargado = VariablesGenerales.idencargado2Sust;
             encargado = true;
             ayudante = false;
-        } else if (spinnerSeleccion.equals(Utilidades.ayudante2Sust)) {
-            asignacion = UtilidadesStatic.BD_AYUDANTE2;
-            idEncargado = Utilidades.idayudante2Sust;
+        } else if (spinnerSeleccion.equals(VariablesGenerales.ayudante2Sust)) {
+            asignacion = VariablesEstaticas.BD_AYUDANTE2;
+            idEncargado = VariablesGenerales.idayudante2Sust;
             ayudante = true;
             encargado = false;
-        } else if (spinnerSeleccion.equals(Utilidades.encargado3Sust)) {
-            asignacion = UtilidadesStatic.BD_ENCARGADO3;
-            idEncargado = Utilidades.idencargado3Sust;
+        } else if (spinnerSeleccion.equals(VariablesGenerales.encargado3Sust)) {
+            asignacion = VariablesEstaticas.BD_ENCARGADO3;
+            idEncargado = VariablesGenerales.idencargado3Sust;
             encargado = true;
             ayudante = false;
-        } else if (spinnerSeleccion.equals(Utilidades.ayudante3Sust)) {
-            asignacion = UtilidadesStatic.BD_AYUDANTE3;
-            idEncargado = Utilidades.idayudante3Sust;
+        } else if (spinnerSeleccion.equals(VariablesGenerales.ayudante3Sust)) {
+            asignacion = VariablesEstaticas.BD_AYUDANTE3;
+            idEncargado = VariablesGenerales.idayudante3Sust;
             ayudante = true;
             encargado = false;
         }
@@ -395,7 +399,7 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     public void actFechaSust () {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(sustSeleccionadoId).update(UtilidadesStatic.BD_SUSTRECIENTE, fechaRecibir).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(sustSeleccionadoId).update(VariablesEstaticas.BD_SUSTRECIENTE, fechaRecibir).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -414,7 +418,7 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     public void actFechaViejaSust() {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(sustSeleccionadoId).update(UtilidadesStatic.BD_SUSTVIEJO, fechaRecienteSust).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(sustSeleccionadoId).update(VariablesEstaticas.BD_SUSTVIEJO, fechaRecienteSust).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -440,9 +444,9 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                         DocumentSnapshot doc = task.getResult();
-                        Utilidades.idPubCambiado = doc.getId();
-                        Utilidades.fechaDisCambiado = doc.getDate(UtilidadesStatic.BD_DISVIEJO);
-                        Utilidades.fechaAyuCambiado = doc.getDate(UtilidadesStatic.BD_AYUVIEJO);
+                        VariablesGenerales.idPubCambiado = doc.getId();
+                        VariablesGenerales.fechaDisCambiado = doc.getDate(VariablesEstaticas.BD_DISVIEJO);
+                        VariablesGenerales.fechaAyuCambiado = doc.getDate(VariablesEstaticas.BD_AYUVIEJO);
 
                         if (encargado) {
                             actFechaEnc();
@@ -459,12 +463,12 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void actFechaEnc() {
-        String idPub = Utilidades.idPubCambiado;
+        String idPub = VariablesGenerales.idPubCambiado;
         Date fecha = new Date();
-        fecha = Utilidades.fechaDisCambiado;
+        fecha = VariablesGenerales.fechaDisCambiado;
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(idPub).update(UtilidadesStatic.BD_DISRECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(idPub).update(VariablesEstaticas.BD_DISRECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -481,12 +485,12 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void actFechaAyu() {
-        String idPub = Utilidades.idPubCambiado;
+        String idPub = VariablesGenerales.idPubCambiado;
         Date fecha = new Date();
-        fecha = Utilidades.fechaAyuCambiado;
+        fecha = VariablesGenerales.fechaAyuCambiado;
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(idPub).update(UtilidadesStatic.BD_AYURECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(idPub).update(VariablesEstaticas.BD_AYURECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -513,9 +517,9 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
             Toast.makeText(this, "No hay lista cargada", Toast.LENGTH_SHORT).show();
         } else {
             String userInput = newText.toLowerCase();
-            final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+            final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-            for (ConstructorPublicadores name : listSelecSust) {
+            for (PublicadoresConstructor name : listSelecSust) {
 
                 if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 

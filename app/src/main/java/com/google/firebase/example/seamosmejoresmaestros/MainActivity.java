@@ -29,6 +29,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.example.seamosmejoresmaestros.Adaptadores.InicioAdapter;
+import com.google.firebase.example.seamosmejoresmaestros.Fragments.EventosFragment;
+import com.google.firebase.example.seamosmejoresmaestros.Fragments.TemporizadorFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, EventosFragment.OnFragmentInteractionListener, TemporizadorFragment.OnFragmentInteractionListener {
@@ -153,11 +156,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav_ajustes) {
-            Intent myIntent = new Intent(this, SettingsActivity.class);
+            Intent myIntent = new Intent(this, ConfiguracionesActivity.class);
             startActivity(myIntent);
 
-        } else if (id == R.id.nav_acerca) {
-            startActivity(new Intent(this, AcercadeActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

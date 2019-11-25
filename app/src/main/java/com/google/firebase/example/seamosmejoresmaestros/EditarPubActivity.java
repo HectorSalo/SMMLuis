@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -223,16 +224,16 @@ public class EditarPubActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
-                    nombrePub.setText(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                    apellidoPub.setText(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                    correo.setText(doc.getString(UtilidadesStatic.BD_CORREO));
-                    telefono.setText(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                    imgRecibir = doc.getString(UtilidadesStatic.BD_IMAGEN);
-                    genero = doc.getString(UtilidadesStatic.BD_GENERO);
-                    disRecibir = doc.getDate(UtilidadesStatic.BD_DISRECIENTE);
-                    ayuRecibir = doc.getDate(UtilidadesStatic.BD_AYURECIENTE);
-                    sustRecibir = doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE);
-                    grupoRecibir = doc.getDouble(UtilidadesStatic.BD_GRUPO);
+                    nombrePub.setText(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                    apellidoPub.setText(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                    correo.setText(doc.getString(VariablesEstaticas.BD_CORREO));
+                    telefono.setText(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                    imgRecibir = doc.getString(VariablesEstaticas.BD_IMAGEN);
+                    genero = doc.getString(VariablesEstaticas.BD_GENERO);
+                    disRecibir = doc.getDate(VariablesEstaticas.BD_DISRECIENTE);
+                    ayuRecibir = doc.getDate(VariablesEstaticas.BD_AYURECIENTE);
+                    sustRecibir = doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE);
+                    grupoRecibir = doc.getDouble(VariablesEstaticas.BD_GRUPO);
                     int x = (int)grupoRecibir.doubleValue();
                     numeroGrupo.setValue(x);
 
@@ -255,22 +256,22 @@ public class EditarPubActivity extends AppCompatActivity {
                         radioMujer.setChecked(true);
                     }
 
-                    if (!doc.getBoolean(UtilidadesStatic.BD_HABILITADO)) {
+                    if (!doc.getBoolean(VariablesEstaticas.BD_HABILITADO)) {
                         cbHabilitar.setChecked(true);
                     }
-                    if (doc.getBoolean(UtilidadesStatic.BD_SUPER)){
+                    if (doc.getBoolean(VariablesEstaticas.BD_SUPER)){
                         cbSuper.setChecked(true);
                     }
-                    if (doc.getBoolean(UtilidadesStatic.BD_PRECURSOR)) {
+                    if (doc.getBoolean(VariablesEstaticas.BD_PRECURSOR)) {
                         cbPrecursor.setChecked(true);
                     }
-                    if (doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL)) {
+                    if (doc.getBoolean(VariablesEstaticas.BD_MINISTERIAL)) {
                         cbMinisterial.setChecked(true);
                     }
-                    if (doc.getBoolean(UtilidadesStatic.BD_AUXILIAR)) {
+                    if (doc.getBoolean(VariablesEstaticas.BD_AUXILIAR)) {
                         cbAuxiliar.setChecked(true);
                     }
-                    if (doc.getBoolean(UtilidadesStatic.BD_ANCIANO)) {
+                    if (doc.getBoolean(VariablesEstaticas.BD_ANCIANO)) {
                         cbAnciano.setChecked(true);
                     }
 
@@ -427,76 +428,76 @@ public class EditarPubActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "El nombramiento no aplica para una hermana", Toast.LENGTH_SHORT).show();
                     } else {
                     Map<String, Object> publicador = new HashMap<>();
-                    publicador.put(UtilidadesStatic.BD_NOMBRE, NombrePub);
-                    publicador.put(UtilidadesStatic.BD_APELLIDO, ApellidoPub);
-                    publicador.put(UtilidadesStatic.BD_TELEFONO, Telefono);
-                    publicador.put(UtilidadesStatic.BD_CORREO, Correo);
-                    publicador.put(UtilidadesStatic.BD_IMAGEN, imagen);
-                    publicador.put(UtilidadesStatic.BD_GRUPO, grupo);
+                    publicador.put(VariablesEstaticas.BD_NOMBRE, NombrePub);
+                    publicador.put(VariablesEstaticas.BD_APELLIDO, ApellidoPub);
+                    publicador.put(VariablesEstaticas.BD_TELEFONO, Telefono);
+                    publicador.put(VariablesEstaticas.BD_CORREO, Correo);
+                    publicador.put(VariablesEstaticas.BD_IMAGEN, imagen);
+                    publicador.put(VariablesEstaticas.BD_GRUPO, grupo);
 
                     if (discurso != null) {
-                        publicador.put(UtilidadesStatic.BD_DISRECIENTE, discurso);
-                        publicador.put(UtilidadesStatic.BD_DISVIEJO, disRecibir);
+                        publicador.put(VariablesEstaticas.BD_DISRECIENTE, discurso);
+                        publicador.put(VariablesEstaticas.BD_DISVIEJO, disRecibir);
                     } else {
-                        publicador.put(UtilidadesStatic.BD_DISRECIENTE, null);
-                        publicador.put(UtilidadesStatic.BD_DISVIEJO, null);
+                        publicador.put(VariablesEstaticas.BD_DISRECIENTE, null);
+                        publicador.put(VariablesEstaticas.BD_DISVIEJO, null);
                     }
                     if (ayudante != null) {
-                        publicador.put(UtilidadesStatic.BD_AYURECIENTE, ayudante);
-                        publicador.put(UtilidadesStatic.BD_AYUVIEJO, ayuRecibir);
+                        publicador.put(VariablesEstaticas.BD_AYURECIENTE, ayudante);
+                        publicador.put(VariablesEstaticas.BD_AYUVIEJO, ayuRecibir);
                     } else {
-                        publicador.put(UtilidadesStatic.BD_AYURECIENTE, null);
-                        publicador.put(UtilidadesStatic.BD_AYUVIEJO, null);
+                        publicador.put(VariablesEstaticas.BD_AYURECIENTE, null);
+                        publicador.put(VariablesEstaticas.BD_AYUVIEJO, null);
                     }
                     if (sustitucion != null) {
-                        publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, sustitucion);
-                        publicador.put(UtilidadesStatic.BD_SUSTVIEJO, sustRecibir);
+                        publicador.put(VariablesEstaticas.BD_SUSTRECIENTE, sustitucion);
+                        publicador.put(VariablesEstaticas.BD_SUSTVIEJO, sustRecibir);
                     } else {
-                        publicador.put(UtilidadesStatic.BD_SUSTRECIENTE, null);
-                        publicador.put(UtilidadesStatic.BD_SUSTVIEJO, null);
+                        publicador.put(VariablesEstaticas.BD_SUSTRECIENTE, null);
+                        publicador.put(VariablesEstaticas.BD_SUSTVIEJO, null);
                     }
 
 
                     if (radioHombre.isChecked()) {
-                        publicador.put(UtilidadesStatic.BD_GENERO, "Hombre");
+                        publicador.put(VariablesEstaticas.BD_GENERO, "Hombre");
                     } else if (radioMujer.isChecked()) {
-                        publicador.put(UtilidadesStatic.BD_GENERO, "Mujer");
+                        publicador.put(VariablesEstaticas.BD_GENERO, "Mujer");
                     }
 
                     if (cbHabilitar.isChecked()) {
-                        publicador.put(UtilidadesStatic.BD_HABILITADO, false);
+                        publicador.put(VariablesEstaticas.BD_HABILITADO, false);
                     } else {
-                        publicador.put(UtilidadesStatic.BD_HABILITADO, true);
+                        publicador.put(VariablesEstaticas.BD_HABILITADO, true);
                     }
 
                     if (cbAnciano.isChecked()) {
-                        publicador.put(UtilidadesStatic.BD_ANCIANO, true);
+                        publicador.put(VariablesEstaticas.BD_ANCIANO, true);
                     } else {
-                        publicador.put(UtilidadesStatic.BD_ANCIANO, false);
+                        publicador.put(VariablesEstaticas.BD_ANCIANO, false);
                     }
 
                     if (cbAuxiliar.isChecked()) {
-                        publicador.put(UtilidadesStatic.BD_AUXILIAR, true);
+                        publicador.put(VariablesEstaticas.BD_AUXILIAR, true);
                     } else {
-                        publicador.put(UtilidadesStatic.BD_AUXILIAR, false);
+                        publicador.put(VariablesEstaticas.BD_AUXILIAR, false);
                     }
 
                     if (cbMinisterial.isChecked()) {
-                        publicador.put(UtilidadesStatic.BD_MINISTERIAL, true);
+                        publicador.put(VariablesEstaticas.BD_MINISTERIAL, true);
                     } else {
-                        publicador.put(UtilidadesStatic.BD_MINISTERIAL, false);
+                        publicador.put(VariablesEstaticas.BD_MINISTERIAL, false);
                     }
 
                     if (cbPrecursor.isChecked()) {
-                        publicador.put(UtilidadesStatic.BD_PRECURSOR, true);
+                        publicador.put(VariablesEstaticas.BD_PRECURSOR, true);
                     } else {
-                        publicador.put(UtilidadesStatic.BD_PRECURSOR, false);
+                        publicador.put(VariablesEstaticas.BD_PRECURSOR, false);
                     }
 
                     if (cbSuper.isChecked()) {
-                        publicador.put(UtilidadesStatic.BD_SUPER, true);
+                        publicador.put(VariablesEstaticas.BD_SUPER, true);
                     } else {
-                        publicador.put(UtilidadesStatic.BD_SUPER, false);
+                        publicador.put(VariablesEstaticas.BD_SUPER, false);
                     }
 
                     dbEditar.collection("publicadores").document(idPb).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {

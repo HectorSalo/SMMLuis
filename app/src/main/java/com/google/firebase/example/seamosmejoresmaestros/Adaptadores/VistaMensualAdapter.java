@@ -1,4 +1,4 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,14 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.VistaMensualConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.R;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class AdapterVistaMensual extends RecyclerView.Adapter<AdapterVistaMensual.ViewHolderVistaMensual> implements View.OnClickListener{
-    private ArrayList<ConstructorVistaMensual> listMensual;
+public class VistaMensualAdapter extends RecyclerView.Adapter<VistaMensualAdapter.ViewHolderVistaMensual> implements View.OnClickListener{
+    private ArrayList<VistaMensualConstructor> listMensual;
     private Context mctx;
 
-    public AdapterVistaMensual(ArrayList<ConstructorVistaMensual> listMensual, Context mctx) {
+    public VistaMensualAdapter(ArrayList<VistaMensualConstructor> listMensual, Context mctx) {
         this.listMensual = listMensual;
         this.mctx = mctx;
     }
@@ -26,7 +29,7 @@ public class AdapterVistaMensual extends RecyclerView.Adapter<AdapterVistaMensua
     public ViewHolderVistaMensual onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_vista_mensual, null, false);
         view.setOnClickListener(this);
-        return new AdapterVistaMensual.ViewHolderVistaMensual(view);
+        return new VistaMensualAdapter.ViewHolderVistaMensual(view);
     }
 
     @Override
@@ -96,7 +99,7 @@ public class AdapterVistaMensual extends RecyclerView.Adapter<AdapterVistaMensua
         }
     }
 
-    public void updateList (ArrayList<ConstructorVistaMensual> newList) {
+    public void updateList (ArrayList<VistaMensualConstructor> newList) {
         listMensual = new ArrayList<>();
         listMensual.addAll(newList);
         notifyDataSetChanged();

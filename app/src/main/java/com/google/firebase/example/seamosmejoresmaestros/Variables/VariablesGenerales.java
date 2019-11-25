@@ -1,8 +1,8 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Variables;
 
 import java.util.Date;
 
-public class Utilidades {
+public class VariablesGenerales {
      public static String lectorSala1 = null;
      public static String encargado1Sala1 = null;
      public static String ayudante1Sala1 = null;

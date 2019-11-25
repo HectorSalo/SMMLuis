@@ -1,4 +1,4 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Adaptadores;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,19 +19,22 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.EditarPubActivity;
+import com.google.firebase.example.seamosmejoresmaestros.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadores.ViewHolderPublicadores> implements View.OnClickListener{
+public class PublicadoresAdapter extends RecyclerView.Adapter<PublicadoresAdapter.ViewHolderPublicadores> implements View.OnClickListener{
 
-    private ArrayList<ConstructorPublicadores> listPublicadores;
+    private ArrayList<PublicadoresConstructor> listPublicadores;
     private View.OnClickListener listener;
     private Context mctx;
 
-    public AdapterPublicadores (ArrayList<ConstructorPublicadores> listPublicadores, Context mctx) {
+    public PublicadoresAdapter(ArrayList<PublicadoresConstructor> listPublicadores, Context mctx) {
         this.listPublicadores = listPublicadores;
         this.mctx = mctx;
     }
@@ -151,7 +154,7 @@ public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadore
         }
     }
 
-    private void eliminarPublicador(final ConstructorPublicadores i) {
+    private void eliminarPublicador(final PublicadoresConstructor i) {
         String doc = i.getIdPublicador();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
@@ -175,7 +178,7 @@ public class AdapterPublicadores extends RecyclerView.Adapter<AdapterPublicadore
                 });
     }
 
-    public void updateList (ArrayList<ConstructorPublicadores> newList) {
+    public void updateList (ArrayList<PublicadoresConstructor> newList) {
         listPublicadores = new ArrayList<>();
         listPublicadores.addAll(newList);
         notifyDataSetChanged();

@@ -27,6 +27,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.example.seamosmejoresmaestros.Adaptadores.EditSalasAdapter;
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesGenerales;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,8 +46,8 @@ import java.util.Date;
 public class EditarSalas extends AppCompatActivity {
 
     private RecyclerView recyclerEditSalas;
-    private ArrayList<ConstructorPublicadores> listPubs;
-    private AdapterEditSalas adapterEditSalas;
+    private ArrayList<PublicadoresConstructor> listPubs;
+    private EditSalasAdapter editSalasAdapter;
     private CalendarView calendarView;
     private Spinner spinnerSelec;
     private ArrayAdapter<String> adapterSpSeleccionar;
@@ -83,8 +87,8 @@ public class EditarSalas extends AppCompatActivity {
         recyclerEditSalas.setLayoutManager(new LinearLayoutManager(this));
         recyclerEditSalas.setHasFixedSize(true);
         listPubs = new ArrayList<>();
-        adapterEditSalas = new AdapterEditSalas(listPubs, this);
-        recyclerEditSalas.setAdapter(adapterEditSalas);
+        editSalasAdapter = new EditSalasAdapter(listPubs, this);
+        recyclerEditSalas.setAdapter(editSalasAdapter);
 
         Calendar almanaque = Calendar.getInstance();
         int diaActual = almanaque.get(Calendar.DAY_OF_MONTH);
@@ -226,29 +230,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_GENERO, "Hombre").whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_DISRECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_GENERO, "Hombre").whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_DISRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -271,9 +275,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -281,12 +285,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.lectorSala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                        Utilidades.lectorSala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.lectorSala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                        VariablesGenerales.lectorSala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idLectorSala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         Snackbar.make(v, "Escogió a: " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                         progress = new ProgressDialog(EditarSalas.this);
@@ -299,11 +303,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.lectorSala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                Utilidades.lectorSala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.lectorSala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                VariablesGenerales.lectorSala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idLectorSala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                 progress = new ProgressDialog(EditarSalas.this);
@@ -333,29 +337,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_DISRECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_DISRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -375,8 +379,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Utilidades.encargado1Sala1 = null;
-                            Utilidades.ayudante1Sala1 = null;
+                            VariablesGenerales.encargado1Sala1 = null;
+                            VariablesGenerales.ayudante1Sala1 = null;
                             idEncargado1Sala1 = null;
                             idAyudante1Sala1 = null;
 
@@ -417,9 +421,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -427,12 +431,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.encargado1Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                        Utilidades.encargado1Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.encargado1Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                        VariablesGenerales.encargado1Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idEncargado1Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         genero = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -443,7 +447,7 @@ public class EditarSalas extends AppCompatActivity {
 
                                 } else if (seleccion1Sala1.equals("Discurso") && genero.equals("Hombre")) {
                                     idAyudante1Sala1 = null;
-                                    Utilidades.ayudante1Sala1 = null;
+                                    VariablesGenerales.ayudante1Sala1 = null;
                                     Snackbar.make(v, "Escogió a: " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                                     progress = new ProgressDialog(EditarSalas.this);
                                     progress.setMessage("Cargando...");
@@ -471,11 +475,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.encargado1Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                Utilidades.encargado1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.encargado1Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                VariablesGenerales.encargado1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -486,7 +490,7 @@ public class EditarSalas extends AppCompatActivity {
 
                         } else if (seleccion1Sala1.equals("Discurso") && genero.equals("Hombre")) {
                             idAyudante1Sala1 = null;
-                            Utilidades.ayudante1Sala1 = null;
+                            VariablesGenerales.ayudante1Sala1 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             progress = new ProgressDialog(EditarSalas.this);
                             progress.setMessage("Cargando...");
@@ -534,29 +538,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_AYURECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_AYURECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -579,9 +583,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -589,12 +593,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.ayudante1Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                        Utilidades.ayudante1Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.ayudante1Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                        VariablesGenerales.ayudante1Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idAyudante1Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         generoAyudante = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -651,11 +655,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.ayudante1Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                Utilidades.ayudante1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.ayudante1Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                VariablesGenerales.ayudante1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante1Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -733,29 +737,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_DISRECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_DISRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -775,8 +779,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Utilidades.encargado2Sala1 = null;
-                            Utilidades.ayudante2Sala1 = null;
+                            VariablesGenerales.encargado2Sala1 = null;
+                            VariablesGenerales.ayudante2Sala1 = null;
                             idEncargado2Sala1 = null;
                             idAyudante2Sala1 = null;
                             progress = new ProgressDialog(EditarSalas.this);
@@ -817,9 +821,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -827,12 +831,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.encargado2Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                        Utilidades.encargado2Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.encargado2Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                        VariablesGenerales.encargado2Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idEncargado2Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         genero = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -843,7 +847,7 @@ public class EditarSalas extends AppCompatActivity {
 
                                 } else if (seleccion2Sala1.equals("Discurso") && genero.equals("Hombre")) {
                                     idAyudante2Sala1 = null;
-                                    Utilidades.ayudante2Sala1 = null;
+                                    VariablesGenerales.ayudante2Sala1 = null;
                                     Snackbar.make(v, "Escogió a: " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                                     progress = new ProgressDialog(EditarSalas.this);
                                     progress.setMessage("Cargando...");
@@ -871,11 +875,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.encargado2Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                Utilidades.encargado2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.encargado2Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                VariablesGenerales.encargado2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -886,7 +890,7 @@ public class EditarSalas extends AppCompatActivity {
 
                         } else if (seleccion2Sala1.equals("Discurso") && genero.equals("Hombre")) {
                             idAyudante2Sala1 = null;
-                            Utilidades.ayudante2Sala1 = null;
+                            VariablesGenerales.ayudante2Sala1 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             progress = new ProgressDialog(EditarSalas.this);
                             progress.setMessage("Cargando...");
@@ -934,29 +938,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_AYURECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_AYURECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -979,9 +983,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -989,12 +993,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.ayudante2Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                        Utilidades.ayudante2Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.ayudante2Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                        VariablesGenerales.ayudante2Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idAyudante2Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         generoAyudante = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1051,11 +1055,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.ayudante2Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                Utilidades.ayudante2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.ayudante2Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                VariablesGenerales.ayudante2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante2Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1133,29 +1137,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_DISRECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_DISRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -1175,8 +1179,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Utilidades.encargado3Sala1 = null;
-                            Utilidades.ayudante3Sala1 = null;
+                            VariablesGenerales.encargado3Sala1 = null;
+                            VariablesGenerales.ayudante3Sala1 = null;
                             idEncargado3Sala1 = null;
                             idAyudante3Sala1 = null;
                             confirmacionSala2();
@@ -1213,9 +1217,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -1223,12 +1227,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.encargado3Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                        Utilidades.encargado3Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.encargado3Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                        VariablesGenerales.encargado3Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idEncargado3Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         genero = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1239,7 +1243,7 @@ public class EditarSalas extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "Debe escoger un publicador masculino", Toast.LENGTH_SHORT).show();
 
                                 } else if (seleccion3Sala1.equals("Discurso") && genero.equals("Hombre")) {
-                                    Utilidades.ayudante3Sala1 = null;
+                                    VariablesGenerales.ayudante3Sala1 = null;
                                     idAyudante3Sala1 = null;
                                     Snackbar.make(v, "Escogió a: " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                                     confirmacionSala2();
@@ -1264,11 +1268,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.encargado3Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                Utilidades.encargado3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.encargado3Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                VariablesGenerales.encargado3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1279,7 +1283,7 @@ public class EditarSalas extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Debe escoger un publicador masculino", Toast.LENGTH_SHORT).show();
 
                         } else if (seleccion3Sala1.equals("Discurso") && genero.equals("Hombre")) {
-                            Utilidades.ayudante3Sala1 = null;
+                            VariablesGenerales.ayudante3Sala1 = null;
                             idAyudante3Sala1 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             confirmacionSala2();
@@ -1324,29 +1328,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_AYURECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_AYURECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -1369,9 +1373,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -1379,12 +1383,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.ayudante3Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                        Utilidades.ayudante3Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.ayudante3Sala1Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                        VariablesGenerales.ayudante3Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idAyudante3Sala1 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         generoAyudante = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1434,11 +1438,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.ayudante3Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                Utilidades.ayudante3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.ayudante3Sala1Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                VariablesGenerales.ayudante3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante3Sala1 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1508,29 +1512,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_GENERO, "Hombre").whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_DISRECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_GENERO, "Hombre").whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_DISRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -1553,9 +1557,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -1563,12 +1567,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.lectorSala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                        Utilidades.lectorSala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.lectorSala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                        VariablesGenerales.lectorSala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idLectorSala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
 
                         if (!idLectorSala2.equals(idLectorSala1) && !idLectorSala2.equals(idEncargado1Sala1) && !idLectorSala2.equals(idAyudante1Sala1) && !idLectorSala2.equals(idEncargado2Sala1)
@@ -1587,11 +1591,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.lectorSala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                Utilidades.lectorSala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.lectorSala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                VariablesGenerales.lectorSala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idLectorSala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
 
                 if (!idLectorSala2.equals(idLectorSala1) && !idLectorSala2.equals(idEncargado1Sala1) && !idLectorSala2.equals(idAyudante1Sala1) && !idLectorSala2.equals(idEncargado2Sala1)
@@ -1631,29 +1635,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_DISRECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_DISRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -1673,8 +1677,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Utilidades.encargado1Sala2 = null;
-                            Utilidades.ayudante1Sala2 = null;
+                            VariablesGenerales.encargado1Sala2 = null;
+                            VariablesGenerales.ayudante1Sala2 = null;
                             idEncargado1Sala2 = null;
                             idAyudante1Sala2 = null;
                             listaEncargado2Sala2();
@@ -1711,9 +1715,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -1721,12 +1725,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.encargado1Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                        Utilidades.encargado1Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.encargado1Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                        VariablesGenerales.encargado1Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idEncargado1Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         genero = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1739,7 +1743,7 @@ public class EditarSalas extends AppCompatActivity {
 
                                 } else if (seleccion1Sala2.equals("Discurso") && genero.equals("Hombre")) {
                                     idAyudante1Sala2 = null;
-                                    Utilidades.ayudante1Sala2 = null;
+                                    VariablesGenerales.ayudante1Sala2 = null;
                                     Snackbar.make(v, "Escogió a: " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                                     listaEncargado2Sala2();
 
@@ -1763,11 +1767,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.encargado1Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                Utilidades.encargado1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.encargado1Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                VariablesGenerales.encargado1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1780,7 +1784,7 @@ public class EditarSalas extends AppCompatActivity {
 
                         } else if (seleccion1Sala2.equals("Discurso") && genero.equals("Hombre")) {
                             idAyudante1Sala2 = null;
-                            Utilidades.ayudante1Sala2 = null;
+                            VariablesGenerales.ayudante1Sala2 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             listaEncargado2Sala2();
 
@@ -1824,29 +1828,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_AYURECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_AYURECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -1869,9 +1873,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -1879,12 +1883,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.ayudante1Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                        Utilidades.ayudante1Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.ayudante1Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                        VariablesGenerales.ayudante1Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idAyudante1Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         generoAyudante = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -1934,11 +1938,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.ayudante1Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                Utilidades.ayudante1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.ayudante1Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                VariablesGenerales.ayudante1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante1Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -2009,29 +2013,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_DISRECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_DISRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -2051,8 +2055,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Utilidades.encargado2Sala2 = null;
-                            Utilidades.ayudante2Sala2 = null;
+                            VariablesGenerales.encargado2Sala2 = null;
+                            VariablesGenerales.ayudante2Sala2 = null;
                             idEncargado2Sala2 = null;
                             idAyudante2Sala2 = null;
                             listaEncargado3Sala2();
@@ -2089,9 +2093,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -2099,12 +2103,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.encargado2Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                        Utilidades.encargado2Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.encargado2Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                        VariablesGenerales.encargado2Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idEncargado2Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         genero = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -2118,7 +2122,7 @@ public class EditarSalas extends AppCompatActivity {
 
                                 } else if (seleccion2Sala2.equals("Discurso") && genero.equals("Hombre")) {
                                     idAyudante2Sala2 = null;
-                                    Utilidades.ayudante2Sala2 = null;
+                                    VariablesGenerales.ayudante2Sala2 = null;
                                     Snackbar.make(v, "Escogió a: " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                                     listaEncargado3Sala2();
 
@@ -2142,11 +2146,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.encargado2Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                Utilidades.encargado2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.encargado2Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                VariablesGenerales.encargado2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -2160,7 +2164,7 @@ public class EditarSalas extends AppCompatActivity {
 
                         } else if (seleccion2Sala2.equals("Discurso") && genero.equals("Hombre")) {
                             idAyudante2Sala2 = null;
-                            Utilidades.ayudante2Sala2 = null;
+                            VariablesGenerales.ayudante2Sala2 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             listaEncargado3Sala2();
 
@@ -2204,29 +2208,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_AYURECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_AYURECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -2249,9 +2253,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -2259,12 +2263,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.ayudante2Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                        Utilidades.ayudante2Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.ayudante2Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                        VariablesGenerales.ayudante2Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idAyudante2Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         generoAyudante = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -2315,11 +2319,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.ayudante2Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                Utilidades.ayudante2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.ayudante2Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                VariablesGenerales.ayudante2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante2Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -2391,29 +2395,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_DISRECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_DISRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -2433,8 +2437,8 @@ public class EditarSalas extends AppCompatActivity {
                     dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Utilidades.encargado3Sala2 = null;
-                            Utilidades.ayudante3Sala2 = null;
+                            VariablesGenerales.encargado3Sala2 = null;
+                            VariablesGenerales.ayudante3Sala2 = null;
                             idEncargado3Sala2 = null;
                             idAyudante3Sala2 = null;
                             llenarSalas();
@@ -2471,9 +2475,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -2481,12 +2485,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.encargado3Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                        Utilidades.encargado3Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.encargado3Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                        VariablesGenerales.encargado3Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idEncargado3Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         genero = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -2499,7 +2503,7 @@ public class EditarSalas extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "Debe escoger un publicador masculino", Toast.LENGTH_SHORT).show();
 
                                 } else if (seleccion3Sala2.equals("Discurso") && genero.equals("Hombre")) {
-                                    Utilidades.ayudante3Sala2 = null;
+                                    VariablesGenerales.ayudante3Sala2 = null;
                                     idAyudante3Sala2 = null;
                                     Snackbar.make(v, "Escogió a: " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                                     llenarSalas();
@@ -2524,11 +2528,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.encargado3Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
-                Utilidades.encargado3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.encargado3Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAsignacion();
+                VariablesGenerales.encargado3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idEncargado3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 genero = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -2541,7 +2545,7 @@ public class EditarSalas extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Debe escoger un publicador masculino", Toast.LENGTH_SHORT).show();
 
                         } else if (seleccion3Sala2.equals("Discurso") && genero.equals("Hombre")) {
-                            Utilidades.ayudante3Sala2 = null;
+                            VariablesGenerales.ayudante3Sala2 = null;
                             idAyudante3Sala2 = null;
                             Snackbar.make(v, "Escogió a: " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador(), Snackbar.LENGTH_LONG).show();
                             llenarSalas();
@@ -2586,29 +2590,29 @@ public class EditarSalas extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_HABILITADO, true).orderBy(UtilidadesStatic.BD_AYURECIENTE, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_AYURECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setCorreo(doc.getString(UtilidadesStatic.BD_CORREO));
-                        publi.setTelefono(doc.getString(UtilidadesStatic.BD_TELEFONO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setUltAsignacion(doc.getDate(UtilidadesStatic.BD_DISRECIENTE));
-                        publi.setUltAyudante(doc.getDate(UtilidadesStatic.BD_AYURECIENTE));
-                        publi.setUltSustitucion(doc.getDate(UtilidadesStatic.BD_SUSTRECIENTE));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setCorreo(doc.getString(VariablesEstaticas.BD_CORREO));
+                        publi.setTelefono(doc.getString(VariablesEstaticas.BD_TELEFONO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
+                        publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
+                        publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
 
                         listPubs.add(publi);
 
                     }
-                    adapterEditSalas.updateListSelec(listPubs);
+                    editSalasAdapter.updateListSelec(listPubs);
                     progress.dismiss();
                 } else {
                     progress.dismiss();
@@ -2631,9 +2635,9 @@ public class EditarSalas extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String userInput = s.toString().toLowerCase();
-                final ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+                final ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-                for (ConstructorPublicadores name : listPubs) {
+                for (PublicadoresConstructor name : listPubs) {
 
                     if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -2641,12 +2645,12 @@ public class EditarSalas extends AppCompatActivity {
                     }
                 }
 
-                adapterEditSalas.updateListSelec(newList);
-                adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+                editSalasAdapter.updateListSelec(newList);
+                editSalasAdapter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Utilidades.ayudante3Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                        Utilidades.ayudante3Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                        VariablesGenerales.ayudante3Sala2Date = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                        VariablesGenerales.ayudante3Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                         idAyudante3Sala2 = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                         generoAyudante = newList.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -2697,11 +2701,11 @@ public class EditarSalas extends AppCompatActivity {
             }
         });
 
-        adapterEditSalas.setOnClickListener(new View.OnClickListener() {
+        editSalasAdapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utilidades.ayudante3Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
-                Utilidades.ayudante3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
+                VariablesGenerales.ayudante3Sala2Date = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getUltAyudante();
+                VariablesGenerales.ayudante3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getNombrePublicador() + " " + listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getApellidoPublicador();
                 idAyudante3Sala2 = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getIdPublicador();
                 generoAyudante = listPubs.get(recyclerEditSalas.getChildAdapterPosition(v)).getGenero();
 
@@ -2788,7 +2792,7 @@ public class EditarSalas extends AppCompatActivity {
         myBundle.putString("asignacion2Sala2", seleccion2Sala2);
         myBundle.putString("asignacion3Sala2", seleccion3Sala2);
 
-        myBundle.putBoolean("visita", Utilidades.visita);
+        myBundle.putBoolean("visita", VariablesGenerales.visita);
         myBundle.putBoolean("asamblea", asamblea);
         myBundle.putBoolean("activarSala2", activarSala2);
         myBundle.putLong("fecha", fechaSelec.getTime());
@@ -2870,11 +2874,11 @@ public class EditarSalas extends AppCompatActivity {
                        seleccion2Sala2 = null;
                        seleccion3Sala2 = null;
                        asamblea = true;
-                       Utilidades.asamblea = true;
+                       VariablesGenerales.asamblea = true;
                        llenarSalas();
                    } else if (cbVisita.isChecked()){
                        visita = true;
-                       Utilidades.visita = true;
+                       VariablesGenerales.visita = true;
                        progress = new ProgressDialog(this);
                        progress.setMessage("Cargando...");
                        progress.setCancelable(false);
@@ -2907,9 +2911,9 @@ public class EditarSalas extends AppCompatActivity {
 
     private void listaBuscar (String text) {
         String userInput = text.toLowerCase();
-        ArrayList<ConstructorPublicadores> newList = new ArrayList<>();
+        ArrayList<PublicadoresConstructor> newList = new ArrayList<>();
 
-        for (ConstructorPublicadores name : listPubs) {
+        for (PublicadoresConstructor name : listPubs) {
 
             if (name.getNombrePublicador().toLowerCase().contains(userInput) || name.getApellidoPublicador().toLowerCase().contains(userInput)) {
 
@@ -2917,7 +2921,7 @@ public class EditarSalas extends AppCompatActivity {
             }
         }
 
-        adapterEditSalas.updateListSelec(newList);
+        editSalasAdapter.updateListSelec(newList);
     }
 
     public void fechaDisponible(int i) {
@@ -2931,7 +2935,7 @@ public class EditarSalas extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
-                        Date date = doc.getDate(UtilidadesStatic.BD_FECHA_LUNES);
+                        Date date = doc.getDate(VariablesEstaticas.BD_FECHA_LUNES);
                         if (date != null) {
                             if (date.after(fechaLunes) || date.equals(fechaLunes)) {
                                 AlertDialog.Builder dialog = new AlertDialog.Builder(EditarSalas.this);

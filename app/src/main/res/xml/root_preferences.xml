@@ -1,0 +1,61 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/perfil_header">
+
+        <EditTextPreference
+            app:key="nombre_perfil"
+            app:title="@string/perfil_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="numero_grupos"
+            app:title="@string/numero_grupos"
+            app:useSimpleSummaryProvider="true" />
+
+        <PreferenceScreen
+            app:title="@string/actualizar_contrasena"
+            >
+            <intent
+
+                />
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/personalizar_header">
+
+        <SwitchPreferenceCompat
+            app:key="notificaciones"
+            app:title="@string/notif_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="notificaciones"
+            app:key="vibracion"
+            app:summaryOff="@string/vibracion_summary_off"
+            app:summaryOn="@string/vibracion_summary_on"
+            app:title="@string/vibracion_title" />
+
+        <SwitchPreferenceCompat
+            app:key="tema"
+            app:title="@string/tema_title"
+            app:summaryOn="@string/tema_summary_on"
+            app:summaryOff="@string/tema_summary_off"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/acerca">
+        <PreferenceScreen
+            app:title="@string/acerca_title"
+
+            >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="com.google.firebase.example.seamosmejoresmaestros"
+                android:targetClass="com.google.firebase.example.seamosmejoresmaestros.AcercadeActivity"
+                />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

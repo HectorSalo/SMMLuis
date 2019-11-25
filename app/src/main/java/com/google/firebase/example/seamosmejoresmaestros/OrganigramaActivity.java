@@ -10,9 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
@@ -27,7 +24,6 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +32,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.example.seamosmejoresmaestros.Adaptadores.GrupoItemAdapter;
+import com.google.firebase.example.seamosmejoresmaestros.Adaptadores.OrganigramaAdapter;
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -48,9 +48,9 @@ public class OrganigramaActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView recyclerOrg;
-    private ArrayList<ConstructorPublicadores> listPublicadores;
-    private AdapterOrganigrama adapterOrganigrama;
-    private AdapterGrupoItem adapterGrupoItem;
+    private ArrayList<PublicadoresConstructor> listPublicadores;
+    private OrganigramaAdapter organigramaAdapter;
+    private GrupoItemAdapter grupoItemAdapter;
     private ImageView imageNav;
     private TextView tvName;
     private ProgressDialog progress;
@@ -70,8 +70,8 @@ public class OrganigramaActivity extends AppCompatActivity
         recyclerOrg = (RecyclerView) findViewById(R.id.recyclerOrganigrama);
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
-        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
-        recyclerOrg.setAdapter(adapterOrganigrama);
+        organigramaAdapter = new OrganigramaAdapter(listPublicadores, this);
+        recyclerOrg.setAdapter(organigramaAdapter);
         recyclerOrg.setVisibility(View.GONE);
 
 
@@ -246,8 +246,6 @@ public class OrganigramaActivity extends AppCompatActivity
             Intent myIntent = new Intent(this, SettingsActivity.class);
             startActivity(myIntent);
 
-        } else if (id == R.id.nav_acerca) {
-            startActivity(new Intent(this, AcercadeActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -311,8 +309,8 @@ public class OrganigramaActivity extends AppCompatActivity
         int grupoInt = Integer.parseInt(grupo);
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
-        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
-        recyclerOrg.setAdapter(adapterOrganigrama);
+        organigramaAdapter = new OrganigramaAdapter(listPublicadores, this);
+        recyclerOrg.setAdapter(organigramaAdapter);
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
@@ -323,30 +321,30 @@ public class OrganigramaActivity extends AppCompatActivity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_GRUPO, grupoInt).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_GRUPO, grupoInt).orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
-                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
-                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
-                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
-                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
-                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setAnciano(doc.getBoolean(VariablesEstaticas.BD_ANCIANO));
+                        publi.setMinisterial(doc.getBoolean(VariablesEstaticas.BD_MINISTERIAL));
+                        publi.setSuperintendente(doc.getBoolean(VariablesEstaticas.BD_SUPER));
+                        publi.setAuxiliar(doc.getBoolean(VariablesEstaticas.BD_AUXILIAR));
+                        publi.setPrecursor(doc.getBoolean(VariablesEstaticas.BD_PRECURSOR));
+                        publi.setGrupo(doc.getDouble(VariablesEstaticas.BD_GRUPO));
 
                         listPublicadores.add(publi);
 
                     }
-                    adapterOrganigrama.updateListOrganigrama(listPublicadores);
+                    organigramaAdapter.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     getSupportActionBar().setTitle("Miembros: " + listPublicadores.size());
                     progress.dismiss();
@@ -366,9 +364,9 @@ public class OrganigramaActivity extends AppCompatActivity
         }
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
-        adapterGrupoItem = new AdapterGrupoItem(cantGrupos, this);
-        recyclerOrg.setAdapter(adapterGrupoItem);
-        adapterGrupoItem.updateList(cantGrupos);
+        grupoItemAdapter = new GrupoItemAdapter(cantGrupos, this);
+        recyclerOrg.setAdapter(grupoItemAdapter);
+        grupoItemAdapter.updateList(cantGrupos);
 
         getSupportActionBar().setTitle("Grupos: " + cantGrupos.size());
         recyclerOrg.setVisibility(View.VISIBLE);
@@ -383,9 +381,9 @@ public class OrganigramaActivity extends AppCompatActivity
     public void cargarAncianos() {
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
-        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
+        organigramaAdapter = new OrganigramaAdapter(listPublicadores, this);
 
-        recyclerOrg.setAdapter(adapterOrganigrama);
+        recyclerOrg.setAdapter(organigramaAdapter);
 
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
@@ -397,30 +395,30 @@ public class OrganigramaActivity extends AppCompatActivity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_ANCIANO, true).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_ANCIANO, true).orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
-                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
-                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
-                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
-                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
-                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setAnciano(doc.getBoolean(VariablesEstaticas.BD_ANCIANO));
+                        publi.setMinisterial(doc.getBoolean(VariablesEstaticas.BD_MINISTERIAL));
+                        publi.setSuperintendente(doc.getBoolean(VariablesEstaticas.BD_SUPER));
+                        publi.setAuxiliar(doc.getBoolean(VariablesEstaticas.BD_AUXILIAR));
+                        publi.setPrecursor(doc.getBoolean(VariablesEstaticas.BD_PRECURSOR));
+                        publi.setGrupo(doc.getDouble(VariablesEstaticas.BD_GRUPO));
 
                         listPublicadores.add(publi);
 
                     }
-                    adapterOrganigrama.updateListOrganigrama(listPublicadores);
+                    organigramaAdapter.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     getSupportActionBar().setTitle("Ancianos: " + listPublicadores.size());
                     progress.dismiss();
@@ -435,9 +433,9 @@ public class OrganigramaActivity extends AppCompatActivity
     public void cargarPrecursores() {
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
-        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
+        organigramaAdapter = new OrganigramaAdapter(listPublicadores, this);
 
-        recyclerOrg.setAdapter(adapterOrganigrama);
+        recyclerOrg.setAdapter(organigramaAdapter);
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
@@ -448,30 +446,30 @@ public class OrganigramaActivity extends AppCompatActivity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_PRECURSOR, true).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_PRECURSOR, true).orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
-                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
-                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
-                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
-                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
-                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setAnciano(doc.getBoolean(VariablesEstaticas.BD_ANCIANO));
+                        publi.setMinisterial(doc.getBoolean(VariablesEstaticas.BD_MINISTERIAL));
+                        publi.setSuperintendente(doc.getBoolean(VariablesEstaticas.BD_SUPER));
+                        publi.setAuxiliar(doc.getBoolean(VariablesEstaticas.BD_AUXILIAR));
+                        publi.setPrecursor(doc.getBoolean(VariablesEstaticas.BD_PRECURSOR));
+                        publi.setGrupo(doc.getDouble(VariablesEstaticas.BD_GRUPO));
 
                         listPublicadores.add(publi);
 
                     }
-                    adapterOrganigrama.updateListOrganigrama(listPublicadores);
+                    organigramaAdapter.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     getSupportActionBar().setTitle("Precursores: " + listPublicadores.size());
                     progress.dismiss();
@@ -486,9 +484,9 @@ public class OrganigramaActivity extends AppCompatActivity
     public void cargarMinisteriales() {
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
         recyclerOrg.setHasFixedSize(true);
-        adapterOrganigrama = new AdapterOrganigrama(listPublicadores, this);
+        organigramaAdapter = new OrganigramaAdapter(listPublicadores, this);
 
-        recyclerOrg.setAdapter(adapterOrganigrama);
+        recyclerOrg.setAdapter(organigramaAdapter);
         linearGrupos.setVisibility(View.GONE);
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
@@ -499,30 +497,30 @@ public class OrganigramaActivity extends AppCompatActivity
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.whereEqualTo(UtilidadesStatic.BD_MINISTERIAL, true).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
+        Query query = reference.whereEqualTo(VariablesEstaticas.BD_MINISTERIAL, true).orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
                         publi.setIdPublicador(doc.getId());
-                        publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                        publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                        publi.setGenero(doc.getString(UtilidadesStatic.BD_GENERO));
-                        publi.setImagen(doc.getString(UtilidadesStatic.BD_IMAGEN));
-                        publi.setAnciano(doc.getBoolean(UtilidadesStatic.BD_ANCIANO));
-                        publi.setMinisterial(doc.getBoolean(UtilidadesStatic.BD_MINISTERIAL));
-                        publi.setSuperintendente(doc.getBoolean(UtilidadesStatic.BD_SUPER));
-                        publi.setAuxiliar(doc.getBoolean(UtilidadesStatic.BD_AUXILIAR));
-                        publi.setPrecursor(doc.getBoolean(UtilidadesStatic.BD_PRECURSOR));
-                        publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+                        publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                        publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                        publi.setGenero(doc.getString(VariablesEstaticas.BD_GENERO));
+                        publi.setImagen(doc.getString(VariablesEstaticas.BD_IMAGEN));
+                        publi.setAnciano(doc.getBoolean(VariablesEstaticas.BD_ANCIANO));
+                        publi.setMinisterial(doc.getBoolean(VariablesEstaticas.BD_MINISTERIAL));
+                        publi.setSuperintendente(doc.getBoolean(VariablesEstaticas.BD_SUPER));
+                        publi.setAuxiliar(doc.getBoolean(VariablesEstaticas.BD_AUXILIAR));
+                        publi.setPrecursor(doc.getBoolean(VariablesEstaticas.BD_PRECURSOR));
+                        publi.setGrupo(doc.getDouble(VariablesEstaticas.BD_GRUPO));
 
                         listPublicadores.add(publi);
 
                     }
-                    adapterOrganigrama.updateListOrganigrama(listPublicadores);
+                    organigramaAdapter.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     getSupportActionBar().setTitle("Ministeriales: " + listPublicadores.size());
                     progress.dismiss();

@@ -1,7 +1,6 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Adaptadores;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.R;
+import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -22,38 +24,38 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.ViewHolderGrupoItem> {
+public class GrupoItemAdapter extends RecyclerView.Adapter<GrupoItemAdapter.ViewHolderGrupoItem> {
 
     private ArrayList<Integer> listGrupoItem;
     private Context mctx;
 
 
-    public AdapterGrupoItem(ArrayList<Integer> listGrupoItem, Context mctx) {
+    public GrupoItemAdapter(ArrayList<Integer> listGrupoItem, Context mctx) {
         this.listGrupoItem = listGrupoItem;
         this.mctx = mctx;
     }
 
     @NonNull
     @Override
-    public AdapterGrupoItem.ViewHolderGrupoItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GrupoItemAdapter.ViewHolderGrupoItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View vista = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_grupo_item, null, false);
         return new ViewHolderGrupoItem(vista);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final AdapterGrupoItem.ViewHolderGrupoItem holder, final int position) {
+    public void onBindViewHolder(@NonNull final GrupoItemAdapter.ViewHolderGrupoItem holder, final int position) {
         holder.tvTitleGrupo.setText("Grupo " + listGrupoItem.get(position));
-        final ArrayList<ConstructorPublicadores> listPublicadores = new ArrayList<>();
+        final ArrayList<PublicadoresConstructor> listPublicadores = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mctx, LinearLayoutManager.HORIZONTAL, false);
         holder.recyclerGrupoItem.setLayoutManager(layoutManager);
         holder.recyclerGrupoItem.setHasFixedSize(true);
-        final AdapterVerTodosGrupos adapterVerTodosGrupos = new AdapterVerTodosGrupos(listPublicadores, mctx);
-        holder.recyclerGrupoItem.setAdapter(adapterVerTodosGrupos);
+        final VerTodosGruposAdapter verTodosGruposAdapter = new VerTodosGruposAdapter(listPublicadores, mctx);
+        holder.recyclerGrupoItem.setAdapter(verTodosGruposAdapter);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");
 
-        Query query = reference.orderBy(UtilidadesStatic.BD_GRUPO).orderBy(UtilidadesStatic.BD_APELLIDO, Query.Direction.ASCENDING);
+        Query query = reference.orderBy(VariablesEstaticas.BD_GRUPO).orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -61,24 +63,24 @@ public class AdapterGrupoItem extends RecyclerView.Adapter<AdapterGrupoItem.View
                 if (task.isSuccessful()) {
 
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        ConstructorPublicadores publi = new ConstructorPublicadores();
+                        PublicadoresConstructor publi = new PublicadoresConstructor();
 
-                        double grupoD = doc.getDouble(UtilidadesStatic.BD_GRUPO);
+                        double grupoD = doc.getDouble(VariablesEstaticas.BD_GRUPO);
                         int grupoInt = (int) grupoD;
 
                         if (listGrupoItem.get(position) == grupoInt) {
 
                             publi.setIdPublicador(doc.getId());
-                            publi.setNombrePublicador(doc.getString(UtilidadesStatic.BD_NOMBRE));
-                            publi.setApellidoPublicador(doc.getString(UtilidadesStatic.BD_APELLIDO));
-                            publi.setGrupo(doc.getDouble(UtilidadesStatic.BD_GRUPO));
+                            publi.setNombrePublicador(doc.getString(VariablesEstaticas.BD_NOMBRE));
+                            publi.setApellidoPublicador(doc.getString(VariablesEstaticas.BD_APELLIDO));
+                            publi.setGrupo(doc.getDouble(VariablesEstaticas.BD_GRUPO));
 
                             listPublicadores.add(publi);
                         }
 
                     }
 
-                    adapterVerTodosGrupos.updateList(listPublicadores);
+                    verTodosGruposAdapter.updateList(listPublicadores);
 
                 } else {
 

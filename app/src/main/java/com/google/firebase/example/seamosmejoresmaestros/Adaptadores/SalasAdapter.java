@@ -1,8 +1,11 @@
-package com.google.firebase.example.seamosmejoresmaestros;
+package com.google.firebase.example.seamosmejoresmaestros.Adaptadores;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+
+import com.google.firebase.example.seamosmejoresmaestros.Fragments.Sala1Fragment;
+import com.google.firebase.example.seamosmejoresmaestros.Fragments.Sala2Fragment;
 
 public class SalasAdapter extends FragmentStatePagerAdapter {
     public SalasAdapter(FragmentManager fm) {
