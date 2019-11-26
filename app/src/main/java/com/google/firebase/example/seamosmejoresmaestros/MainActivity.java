@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -22,8 +25,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -37,7 +42,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, EventosFragment.OnFragmentInteractionListener, TemporizadorFragment.OnFragmentInteractionListener {
 
     private ImageView imageNav;
-    private TextView tvName;
 
 
     @Override
@@ -66,14 +70,16 @@ public class MainActivity extends AppCompatActivity
 
         View navHeader = navigationView.getHeaderView(0);
         imageNav = navHeader.findViewById(R.id.imageViewNav);
-        tvName = navHeader.findViewById(R.id.tvNameNav);
+        TextView tvName = navHeader.findViewById(R.id.tvNameNav);
 
-        SharedPreferences preferences = getSharedPreferences("sugerencia", Context.MODE_PRIVATE);
-        boolean sugerencia = preferences.getBoolean("activar", true);
-        if (sugerencia) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
+        boolean sugerenciaInicial = sharedPreferences.getBoolean("sugerenciaInicial", true);
+        tvName.setText(nombrePerfil);
+
+        if (sugerenciaInicial) {
             sugerenciaMiPerfil();
         }
-        datosNavDrawer();
 
     }
 
@@ -124,12 +130,6 @@ public class MainActivity extends AppCompatActivity
             dialog.show();
 
             return true;
-        } else if (id == R.id.action_perfil) {
-            Intent myIntent = new Intent(getApplicationContext(), MiPerfilActivity.class);
-            Bundle myBundle = new Bundle();
-            myBundle.putInt("ir", 1);
-            myIntent.putExtras(myBundle);
-            startActivity(myIntent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -189,58 +189,29 @@ public class MainActivity extends AppCompatActivity
 
     public void sugerenciaMiPerfil() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-        dialog.setTitle("Sugerencia");
-        dialog.setMessage("Para un mejor desempeño de la aplicación, se sugiere configurar el número de Grupos Bíblicos en la opción Mi Perfil");
-        dialog.setPositiveButton("Ir Mi Perfil", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent myIntent = new Intent(MainActivity.this, MiPerfilActivity.class);
-                startActivity(myIntent);
-            }
-        });
-        dialog.setNegativeButton("Configurar luego", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setNeutralButton("Configurado. No mostrar de nuevo", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SharedPreferences preferences = getSharedPreferences("sugerencia", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("activar", false);
-                editor.commit();
+        final EditText editTextGrupos = new EditText(this);
+        editTextGrupos.setInputType(InputType.TYPE_CLASS_NUMBER);
 
+        dialog.setTitle("Bienvenido");
+        dialog.setMessage("¿Cuántos Grupos integran la congregación?");
+        dialog.setView(editTextGrupos);
+        dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (editTextGrupos.getText().toString().isEmpty()){
+                    editTextGrupos.setError("No puede estar vacío");
+                } else {
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    int numeroGrupos = Integer.parseInt(editTextGrupos.getText().toString());
+                    editor.putInt("numeroGrupos", numeroGrupos);
+                    editor.putBoolean("sugerenciaInicial", false);
+                    editor.commit();
+                }
             }
         });
         dialog.setIcon(R.drawable.ic_sugerencia);
         dialog.show();
-    }
-
-    public void datosNavDrawer () {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
-
-            if (name != null) {
-                if (name.isEmpty()) {
-                    tvName.setText(email);
-                } else {
-                    tvName.setText(name);
-                }
-            } else {
-                tvName.setText("");
-            }
-
-            if(photoUrl != null) {
-                Glide.with(this).load(photoUrl).into(imageNav);
-            }
-
-        }
     }
 
 

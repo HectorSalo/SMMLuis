@@ -12,6 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.preference.PreferenceManager;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -52,11 +54,10 @@ public class OrganigramaActivity extends AppCompatActivity
     private OrganigramaAdapter organigramaAdapter;
     private GrupoItemAdapter grupoItemAdapter;
     private ImageView imageNav;
-    private TextView tvName;
     private ProgressDialog progress;
     private ArrayList<String> gruposList;
     private LinearLayout linearGrupos, linearAncianos, linearMinisteriales, linearPrecursores;
-    private int cantidadGrupos;
+    private int numeroGrupos;
 
 
     @Override
@@ -107,17 +108,19 @@ public class OrganigramaActivity extends AppCompatActivity
 
         View navHeader = navigationView.getHeaderView(0);
         imageNav = navHeader.findViewById(R.id.imageViewNav);
-        tvName = navHeader.findViewById(R.id.tvNameNav);
+        TextView tvName = navHeader.findViewById(R.id.tvNameNav);
 
-        SharedPreferences preferences = getSharedPreferences("grupos", Context.MODE_PRIVATE);
-        cantidadGrupos = preferences.getInt("cantidad", 1);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
+        numeroGrupos = sharedPreferences.getInt("numeroGrupos", 1);
+        tvName.setText(nombrePerfil);
+
         gruposList = new ArrayList<>();
-        for (int i = 1; i <= cantidadGrupos; i++) {
+        for (int i = 1; i <= numeroGrupos; i++) {
             gruposList.add("Grupo " + i);
         }
         gruposList.add(gruposList.size(), "Ver todos");
 
-        datosNavDrawer();
 
         ImageButton grupos = (ImageButton) findViewById(R.id.imageButtonGrupos);
         grupos.setOnClickListener(new View.OnClickListener() {
@@ -243,7 +246,7 @@ public class OrganigramaActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_ajustes) {
-            Intent myIntent = new Intent(this, SettingsActivity.class);
+            Intent myIntent = new Intent(this, ConfiguracionesActivity.class);
             startActivity(myIntent);
 
         }
@@ -253,30 +256,6 @@ public class OrganigramaActivity extends AppCompatActivity
         return true;
     }
 
-    public void datosNavDrawer() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
-
-            if (name != null) {
-                if (name.isEmpty()) {
-                    tvName.setText(email);
-                } else {
-                    tvName.setText(name);
-                }
-            } else {
-                tvName.setText("");
-            }
-
-            if (photoUrl != null) {
-                Glide.with(this).load(photoUrl).into(imageNav);
-            }
-
-        }
-    }
 
     public void selecGrupo() {
         final CharSequence [] opciones = gruposList.toArray(new CharSequence[gruposList.size()]);
@@ -359,7 +338,7 @@ public class OrganigramaActivity extends AppCompatActivity
 
     public void cargarTodosGrupos() {
         ArrayList<Integer> cantGrupos = new ArrayList<>();
-        for (int i = 1; i <= cantidadGrupos; i++) {
+        for (int i = 1; i <= numeroGrupos; i++) {
             cantGrupos.add(i);
         }
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));

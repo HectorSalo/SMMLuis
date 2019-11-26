@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,6 +13,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.preference.PreferenceManager;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -89,9 +92,13 @@ public class PublicadoresActivity extends AppCompatActivity
 
         View navHeader = navigationView.getHeaderView(0);
         imageNav = navHeader.findViewById(R.id.imageViewNav);
-        tvName = navHeader.findViewById(R.id.tvNameNav);
+        TextView tvName = navHeader.findViewById(R.id.tvNameNav);
 
-        datosNavDrawer();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
+        tvName.setText(nombrePerfil);
+
+
 
 
         progress = new ProgressDialog(this);
@@ -242,7 +249,7 @@ public class PublicadoresActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav_ajustes) {
-            Intent myIntent = new Intent(this, SettingsActivity.class);
+            Intent myIntent = new Intent(this, ConfiguracionesActivity.class);
             startActivity(myIntent);
 
         }
@@ -455,28 +462,4 @@ public class PublicadoresActivity extends AppCompatActivity
         });
     }
 
-    public void datosNavDrawer () {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
-
-            if (name != null) {
-                if (name.isEmpty()) {
-                    tvName.setText(email);
-                } else {
-                    tvName.setText(name);
-                }
-            } else {
-                tvName.setText("");
-            }
-
-            if(photoUrl != null) {
-                Glide.with(this).load(photoUrl).into(imageNav);
-            }
-
-        }
-    }
 }

@@ -14,6 +14,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
@@ -45,7 +46,7 @@ public class AsignacionesActivity extends AppCompatActivity
 
     private boolean advertencia;
     private ImageView imageNav;
-    private TextView tvName;
+
 
 
     @Override
@@ -94,9 +95,12 @@ public class AsignacionesActivity extends AppCompatActivity
 
         View navHeader = navigationView.getHeaderView(0);
         imageNav = navHeader.findViewById(R.id.imageViewNav);
-        tvName = navHeader.findViewById(R.id.tvNameNav);
+        TextView tvName = navHeader.findViewById(R.id.tvNameNav);
 
-        datosNavDrawer();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
+        tvName.setText(nombrePerfil);
+
 
     }
 
@@ -183,7 +187,7 @@ public class AsignacionesActivity extends AppCompatActivity
             startActivity(myIntent);
 
         } else if (id == R.id.nav_ajustes) {
-            Intent myIntent = new Intent(this, SettingsActivity.class);
+            Intent myIntent = new Intent(this, ConfiguracionesActivity.class);
             startActivity(myIntent);
 
         }
@@ -330,28 +334,4 @@ public class AsignacionesActivity extends AppCompatActivity
 
     }
 
-    public void datosNavDrawer () {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
-
-            if (name != null) {
-                if (name.isEmpty()) {
-                    tvName.setText(email);
-                } else {
-                    tvName.setText(name);
-                }
-            } else {
-                tvName.setText("");
-            }
-
-            if(photoUrl != null) {
-                Glide.with(this).load(photoUrl).into(imageNav);
-            }
-
-        }
-    }
 }

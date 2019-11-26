@@ -7,10 +7,4 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_perfil"
-        android:orderInCategory="100"
-        android:title="@string/menuPerfil"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_bar_perfil"/>
 </menu>

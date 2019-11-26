@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -89,10 +90,11 @@ public class EditarPubActivity extends AppCompatActivity {
         fsustitucion = (TextView) findViewById(R.id.etfsustitucion);
         numeroGrupo = (NumberPicker) findViewById(R.id.numberGrupoEditar);
 
-        SharedPreferences preferences = getSharedPreferences("grupos", Context.MODE_PRIVATE);
-        int gps = preferences.getInt("cantidad", 1);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int numeroGrupos = sharedPreferences.getInt("numeroGrupos", 1);
+
         numeroGrupo.setMinValue(1);
-        numeroGrupo.setMaxValue(gps);
+        numeroGrupo.setMaxValue(numeroGrupos);
 
 
         Bundle myBundle = this.getIntent().getExtras();

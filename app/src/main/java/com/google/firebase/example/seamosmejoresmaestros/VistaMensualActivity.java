@@ -2,14 +2,21 @@ package com.google.firebase.example.seamosmejoresmaestros;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.ajts.androidmads.library.SQLiteToExcel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,6 +59,8 @@ public class VistaMensualActivity extends AppCompatActivity {
     private ProgressDialog progress;
     private String mesExp, carpetaPath;
     private String NOMBRE_CARPETA = "/MejoresMaestros/";
+    private LottieAnimationView lottieAnimationView;
+    private ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +117,9 @@ public class VistaMensualActivity extends AppCompatActivity {
             Log.d("MSG", "Carpeta creada");
         }
 
+        lottieAnimationView = findViewById(R.id.lottiedescarga);
+        constraintLayout = findViewById(R.id.constraintVistaMensual);
+
         Calendar calendarInicio = Calendar.getInstance();
         Calendar calendarFinal = Calendar.getInstance();
         calendarInicio.set(VariablesGenerales.verAnual, VariablesGenerales.verMes, 1);
@@ -153,7 +166,7 @@ public class VistaMensualActivity extends AppCompatActivity {
             dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    exportarBD();
+                    verificarPermisos();
                 }
             });
             dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -270,7 +283,42 @@ public class VistaMensualActivity extends AppCompatActivity {
         Log.d("MSG", fecha + lector + encargado1);
     }
 
+    public void verificarPermisos() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        } else {
+            exportarBD();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    exportarBD();
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    final Snackbar snackbar = Snackbar.make(constraintLayout, "Permiso Denegado. No se puede almacenar", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
+
+
     public void exportarBD() {
+
 
         SQLiteToExcel sqLiteToExcel = new SQLiteToExcel(this, "vistamensual", carpetaPath);
 
@@ -282,15 +330,43 @@ public class VistaMensualActivity extends AppCompatActivity {
 
             @Override
             public void onCompleted(String filePath) {
+                final Snackbar snackbar = Snackbar.make(constraintLayout, "Descargado en: " + filePath, Snackbar.LENGTH_INDEFINITE);
+                snackbar.show();
+                lottieAnimationView.setVisibility(View.VISIBLE);
+                lottieAnimationView.setAnimation("success.json");
+                lottieAnimationView.playAnimation();
+
+                lottieAnimationView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lottieAnimationView.setVisibility(View.GONE);
+                        snackbar.dismiss();
+                    }
+                });
                 Log.d("MSG", filePath);
+
             }
 
             @Override
             public void onError(Exception e) {
-                Toast.makeText(VistaMensualActivity.this, "Error: " + e, Toast.LENGTH_SHORT).show();
+                final Snackbar snackbar = Snackbar.make(constraintLayout, "Error: " + e, Snackbar.LENGTH_INDEFINITE);
+                snackbar.show();
+                lottieAnimationView.setVisibility(View.VISIBLE);
+                lottieAnimationView.setAnimation("error.json");
+                lottieAnimationView.playAnimation();
+
+                lottieAnimationView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lottieAnimationView.setVisibility(View.GONE);
+                        snackbar.dismiss();
+                    }
+                });
                 Log.d("MSG", " " + e);
             }
         });
     }
+
+
 
 }

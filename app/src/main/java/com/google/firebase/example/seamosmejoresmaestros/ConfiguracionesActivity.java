@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+
+import java.util.regex.Pattern;
 
 public class ConfiguracionesActivity extends AppCompatActivity {
 
@@ -35,12 +39,35 @@ public class ConfiguracionesActivity extends AppCompatActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            EditTextPreference editTextPreferenceNombre = findPreference("nombre_perfil");
+            EditTextPreference editTextPreferenceGrupos = findPreference("numero_grupos");
+
 
             switch (key) {
                 case "nombre_perfil":
+                    String nombrePerfil = editTextPreferenceNombre.getText();
+                    editor.putString("nombrePerfil", nombrePerfil);
+                    editor.commit();
                     break;
 
                 case "numero_grupos":
+                    String datos = editTextPreferenceGrupos.getText();
+                    boolean isNumber = Pattern.matches("[0-9]+", datos);
+                    if (isNumber) {
+                        int numeroGrupos = Integer.parseInt(editTextPreferenceGrupos.getText());
+                        editor.putInt("numeroGrupos", numeroGrupos);
+                        editor.putBoolean("sugerenciaInicial", false);
+                        editor.commit();
+                    } else {
+                        editTextPreferenceGrupos.setText("1");
+                        editor.putInt("numeroGrupos", 1);
+                        editor.putBoolean("sugerenciaInicial", false);
+                        editor.commit();
+                        Toast.makeText(getContext(), "Dato no válido. Se configurará 1 Grupo por defecto", Toast.LENGTH_LONG).show();
+                    }
+
+
                     break;
 
                 case "notificaciones":

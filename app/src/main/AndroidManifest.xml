@@ -30,14 +30,6 @@
             android:label="@string/ajustes_notificaciones"
             android:theme="@style/Theme.Editar" />
         <activity
-            android:name=".MiPerfilActivity"
-            android:label="@string/ajustes_miperfil"
-            android:theme="@style/Theme.Editar" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/Theme.Editar" />
-        <activity
             android:name=".SustituirActivity"
             android:label="@string/title_activity_sustituir"
             android:theme="@style/Theme.Editar" />

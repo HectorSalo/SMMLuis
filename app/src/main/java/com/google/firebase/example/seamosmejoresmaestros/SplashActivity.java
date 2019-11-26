@@ -2,10 +2,12 @@ package com.google.firebase.example.seamosmejoresmaestros;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -124,16 +126,19 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void presentacion() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
+
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.email_login_form);
         linearLayout.setVisibility(View.GONE);
-        String userName = user.getDisplayName();
+
         String userMail = user.getEmail();
 
-        if (userName != null) {
-            if (userName.isEmpty()) {
+        if (!nombrePerfil.equals("Nombre de Perfil")) {
+            if (nombrePerfil.isEmpty()) {
                 bienvenidaView.setText("Bienvenido " + userMail);
             } else {
-                bienvenidaView.setText("Bienvenido " + userName);
+                bienvenidaView.setText("Bienvenido " + nombrePerfil);
             }
         } else {
             bienvenidaView.setText("Bienvenido " + userMail);
