@@ -2,7 +2,12 @@ package com.google.firebase.example.seamosmejoresmaestros.Adaptadores;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +40,13 @@ public class OrganigramaAdapter extends RecyclerView.Adapter<OrganigramaAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull OrganigramaAdapter.ViewHolderOrganigrama viewHolderOrganigrama, int i) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mctx);
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (!temaOscuro) {
+            viewHolderOrganigrama.cardView.setCardBackgroundColor(Color.parseColor("#E8F5E9"));
+
+        }
+
         viewHolderOrganigrama.nombre.setText(listPublicadores.get(i).getNombrePublicador());
         viewHolderOrganigrama.apellido.setText(listPublicadores.get(i).getApellidoPublicador());
 
@@ -100,6 +112,7 @@ public class OrganigramaAdapter extends RecyclerView.Adapter<OrganigramaAdapter.
 
         ImageView imagen;
         TextView nombre, apellido, grupo, puesto, nombramiento, precursor;
+        CardView cardView;
 
         public ViewHolderOrganigrama(@NonNull View itemView) {
             super(itemView);
@@ -111,6 +124,7 @@ public class OrganigramaAdapter extends RecyclerView.Adapter<OrganigramaAdapter.
             puesto = itemView.findViewById(R.id.tvPuesto);
             nombramiento = itemView.findViewById(R.id.titleNombramiento);
             precursor = itemView.findViewById(R.id.titlePrecursor);
+            cardView = itemView.findViewById(R.id.cvOrganigrama);
         }
     }
 

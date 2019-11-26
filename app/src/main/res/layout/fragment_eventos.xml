@@ -13,12 +13,19 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
+            <ProgressBar
+                android:id="@+id/progressBarAsignaciones"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginTop="64dp"
+                />
 
             <LinearLayout
                 android:id="@+id/layoutSala1"
@@ -40,11 +47,11 @@
 
 
                 <TextView
-                    android:id="@+id/textView1"
+                    android:id="@+id/tvLecturaInicio"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/tvLectura"
+                    android:text="@string/tvHabilitado"
                     android:textSize="16sp" />
 
                 <TextView
@@ -53,7 +60,6 @@
                     android:layout_height="match_parent"
                     android:text="@string/tvHabilitado"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="22sp" />
 
                 <TextView
@@ -62,7 +68,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="@string/tvAsignacion"
+                    android:text="@string/tvHabilitado"
                     android:textSize="16sp" />
 
                 <TextView
@@ -71,7 +77,6 @@
                     android:layout_height="match_parent"
                     android:text="@string/tvHabilitado"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="22sp" />
 
                 <TextView
@@ -80,7 +85,6 @@
                     android:layout_height="match_parent"
                     android:text="@string/tvHabilitado"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="22sp" />
 
 
@@ -90,7 +94,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="@string/tvAsignacion"
+                    android:text="@string/tvHabilitado"
                     android:textSize="16sp" />
 
 
@@ -100,7 +104,6 @@
                     android:layout_height="match_parent"
                     android:text="@string/tvHabilitado"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="22sp" />
 
                 <TextView
@@ -109,7 +112,6 @@
                     android:layout_height="match_parent"
                     android:text="@string/tvHabilitado"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="22sp" />
 
 
@@ -119,7 +121,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="@string/tvAsignacion"
+                    android:text="@string/tvHabilitado"
                     android:textSize="16sp" />
 
 
@@ -129,7 +131,6 @@
                     android:layout_height="match_parent"
                     android:text="@string/tvHabilitado"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="22sp" />
 
 
@@ -139,47 +140,67 @@
                     android:layout_height="match_parent"
                     android:text="@string/tvHabilitado"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="22sp" />
 
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp">
-
-            <TextView
-                android:id="@+id/textView20"
+            <ProgressBar
+                android:id="@+id/progressBarUltSem"
+                style="?android:attr/progressBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/colorPrimaryDark"
-                android:gravity="center"
-                android:paddingStart="20dp"
-                android:paddingEnd="5dp"
-                android:text="@string/ultSemana"
-                android:textColor="#fff"
-                android:textSize="22sp" />
+                android:layout_marginTop="48dp"
+                android:layout_below="@id/layoutSala1"
+                />
 
-            <TextView
-                android:id="@+id/tvInicioUltSemana"
+            <LinearLayout
+                android:id="@+id/layoutUltSem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/sinprogramar"
-                android:textColor="@color/colorPrimary"
-                android:textSize="22sp" />
-        </LinearLayout>
+                android:layout_below="@id/layoutSala1"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimaryDark"
+                    android:gravity="center"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="5dp"
+                    android:text="@string/ultSemana"
+                    android:textColor="#fff"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/tvInicioUltSemana"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/tvHabilitado"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBarVisita"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:layout_below="@id/layoutUltSem"
+                />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_below="@id/layoutUltSem">
 
             <TextView
                 android:id="@+id/textView13"
@@ -201,11 +222,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/sinprogramar"
-                android:textColor="@color/colorPrimary"
+                android:text="@string/tvHabilitado"
                 android:textSize="22sp" />
         </LinearLayout>
-    </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
 
 </FrameLayout>

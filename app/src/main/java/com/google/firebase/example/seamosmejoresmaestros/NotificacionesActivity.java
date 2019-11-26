@@ -18,7 +18,7 @@ public class NotificacionesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getFragmentManager().beginTransaction().add(R.id.notifFragment, new NotifFragment()).commit();
+
 
 
 

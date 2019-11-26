@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,11 +47,12 @@ public class GrupoItemAdapter extends RecyclerView.Adapter<GrupoItemAdapter.View
     public void onBindViewHolder(@NonNull final GrupoItemAdapter.ViewHolderGrupoItem holder, final int position) {
         holder.tvTitleGrupo.setText("Grupo " + listGrupoItem.get(position));
         final ArrayList<PublicadoresConstructor> listPublicadores = new ArrayList<>();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mctx, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mctx, 2);
         holder.recyclerGrupoItem.setLayoutManager(layoutManager);
         holder.recyclerGrupoItem.setHasFixedSize(true);
         final VerTodosGruposAdapter verTodosGruposAdapter = new VerTodosGruposAdapter(listPublicadores, mctx);
         holder.recyclerGrupoItem.setAdapter(verTodosGruposAdapter);
+        holder.recyclerGrupoItem.setVisibility(View.GONE);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("publicadores");

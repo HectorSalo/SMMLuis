@@ -8,10 +8,10 @@
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvOrganigrama"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        card_view:cardBackgroundColor="#E8F5E9"
         card_view:cardElevation="@dimen/fab_margin"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintStart_toStartOf="parent"

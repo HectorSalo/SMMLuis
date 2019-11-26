@@ -1,6 +1,7 @@
 <resources>
     <!-- Generales -->
     <string name="app_name">Seamos Mejores Maestros</string>
+    <string name="title_activity_main">Inicio</string>
     <string name="title_activity_asignaciones">Asignaciones</string>
     <string name="title_activity_publicadores">Publicadores</string>
     <string name="title_activity_ver">Detalles Publicador</string>

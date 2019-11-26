@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
-import com.google.firebase.example.seamosmejoresmaestros.EditarPubActivity;
+import com.google.firebase.example.seamosmejoresmaestros.Publicadores.EditarPubActivity;
 import com.google.firebase.example.seamosmejoresmaestros.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;

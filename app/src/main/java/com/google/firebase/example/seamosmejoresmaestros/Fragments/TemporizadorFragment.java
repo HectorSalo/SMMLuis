@@ -1,6 +1,7 @@
 package com.google.firebase.example.seamosmejoresmaestros.Fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -10,8 +11,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.example.seamosmejoresmaestros.R;
 import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesTemporizador;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +32,8 @@ public class TemporizadorFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private NumberPicker numberMinutos, numberSegundos;
-    private FloatingActionButton fabStart, fabPause, fabStop;
+    private FloatingActionButton fabPause;
     private TextView visorTiempo;
-    private int intMinutos, intSegundos;
-    private long tiempoRestante;
     private String FORMAT = "%02d:%02d";
     private CountDownTimer countDownTimer, countDownTimerRestante;
     private LinearLayout layoutDuracion, layoutPauseStop;
@@ -58,16 +59,27 @@ public class TemporizadorFragment extends Fragment {
 
         layoutDuracion = (LinearLayout) vista.findViewById(R.id.layoutDuracion);
         layoutPauseStop = (LinearLayout) vista.findViewById(R.id.layoutPauseStop);
-        fabStart = (FloatingActionButton) vista.findViewById(R.id.fabPlay);
+        FloatingActionButton fabStart = (FloatingActionButton) vista.findViewById(R.id.fabPlay);
         fabPause = (FloatingActionButton) vista.findViewById(R.id.fabPause);
-        fabStop = (FloatingActionButton) vista.findViewById(R.id.fabStop);
+        FloatingActionButton fabStop = (FloatingActionButton) vista.findViewById(R.id.fabStop);
         visorTiempo = (TextView) vista.findViewById(R.id.visorTiempo);
+        TextView duracion = vista.findViewById(R.id.tvDuracion);
         numberMinutos = (NumberPicker) vista.findViewById(R.id.numberMinutos);
         numberSegundos = (NumberPicker) vista.findViewById(R.id.numberSegundos);
         numberMinutos.setMaxValue(59);
         numberMinutos.setMinValue(0);
         numberSegundos.setMaxValue(59);
         numberSegundos.setMinValue(0);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (!temaOscuro) {
+            visorTiempo.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            duracion.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        } else {
+            visorTiempo.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+
+        }
 
         Objects.requireNonNull(getActivity()).setVolumeControlStream(AudioManager.STREAM_ALARM);
         mediaPlayer = new MediaPlayer();
@@ -174,8 +186,8 @@ public class TemporizadorFragment extends Fragment {
     }
 
     private void iniciarTiempo() {
-        intMinutos = numberMinutos.getValue();
-        intSegundos = numberSegundos.getValue();
+        int intMinutos = numberMinutos.getValue();
+        int intSegundos = numberSegundos.getValue();
         long longMinuto = intMinutos * 60000;
         long longSegundo = intSegundos * 1000;
         long tiempoBase = longMinuto + longSegundo;

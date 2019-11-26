@@ -2,13 +2,19 @@ package com.google.firebase.example.seamosmejoresmaestros.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +37,8 @@ import java.util.Date;
 
 public class EventosFragment extends Fragment {
 
-    private TextView tvUltFecha, tvVisita, tvLector, tvAsignacion1, tvAsignacion2, tvAsignacion3, tvEncargado1, tvAyudante1, tvEncargado2, tvAyudante2, tvEncargado3, tvAyudante3;
-    private ProgressDialog progress;
+    private TextView tvUltFecha, tvVisita, tvLector, tvAsignacion1, tvAsignacion2, tvAsignacion3, tvEncargado1, tvAyudante1, tvEncargado2, tvAyudante2, tvEncargado3, tvAyudante3, tvLectura;
+    private ProgressBar progressBarAsignaciones, progressBarUltSem, progressBarVisita;
     private Date lunesActual;
     private OnFragmentInteractionListener mListener;
 
@@ -68,6 +74,7 @@ public class EventosFragment extends Fragment {
 
         tvUltFecha = (TextView) vista.findViewById(R.id.tvInicioUltSemana);
         tvVisita = (TextView) vista.findViewById(R.id.tvInicioVisita);
+        tvLectura = vista.findViewById(R.id.tvLecturaInicio);
         tvAsignacion1 = vista.findViewById(R.id.tvEventosAsignacion1);
         tvAsignacion2 = vista.findViewById(R.id.tvEventosAsignacion2);
         tvAsignacion3 = vista.findViewById(R.id.tvEventosAsignacion3);
@@ -78,11 +85,24 @@ public class EventosFragment extends Fragment {
         tvAyudante2 = vista.findViewById(R.id.tvEventosPubsAsignacionAyu2);
         tvEncargado3 = vista.findViewById(R.id.tvEventosPubsAsignacion3);
         tvAyudante3 = vista.findViewById(R.id.tvEventosPubsAsignacionAyu3);
+        progressBarAsignaciones = vista.findViewById(R.id.progressBarAsignaciones);
+        progressBarUltSem = vista.findViewById(R.id.progressBarUltSem);
+        progressBarVisita = vista.findViewById(R.id.progressBarVisita);
 
-        progress = new ProgressDialog(getContext());
-        progress.setMessage("Cargando...");
-        progress.setCancelable(false);
-        progress.show();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (!temaOscuro) {
+            tvLector.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvEncargado1.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvAyudante1.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvEncargado2.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvAyudante2.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvEncargado3.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvAyudante3.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvUltFecha.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvVisita.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        }
+
         cargarSemanaEnCurso(semanaActual);
         cargarUltSemana();
         cargarProxVisita();
@@ -130,7 +150,7 @@ public class EventosFragment extends Fragment {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
                         if (doc.getBoolean(VariablesEstaticas.BD_ASAMBLEA)) {
-                            progress.dismiss();
+                            progressBarAsignaciones.setVisibility(View.GONE);
                             tvLector.setText("Sin asignaciones por Asamblea");
                             tvAsignacion1.setVisibility(View.GONE);
                             tvAsignacion2.setVisibility(View.GONE);
@@ -145,6 +165,7 @@ public class EventosFragment extends Fragment {
                         } else {
 
                             if (doc.getString(VariablesEstaticas.BD_LECTOR) != null) {
+                                tvLectura.setText("Lectura Bíblica");
                                 tvLector.setText(doc.getString(VariablesEstaticas.BD_LECTOR));
                             }
                             if (doc.getString(VariablesEstaticas.BD_ASIGNACION1) != null) {
@@ -192,16 +213,16 @@ public class EventosFragment extends Fragment {
                             } else {
                                 tvAyudante3.setVisibility(View.GONE);
                             }
-                            progress.dismiss();
+                            progressBarAsignaciones.setVisibility(View.GONE);
                         }
                     } else {
                         tvLector.setText("No hay asignaciones programadas para esta semana");
-                        progress.dismiss();
+                        progressBarAsignaciones.setVisibility(View.GONE);
                     }
 
                 } else {
                     Toast.makeText(getContext(), "Error al cargar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-                    progress.dismiss();
+                    progressBarAsignaciones.setVisibility(View.GONE);
                 }
             }
         });
@@ -221,23 +242,23 @@ public class EventosFragment extends Fragment {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
                         if(doc.exists()) {
                             if (doc.getDouble(VariablesEstaticas.BD_IDSEMANA) == 0) {
-                                progress.dismiss();
+                                progressBarUltSem.setVisibility(View.GONE);
                                 tvUltFecha.setText("Sin programar");
                             } else {
                                 Date fecha = doc.getDate(VariablesEstaticas.BD_FECHA);
                                 tvUltFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
-                                progress.dismiss();
+                                progressBarUltSem.setVisibility(View.GONE);
                             }
 
                         } else {
-                            progress.dismiss();
+                            progressBarUltSem.setVisibility(View.GONE);
                             tvUltFecha.setText("Sin programar");
                         }
 
                     }
 
                 } else {
-                    progress.dismiss();
+                    progressBarUltSem.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -255,9 +276,14 @@ public class EventosFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        Date fecha = doc.getDate(VariablesEstaticas.BD_FECHA);
-                        tvVisita.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
+                            Date fecha = doc.getDate(VariablesEstaticas.BD_FECHA);
+                            tvVisita.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fecha));
+
                     }
+                    progressBarVisita.setVisibility(View.GONE);
+                } else {
+                    progressBarVisita.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
                 }
             }
         });

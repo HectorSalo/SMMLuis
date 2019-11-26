@@ -2,14 +2,13 @@ package com.google.firebase.example.seamosmejoresmaestros;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,17 +25,18 @@ import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.example.seamosmejoresmaestros.Adaptadores.GrupoItemAdapter;
 import com.google.firebase.example.seamosmejoresmaestros.Adaptadores.OrganigramaAdapter;
+import com.google.firebase.example.seamosmejoresmaestros.Asignaciones.AsignacionesActivity;
 import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
+import com.google.firebase.example.seamosmejoresmaestros.Publicadores.PublicadoresActivity;
 import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,7 +54,7 @@ public class OrganigramaActivity extends AppCompatActivity
     private OrganigramaAdapter organigramaAdapter;
     private GrupoItemAdapter grupoItemAdapter;
     private ImageView imageNav;
-    private ProgressDialog progress;
+    private ProgressBar progressBarOrg;
     private ArrayList<String> gruposList;
     private LinearLayout linearGrupos, linearAncianos, linearMinisteriales, linearPrecursores;
     private int numeroGrupos;
@@ -81,6 +81,7 @@ public class OrganigramaActivity extends AppCompatActivity
         linearGrupos = (LinearLayout) findViewById(R.id.linearGrupos);
         linearMinisteriales = (LinearLayout) findViewById(R.id.linearMinisteriales);
         linearPrecursores = (LinearLayout) findViewById(R.id.linearPrecursores);
+        progressBarOrg = findViewById(R.id.progressBarOrganigrama);
 
 
 
@@ -114,6 +115,15 @@ public class OrganigramaActivity extends AppCompatActivity
         String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
         numeroGrupos = sharedPreferences.getInt("numeroGrupos", 1);
         tvName.setText(nombrePerfil);
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (temaOscuro) {
+
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        }
 
         gruposList = new ArrayList<>();
         for (int i = 1; i <= numeroGrupos; i++) {
@@ -135,10 +145,7 @@ public class OrganigramaActivity extends AppCompatActivity
         ancianos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress = new ProgressDialog(OrganigramaActivity.this);
-                progress.setMessage("Cargando...");
-                progress.setCancelable(false);
-                progress.show();
+                progressBarOrg.setVisibility(View.VISIBLE);
                 cargarAncianos();
             }
         });
@@ -147,10 +154,7 @@ public class OrganigramaActivity extends AppCompatActivity
         precursores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress = new ProgressDialog(OrganigramaActivity.this);
-                progress.setMessage("Cargando...");
-                progress.setCancelable(false);
-                progress.show();
+                progressBarOrg.setVisibility(View.VISIBLE);
                 cargarPrecursores();
             }
         });
@@ -159,10 +163,7 @@ public class OrganigramaActivity extends AppCompatActivity
         ministeriales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress = new ProgressDialog(OrganigramaActivity.this);
-                progress.setMessage("Cargando...");
-                progress.setCancelable(false);
-                progress.show();
+                progressBarOrg.setVisibility(View.VISIBLE);
                 cargarMinisteriales();
             }
         });
@@ -265,10 +266,7 @@ public class OrganigramaActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (opciones[which].equals(gruposList.get(which))) {
-                    progress = new ProgressDialog(OrganigramaActivity.this);
-                    progress.setMessage("Cargando...");
-                    progress.setCancelable(false);
-                    progress.show();
+                    progressBarOrg.setVisibility(View.VISIBLE);
                    String valor = String.valueOf(opciones[which].charAt(6));
 
                    if (valor.equals("d")) {
@@ -326,10 +324,10 @@ public class OrganigramaActivity extends AppCompatActivity
                     organigramaAdapter.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     getSupportActionBar().setTitle("Miembros: " + listPublicadores.size());
-                    progress.dismiss();
+                    progressBarOrg.setVisibility(View.GONE);
 
                 } else {
-                    progress.dismiss();
+                    progressBarOrg.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -353,7 +351,7 @@ public class OrganigramaActivity extends AppCompatActivity
         linearAncianos.setVisibility(View.GONE);
         linearMinisteriales.setVisibility(View.GONE);
         linearPrecursores.setVisibility(View.GONE);
-        progress.dismiss();
+        progressBarOrg.setVisibility(View.GONE);
 
     }
 
@@ -400,9 +398,9 @@ public class OrganigramaActivity extends AppCompatActivity
                     organigramaAdapter.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     getSupportActionBar().setTitle("Ancianos: " + listPublicadores.size());
-                    progress.dismiss();
+                    progressBarOrg.setVisibility(View.GONE);
                 } else {
-                    progress.dismiss();
+                    progressBarOrg.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -451,9 +449,9 @@ public class OrganigramaActivity extends AppCompatActivity
                     organigramaAdapter.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     getSupportActionBar().setTitle("Precursores: " + listPublicadores.size());
-                    progress.dismiss();
+                    progressBarOrg.setVisibility(View.GONE);
                 } else {
-                    progress.dismiss();
+                    progressBarOrg.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -502,9 +500,9 @@ public class OrganigramaActivity extends AppCompatActivity
                     organigramaAdapter.updateListOrganigrama(listPublicadores);
                     recyclerOrg.setVisibility(View.VISIBLE);
                     getSupportActionBar().setTitle("Ministeriales: " + listPublicadores.size());
-                    progress.dismiss();
+                    progressBarOrg.setVisibility(View.GONE);
                 } else {
-                    progress.dismiss();
+                    progressBarOrg.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
                 }
             }

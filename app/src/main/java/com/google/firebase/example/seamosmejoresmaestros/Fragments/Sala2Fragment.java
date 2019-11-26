@@ -4,23 +4,28 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
+
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.example.seamosmejoresmaestros.R;
-import com.google.firebase.example.seamosmejoresmaestros.SustituirActivity;
+import com.google.firebase.example.seamosmejoresmaestros.Asignaciones.SustituirActivity;
 import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesGenerales;
 import com.google.firebase.example.seamosmejoresmaestros.Variables.VariablesEstaticas;
 import com.google.firebase.firestore.CollectionReference;
@@ -55,7 +60,7 @@ public class Sala2Fragment extends Fragment {
     private TextView tvAviso, tvFecha, tvTitulo, tvLector, tvAsignacion1, tvEncargado1, tvAyudante1, tvAsignacion2, tvEncargado2,tvAyudante2, tvAsignacion3, tvEncargado3, tvAyudante3;
     private ImageButton imgEditar;
     private LinearLayout linearSala;
-    private ProgressDialog progress;
+    private ProgressBar progressBarSala2;
     private int semanaActual;
     private Date fechaActual;
 
@@ -109,13 +114,23 @@ public class Sala2Fragment extends Fragment {
         tvEncargado3 = (TextView) vista.findViewById(R.id.textViewPubsInicioAsignacion3);
         tvAyudante3 = (TextView) vista.findViewById(R.id.textViewPubsInicioAsignacionAyu3);
         linearSala = (LinearLayout) vista.findViewById(R.id.layoutSala2);
-        imgEditar = (ImageButton) vista.findViewById(R.id.imgbtEditar);
+        progressBarSala2 = vista.findViewById(R.id.progressBarSala2);
+        ImageButton imgEditar = (ImageButton) vista.findViewById(R.id.imgbtEditar);
 
-        tvAviso.setVisibility(View.INVISIBLE);
-        progress = new ProgressDialog(getContext());
-        progress.setMessage("Cargando...");
-        progress.setCancelable(false);
-        progress.show();
+        tvAviso.setVisibility(View.GONE);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (!temaOscuro) {
+            tvLector.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvEncargado1.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvAyudante1.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvEncargado2.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvAyudante2.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvEncargado3.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvAyudante3.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+            tvAviso.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+        }
 
         if (VariablesGenerales.fechaSelec != null) {
             cargarFechaSelec();
@@ -216,13 +231,13 @@ public class Sala2Fragment extends Fragment {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
                         if (doc.getBoolean(VariablesEstaticas.BD_ASAMBLEA)) {
-                            progress.dismiss();
+                            progressBarSala2.setVisibility(View.GONE);
                             tvAviso.setText("Sin asignaciones por Asamblea");
                             tvAviso.setVisibility(View.VISIBLE);
-                            linearSala.setVisibility(View.INVISIBLE);
+                            linearSala.setVisibility(View.GONE);
                         } else if (doc.getBoolean(VariablesEstaticas.BD_VISITA)) {
-                            progress.dismiss();
-                            tvAviso.setVisibility(View.INVISIBLE);
+                            progressBarSala2.setVisibility(View.GONE);
+                            tvAviso.setVisibility(View.GONE);
                             linearSala.setVisibility(View.VISIBLE);
                             tvTitulo.setText("Visita");
                             if (doc.getString(VariablesEstaticas.BD_LECTOR) != null) {
@@ -277,7 +292,7 @@ public class Sala2Fragment extends Fragment {
                             }
 
                         } else if (!doc.getBoolean(VariablesEstaticas.BD_ASAMBLEA) && !doc.getBoolean(VariablesEstaticas.BD_VISITA)) {
-                            tvAviso.setVisibility(View.INVISIBLE);
+                            tvAviso.setVisibility(View.GONE);
                             linearSala.setVisibility(View.VISIBLE);
                             if (doc.getString(VariablesEstaticas.BD_LECTOR) != null) {
                                 tvLector.setText(doc.getString(VariablesEstaticas.BD_LECTOR));
@@ -329,18 +344,18 @@ public class Sala2Fragment extends Fragment {
                             } else {
                                 tvAyudante3.setText("");
                             }
-                            progress.dismiss();
+                            progressBarSala2.setVisibility(View.GONE);
                         }
                     } else {
                         tvAviso.setText("No hay asignaciones programadas para esta semana");
                         tvAviso.setVisibility(View.VISIBLE);
-                        linearSala.setVisibility(View.INVISIBLE);
-                        progress.dismiss();
+                        linearSala.setVisibility(View.GONE);
+                        progressBarSala2.setVisibility(View.GONE);
                     }
 
                 } else {
                     Toast.makeText(getContext(), "Error al cargar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-                    progress.dismiss();
+                    progressBarSala2.setVisibility(View.GONE);
                 }
             }
         });

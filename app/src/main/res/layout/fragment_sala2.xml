@@ -6,9 +6,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.Sala2Fragment">
 
+    <ProgressBar
+        android:id="@+id/progressBarSala2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_marginTop="200dp"/>
+
     <TextView
         android:id="@+id/tvAviso"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:gravity="center"
@@ -16,8 +23,6 @@
         android:textSize="32sp" />
 
 
-
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +49,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -77,15 +82,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/tvLectura"
+                android:text="@string/tvHabilitado"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textViewPubsInicioLectura"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tvEncargado"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/tvHabilitado"
                 android:textSize="26sp" />
 
             <TextView
@@ -94,23 +98,21 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/tvAsignacion"
+                android:text="@string/tvHabilitado"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textViewPubsInicioAsignacion1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tvEncargado"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/tvHabilitado"
                 android:textSize="26sp" />
 
             <TextView
                 android:id="@+id/textViewPubsInicioAsignacionAyu1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tvAyudante"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/tvHabilitado"
                 android:textSize="26sp" />
 
 
@@ -120,7 +122,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/tvAsignacion"
+                android:text="@string/tvHabilitado"
                 android:textSize="16sp" />
 
 
@@ -128,16 +130,14 @@
                 android:id="@+id/textViewPubsInicioAsignacion2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tvEncargado"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/tvHabilitado"
                 android:textSize="26sp" />
 
             <TextView
                 android:id="@+id/textViewPubsInicioAsignacionAyu2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tvAyudante"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/tvHabilitado"
                 android:textSize="26sp" />
 
 
@@ -147,7 +147,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/tvAsignacion"
+                android:text="@string/tvHabilitado"
                 android:textSize="16sp" />
 
 
@@ -155,8 +155,7 @@
                 android:id="@+id/textViewPubsInicioAsignacion3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tvEncargado"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/tvHabilitado"
                 android:textSize="26sp" />
 
 
@@ -164,8 +163,7 @@
                 android:id="@+id/textViewPubsInicioAsignacionAyu3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tvAyudante"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="@string/tvHabilitado"
                 android:textSize="26sp" />
 
         </LinearLayout>

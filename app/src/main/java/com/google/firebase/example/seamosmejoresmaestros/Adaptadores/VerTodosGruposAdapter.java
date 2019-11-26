@@ -1,6 +1,9 @@
 package com.google.firebase.example.seamosmejoresmaestros.Adaptadores;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.example.seamosmejoresmaestros.Constructores.PublicadoresConstructor;
@@ -35,6 +39,13 @@ public class VerTodosGruposAdapter extends RecyclerView.Adapter<VerTodosGruposAd
 
     @Override
     public void onBindViewHolder(@NonNull VerTodosGruposAdapter.ViewHolderVerTodosGrupos holder, int position) {
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mctx);
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (!temaOscuro) {
+            holder.linearverTodos.setBackgroundColor(Color.parseColor("#E8F5E9"));
+
+        }
 
             holder.nombre.setText(listPublicadores.get(position).getNombrePublicador());
             holder.apellido.setText(listPublicadores.get(position).getApellidoPublicador());

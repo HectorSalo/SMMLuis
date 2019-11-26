@@ -6,17 +6,20 @@
         <EditTextPreference
             app:key="nombre_perfil"
             app:title="@string/perfil_title"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            android:icon="@drawable/ic_bar_perfil"/>
 
         <EditTextPreference
             app:key="numero_grupos"
             app:title="@string/numero_grupos"
             app:useSimpleSummaryProvider="true"
+            android:icon="@drawable/ic_conf_numero_grupos"
             />
 
 
         <PreferenceScreen
             app:title="@string/actualizar_contrasena"
+            android:icon="@drawable/ic_conf_password"
             >
             <intent
 
@@ -29,27 +32,32 @@
 
         <SwitchPreferenceCompat
             app:key="notificaciones"
-            app:title="@string/notif_title" />
+            app:title="@string/notif_title"
+            android:icon="@drawable/ic_conf_notif_on"
+            android:defaultValue="true"/>
 
         <SwitchPreferenceCompat
             app:dependency="notificaciones"
             app:key="vibracion"
             app:summaryOff="@string/vibracion_summary_off"
             app:summaryOn="@string/vibracion_summary_on"
-            app:title="@string/vibracion_title" />
+            app:title="@string/vibracion_title"
+            android:icon="@drawable/ic_conf_vibrar_on"/>
 
         <SwitchPreferenceCompat
             app:key="tema"
             app:title="@string/tema_title"
             app:summaryOn="@string/tema_summary_on"
-            app:summaryOff="@string/tema_summary_off"/>
+            app:summaryOff="@string/tema_summary_off"
+            android:icon="@drawable/ic_conf_tema"
+            android:defaultValue="false"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/acerca">
         <PreferenceScreen
             app:title="@string/acerca_title"
-
+            android:icon="@drawable/ic_menu_acerca"
             >
             <intent
                 android:action="android.intent.action.VIEW"

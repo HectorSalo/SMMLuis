@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -28,12 +29,28 @@ public class ConfiguracionesActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (temaOscuro) {
+
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        }
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+            EditTextPreference editTextPreferenceGrupos = findPreference("numero_grupos");
+            int numeroGrupos = sharedPreferences.getInt("numeroGrupos", 1);
+            editTextPreferenceGrupos.setText(String.valueOf(numeroGrupos));
         }
 
         @Override
@@ -66,8 +83,6 @@ public class ConfiguracionesActivity extends AppCompatActivity {
                         editor.commit();
                         Toast.makeText(getContext(), "Dato no válido. Se configurará 1 Grupo por defecto", Toast.LENGTH_LONG).show();
                     }
-
-
                     break;
 
                 case "notificaciones":
@@ -77,6 +92,16 @@ public class ConfiguracionesActivity extends AppCompatActivity {
                     break;
 
                 case "tema":
+                    boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+                    if (temaOscuro) {
+                        editor.putBoolean("activarOscuro", false);
+                        editor.commit();
+                        getActivity().recreate();
+                    } else {
+                        editor.putBoolean("activarOscuro", true);
+                        editor.commit();
+                        getActivity().recreate();
+                    }
                     break;
 
             }
