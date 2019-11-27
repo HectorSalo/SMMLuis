@@ -34,6 +34,7 @@ public class VerActivity extends AppCompatActivity {
     private String idPublicador;
     private Date discurso, ayudante, sustitucion;
     private ProgressBar progressBarVer;
+    private boolean temaOscuro;
 
 
     @Override
@@ -54,7 +55,7 @@ public class VerActivity extends AppCompatActivity {
         progressBarVer = findViewById(R.id.progressBarVer);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
         if (temaOscuro) {
 
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -103,13 +104,21 @@ public class VerActivity extends AppCompatActivity {
                         if (doc.getString(VariablesEstaticas.BD_IMAGEN) != null) {
                             Glide.with(getApplicationContext()).load(doc.getString(VariablesEstaticas.BD_IMAGEN)).into(imagenPublicador);
                         } else {
-                            imagenPublicador.setImageResource(R.drawable.ic_caballero);
+                            if (temaOscuro) {
+                                imagenPublicador.setImageResource(R.drawable.ic_caballero_blanco);
+                            } else {
+                                imagenPublicador.setImageResource(R.drawable.ic_caballero);
+                            }
                         }
                     } else if (doc.getString(VariablesEstaticas.BD_GENERO).equals("Mujer")) {
                         if (doc.getString(VariablesEstaticas.BD_IMAGEN) != null) {
                             Glide.with(getApplicationContext()).load(doc.getString(VariablesEstaticas.BD_IMAGEN)).into(imagenPublicador);
                         } else {
-                            imagenPublicador.setImageResource(R.drawable.ic_dama);
+                            if (temaOscuro) {
+                                imagenPublicador.setImageResource(R.drawable.ic_dama_blanco);
+                            } else {
+                                imagenPublicador.setImageResource(R.drawable.ic_dama);
+                            }
                         }
                     }
 

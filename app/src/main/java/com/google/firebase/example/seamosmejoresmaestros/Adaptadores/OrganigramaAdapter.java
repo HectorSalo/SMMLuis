@@ -80,14 +80,22 @@ public class OrganigramaAdapter extends RecyclerView.Adapter<OrganigramaAdapter.
             if (listPublicadores.get(i).getImagen() != null) {
                 Glide.with(mctx).load(listPublicadores.get(i).getImagen()).into(viewHolderOrganigrama.imagen);
             } else {
-                viewHolderOrganigrama.imagen.setImageResource(R.drawable.ic_caballero);
+                if (temaOscuro) {
+                    viewHolderOrganigrama.imagen.setImageResource(R.drawable.ic_caballero_blanco);
+                } else {
+                    viewHolderOrganigrama.imagen.setImageResource(R.drawable.ic_caballero);
+                }
             }
 
         } else if (listPublicadores.get(i).getGenero().equals("Mujer")) {
             if (listPublicadores.get(i).getImagen() != null) {
                 Glide.with(mctx).load(listPublicadores.get(i).getImagen()).into(viewHolderOrganigrama.imagen);
             } else {
-                viewHolderOrganigrama.imagen.setImageResource(R.drawable.ic_dama);
+                if (temaOscuro) {
+                    viewHolderOrganigrama.imagen.setImageResource(R.drawable.ic_dama_blanco);
+                } else {
+                    viewHolderOrganigrama.imagen.setImageResource(R.drawable.ic_dama);
+                }
             }
         }
     }

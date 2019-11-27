@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -49,6 +51,9 @@ public class PublicadoresAdapter extends RecyclerView.Adapter<PublicadoresAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolderPublicadores viewHolderPublicadores, final int i) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mctx);
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+
         viewHolderPublicadores.nombrePub.setText(listPublicadores.get(i).getNombrePublicador());
         viewHolderPublicadores.apellidoPub.setText(listPublicadores.get(i).getApellidoPublicador());
 
@@ -62,14 +67,22 @@ public class PublicadoresAdapter extends RecyclerView.Adapter<PublicadoresAdapte
             if (listPublicadores.get(i).getImagen() != null) {
                 Glide.with(mctx).load(listPublicadores.get(i).getImagen()).into(viewHolderPublicadores.imagenPublicador);
             } else {
-                viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_caballero);
+                if (temaOscuro) {
+                    viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_caballero_blanco);
+                } else {
+                    viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_caballero);
+                }
             }
 
         } else if (listPublicadores.get(i).getGenero().equals("Mujer")) {
             if (listPublicadores.get(i).getImagen() != null) {
                 Glide.with(mctx).load(listPublicadores.get(i).getImagen()).into(viewHolderPublicadores.imagenPublicador);
             } else {
-                viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_dama);
+                if (temaOscuro){
+                    viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_dama_blanco);
+                } else {
+                    viewHolderPublicadores.imagenPublicador.setImageResource(R.drawable.ic_dama);
+                }
             }
         }
 
