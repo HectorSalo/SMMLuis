@@ -17,15 +17,6 @@
             />
 
 
-        <PreferenceScreen
-            app:title="@string/actualizar_contrasena"
-            android:icon="@drawable/ic_conf_password"
-            >
-            <intent
-
-                />
-        </PreferenceScreen>
-
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/personalizar_header">

@@ -35,7 +35,8 @@
             android:name=".Asignaciones.SustituirActivity"
             android:label="@string/title_activity_sustituir"
             android:theme="@style/Theme.Editar" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".SplashActivity"
+            android:theme="@style/AppThemeDiaNoche">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

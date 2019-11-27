@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -56,7 +57,7 @@ public class VistaMensualActivity extends AppCompatActivity {
     private ArrayList<VistaMensualConstructor> listMensual;
     private VistaMensualAdapter vistaMensualAdapter;
     private Date primeroMes, ultimoMes;
-    private ProgressDialog progress;
+    private ProgressBar progressBarVista;
     private String mesExp, carpetaPath;
     private String NOMBRE_CARPETA = "/MejoresMaestros/";
     private LottieAnimationView lottieAnimationView;
@@ -130,6 +131,7 @@ public class VistaMensualActivity extends AppCompatActivity {
 
         lottieAnimationView = findViewById(R.id.lottiedescarga);
         constraintLayout = findViewById(R.id.constraintVistaMensual);
+        progressBarVista = findViewById(R.id.progressBarVistaMensual);
 
         Calendar calendarInicio = Calendar.getInstance();
         Calendar calendarFinal = Calendar.getInstance();
@@ -145,10 +147,7 @@ public class VistaMensualActivity extends AppCompatActivity {
         recyclerMensual.setHasFixedSize(true);
         recyclerMensual.setAdapter(vistaMensualAdapter);
 
-        progress = new ProgressDialog(this);
-        progress.setMessage("Cargando...");
-        progress.setCancelable(false);
-        progress.show();
+        progressBarVista.setVisibility(View.VISIBLE);
 
         borrarSQLite();
 
@@ -246,14 +245,14 @@ public class VistaMensualActivity extends AppCompatActivity {
                     }
 
                     vistaMensualAdapter.updateList(listMensual);
-                    progress.dismiss();
+                    progressBarVista.setVisibility(View.GONE);
 
                     if (listMensual.isEmpty()) {
-                        Snackbar.make(Objects.requireNonNull(getCurrentFocus()), "Este mes no ha sido programado", Snackbar.LENGTH_INDEFINITE).show();
+                        Snackbar.make(constraintLayout, "Este mes no ha sido programado", Snackbar.LENGTH_INDEFINITE).show();
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Error al cargar. Intente nuevamente", Toast.LENGTH_LONG).show();
-                    progress.dismiss();
+                    progressBarVista.setVisibility(View.GONE);
                     finish();
                 }
             }
@@ -261,7 +260,7 @@ public class VistaMensualActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(), "Error al cargar. Intente nuevamente", Toast.LENGTH_LONG).show();
-                progress.dismiss();
+                progressBarVista.setVisibility(View.GONE);
                 finish();
             }
         });

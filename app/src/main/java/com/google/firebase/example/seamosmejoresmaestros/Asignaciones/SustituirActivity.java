@@ -7,7 +7,12 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -50,7 +56,7 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     private String sustSeleccionado, nombreSustSelec, apellidoSustSelec, sustSeleccionadoId, idEncargado;
     private String spinnerSeleccion;
     private ArrayList<String> listEncargados;
-    private ProgressDialog progress;
+    private ProgressBar progressBarSust;
     private boolean encargado, ayudante;
 
 
@@ -68,6 +74,18 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
         recyclerSustituciones.setHasFixedSize(true);
         listSelecSust = new ArrayList<>();
         spinnerEncargados = (Spinner)findViewById(R.id.spinnerEncargados);
+        progressBarSust = findViewById(R.id.progressBarSust);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (temaOscuro) {
+
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        }
 
         Bundle bundleRecibir = this.getIntent().getExtras();
         idSala = bundleRecibir.getInt("sala");
@@ -248,10 +266,7 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void cargarSustitutos() {
-        progress = new ProgressDialog(SustituirActivity.this);
-        progress.setMessage("Cargando...");
-        progress.setCancelable(false);
-        progress.show();
+        progressBarSust.setVisibility(View.VISIBLE);
         adapterSust = new EditSalasAdapter(listSelecSust, getApplicationContext());
         listSelecSust = new ArrayList<>();
 
@@ -284,9 +299,9 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
                     adapterSust.updateListSelec(listSelecSust);
 
                     recyclerSustituciones.setAdapter(adapterSust);
-                    progress.dismiss();
+                    progressBarSust.setVisibility(View.GONE);
                 } else {
-                    progress.dismiss();
+                    progressBarSust.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,8 +33,9 @@ public class SplashActivity extends AppCompatActivity {
     private FirebaseUser user;
     private AutoCompleteTextView emailView;
     private EditText passwordView;
-    private ProgressDialog progress;
+    private ProgressBar progressBarInicio;
     private TextView bienvenidaView;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,19 @@ public class SplashActivity extends AppCompatActivity {
         bienvenidaView = (TextView) findViewById(R.id.textViewBienvenida);
         emailView = (AutoCompleteTextView) findViewById(R.id.email);
         passwordView = (EditText) findViewById(R.id.password);
+        progressBarInicio = findViewById(R.id.progressBarInicioSes);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (temaOscuro) {
+
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        }
 
         Button btnIniciar = (Button) findViewById(R.id.sign_in_button);
         btnIniciar.setOnClickListener(new View.OnClickListener() {
@@ -97,10 +114,7 @@ public class SplashActivity extends AppCompatActivity {
        }
 
        if (passwordValido && emailValido) {
-           progress = new ProgressDialog(this);
-           progress.setMessage("Iniciando sesión...");
-           progress.setCancelable(false);
-           progress.show();
+           progressBarInicio.setVisibility(View.VISIBLE);
            mAuth.signInWithEmailAndPassword(email, password)
                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                        @Override
@@ -108,11 +122,11 @@ public class SplashActivity extends AppCompatActivity {
                            if (task.isSuccessful()) {
                                Log.d("msg", "signInWithEmail:success");
                                user = mAuth.getCurrentUser();
-                               progress.dismiss();
+                               progressBarInicio.setVisibility(View.GONE);
                                presentacion();
                            } else {
                                // If sign in fails, display a message to the user.
-                               progress.dismiss();
+                               progressBarInicio.setVisibility(View.GONE);
                                Log.w("msg", "signInWithEmail:failure", task.getException());
                                Toast.makeText(SplashActivity.this, "Error al iniciar sesión\nPor favor, verifique los datos del Usuario y su conexión a internet",
                                        Toast.LENGTH_LONG).show();
@@ -126,7 +140,6 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void presentacion() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
 
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.email_login_form);
