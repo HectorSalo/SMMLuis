@@ -7,8 +7,11 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -37,6 +41,7 @@ import com.google.firebase.example.seamosmejoresmaestros.Asignaciones.Asignacion
 import com.google.firebase.example.seamosmejoresmaestros.Fragments.EventosFragment;
 import com.google.firebase.example.seamosmejoresmaestros.Fragments.TemporizadorFragment;
 import com.google.firebase.example.seamosmejoresmaestros.Publicadores.PublicadoresActivity;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, EventosFragment.OnFragmentInteractionListener, TemporizadorFragment.OnFragmentInteractionListener {
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
+        boolean subscripcionInicial = sharedPreferences.getBoolean("subsinicial", true);
         boolean sugerenciaInicial = sharedPreferences.getBoolean("sugerenciaInicial", true);
         tvName.setText(nombrePerfil);
         boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
@@ -84,6 +90,10 @@ public class MainActivity extends AppCompatActivity
         } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+        }
+
+        if (subscripcionInicial) {
+            subsInicial();
         }
 
         if (sugerenciaInicial) {
@@ -221,6 +231,26 @@ public class MainActivity extends AppCompatActivity
         });
         dialog.setIcon(R.drawable.ic_sugerencia);
         dialog.show();
+    }
+
+    private void subsInicial() {
+        SharedPreferences sharedPreferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("subsinicial", false);
+        editor.commit();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("notif")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Subscripcion exitosa";
+                        if (!task.isSuccessful()) {
+                            msg = "Failed";
+                        }
+                        Log.d("suscrito", msg);
+
+                    }
+                });
     }
 
 

@@ -66,6 +66,7 @@ public class EditarPubActivity extends AppCompatActivity {
     private Date discurso, ayudante, sustitucion, disRecibir, ayuRecibir, sustRecibir;
     private ProgressBar progressBarEditar;
     private Uri mipath;
+    private boolean temaOscuro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +97,7 @@ public class EditarPubActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         int numeroGrupos = sharedPreferences.getInt("numeroGrupos", 1);
-        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
         if (temaOscuro) {
 
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -256,14 +257,22 @@ public class EditarPubActivity extends AppCompatActivity {
                             Glide.with(getApplicationContext()).load(imgRecibir).into(imagePub);
                             urlImagen = imgRecibir;
                         } else {
-                            imagePub.setImageResource(R.drawable.ic_caballero);
+                            if (temaOscuro) {
+                                imagePub.setImageResource(R.drawable.ic_caballero_blanco);
+                            } else {
+                                imagePub.setImageResource(R.drawable.ic_caballero);
+                            }
                         }
                     } else if (genero.equals("Mujer")) {
                         if (imgRecibir != null) {
                             Glide.with(getApplicationContext()).load(imgRecibir).into(imagePub);
                             urlImagen = imgRecibir;
                         } else {
-                            imagePub.setImageResource(R.drawable.ic_dama);
+                            if (temaOscuro) {
+                                imagePub.setImageResource(R.drawable.ic_dama_blanco);
+                            } else {
+                                imagePub.setImageResource(R.drawable.ic_dama);
+                            }
                         }
                         radioMujer.setChecked(true);
                     }
@@ -399,11 +408,19 @@ public class EditarPubActivity extends AppCompatActivity {
                         cargarImagen();
                     } else if (opciones[which].equals("Usar imagen por defecto")) {
                         if (genero.equals("Hombre")) {
-                            imagePub.setImageResource(R.drawable.ic_caballero);
+                            if (temaOscuro) {
+                                imagePub.setImageResource(R.drawable.ic_caballero_blanco);
+                            } else {
+                                imagePub.setImageResource(R.drawable.ic_caballero);
+                            }
                             urlImagen = null;
                             dialog.dismiss();
                         } else if (genero.equals("Mujer")) {
-                            imagePub.setImageResource(R.drawable.ic_dama);
+                            if (temaOscuro) {
+                                imagePub.setImageResource(R.drawable.ic_dama_blanco);
+                            } else {
+                                imagePub.setImageResource(R.drawable.ic_dama);
+                            }
                             urlImagen = null;
                             dialog.dismiss();
                         }

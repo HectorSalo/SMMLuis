@@ -110,13 +110,6 @@ public class VistaMensualActivity extends AppCompatActivity {
 
         }
 
-        carpetaPath = Environment.getExternalStorageDirectory() + this.NOMBRE_CARPETA;
-        File carpeta = new File(carpetaPath);
-        if (!carpeta.exists()) {
-            carpeta.mkdirs();
-        } else {
-            Log.d("MSG", "Carpeta creada");
-        }
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
@@ -297,7 +290,7 @@ public class VistaMensualActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         } else {
-            exportarBD();
+            crearCarpeta();
         }
     }
 
@@ -309,7 +302,7 @@ public class VistaMensualActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    exportarBD();
+                    crearCarpeta();
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
                 } else {
@@ -375,6 +368,18 @@ public class VistaMensualActivity extends AppCompatActivity {
                 Log.d("MSG", " " + e);
             }
         });
+    }
+
+    public void crearCarpeta() {
+        carpetaPath = Environment.getExternalStorageDirectory() + this.NOMBRE_CARPETA;
+        File carpeta = new File(carpetaPath);
+        if (!carpeta.exists()) {
+            carpeta.mkdirs();
+            exportarBD();
+        } else {
+            exportarBD();
+            Log.d("MSG", "Carpeta creada");
+        }
     }
 
 
