@@ -43,9 +43,8 @@ import com.skysam.firebase.seamosmejoresmaestros.luis.Publicadores.PublicadoresA
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, EventosFragment.OnFragmentInteractionListener, TemporizadorFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, EventosFragment.OnFragmentInteractionListener {
 
-    private ImageView imageNav;
 
 
     @Override
@@ -73,12 +72,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View navHeader = navigationView.getHeaderView(0);
-        imageNav = navHeader.findViewById(R.id.imageViewNav);
         TextView tvName = navHeader.findViewById(R.id.tvNameNav);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
-        boolean subscripcionInicial = sharedPreferences.getBoolean("subsinicial", true);
         boolean sugerenciaInicial = sharedPreferences.getBoolean("sugerenciaInicial", true);
         tvName.setText(nombrePerfil);
         boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
@@ -90,15 +87,6 @@ public class MainActivity extends AppCompatActivity
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         }
-
-        if (subscripcionInicial) {
-            subsInicial();
-        }
-
-        if (sugerenciaInicial) {
-            sugerenciaMiPerfil();
-        }
-
     }
 
     @Override
@@ -201,55 +189,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
-    }
-
-    public void sugerenciaMiPerfil() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-        final EditText editTextGrupos = new EditText(this);
-        editTextGrupos.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-        dialog.setTitle("Bienvenido");
-        dialog.setMessage("¿Cuántos Grupos integran la congregación?");
-        dialog.setView(editTextGrupos);
-        dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (editTextGrupos.getText().toString().isEmpty()){
-                    editTextGrupos.setError("No puede estar vacío");
-                } else {
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    int numeroGrupos = Integer.parseInt(editTextGrupos.getText().toString());
-                    editor.putInt("numeroGrupos", numeroGrupos);
-                    editor.putBoolean("sugerenciaInicial", false);
-                    editor.commit();
-                }
-            }
-        });
-        dialog.setIcon(R.drawable.ic_sugerencia);
-        dialog.show();
-    }
-
-    private void subsInicial() {
-        SharedPreferences sharedPreferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("subsinicial", false);
-        editor.commit();
-
-        FirebaseMessaging.getInstance().subscribeToTopic("notif")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        String msg = "Subscripcion exitosa";
-                        if (!task.isSuccessful()) {
-                            msg = "Failed";
-                        }
-                        Log.d("suscrito", msg);
-
-                    }
-                });
     }
 
 

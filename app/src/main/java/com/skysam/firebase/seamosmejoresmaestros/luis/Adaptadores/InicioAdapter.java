@@ -18,10 +18,6 @@ public class InicioAdapter extends FragmentStatePagerAdapter {
                 EventosFragment eventosFragment = new EventosFragment();
                 return eventosFragment;
 
-            case 1:
-                TemporizadorFragment temporizadorFragment = new TemporizadorFragment();
-                return temporizadorFragment;
-
             default:
                 return null;
         }
@@ -29,6 +25,6 @@ public class InicioAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 }

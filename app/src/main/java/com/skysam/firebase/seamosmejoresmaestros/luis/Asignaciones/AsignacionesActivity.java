@@ -47,7 +47,7 @@ import com.skysam.firebase.seamosmejoresmaestros.luis.Variables.VariablesGeneral
 import java.util.Calendar;
 
 public class AsignacionesActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Sala1Fragment.OnFragmentInteractionListener, Sala2Fragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, Sala1Fragment.OnFragmentInteractionListener {
 
     private boolean advertencia;
     private ImageView imageNav;

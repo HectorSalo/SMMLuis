@@ -61,36 +61,35 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewBienvenida">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlined_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:hint="@string/sesioEmail"
+                app:errorEnabled="true">
 
-                <AutoCompleteTextView
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/sesioEmail"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:inputType="textCapSentences|textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlined_password"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/sesionPsw"
+                app:errorEnabled="true"
+                app:layout_constraintTop_toBottomOf="@+id/outlined_email"
                 app:passwordToggleEnabled="true">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/sesionPsw"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/sesionBtn"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,6 +98,7 @@
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAllCaps="false"
                 android:layout_marginTop="16dp"
                 android:text="@string/sesionBtn"
                 android:textStyle="bold" />

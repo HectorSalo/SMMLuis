@@ -44,11 +44,9 @@
 
     <!-- Content Inicio -->
     <string name="tabEvento">Eventos</string>
-    <string name="tabTemporizador">Temporizador</string>
 
     <!-- Content Asignaciones -->
-    <string name="tabSala1">Sala 1</string>
-    <string name="tabSala2">Sala 2</string>
+    <string name="tabSala1">Sala Principal</string>
     <string name="barFecha">Fecha</string>
 
     <!-- Content Publicadores -->

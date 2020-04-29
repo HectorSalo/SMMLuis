@@ -11,9 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +20,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,8 +30,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    private AutoCompleteTextView emailView;
-    private EditText passwordView;
+    private TextInputEditText etEmail, etPass;
+    private TextInputLayout etEmailLayout, etPassLayout;
     private ProgressBar progressBarInicio;
     private TextView bienvenidaView;
     private SharedPreferences sharedPreferences;
@@ -43,9 +43,11 @@ public class SplashActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        bienvenidaView = (TextView) findViewById(R.id.textViewBienvenida);
-        emailView = (AutoCompleteTextView) findViewById(R.id.email);
-        passwordView = (EditText) findViewById(R.id.password);
+        bienvenidaView = findViewById(R.id.textViewBienvenida);
+        etEmail = findViewById(R.id.email);
+        etPass = findViewById(R.id.password);
+        etEmailLayout = findViewById(R.id.outlined_email);
+        etPassLayout = findViewById(R.id.outlined_password);
         progressBarInicio = findViewById(R.id.progressBarInicioSes);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -87,8 +89,10 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void validarInciarSesion() {
-        String email = emailView.getText().toString();
-        String password = passwordView.getText().toString();
+        etEmailLayout.setError(null);
+        etPassLayout.setError(null);
+        String email = etEmail.getText().toString();
+        String password = etPass.getText().toString();
         boolean emailValido;
         boolean passwordValido;
 
@@ -96,17 +100,17 @@ public class SplashActivity extends AppCompatActivity {
             if (email.contains("@")) {
                 emailValido = true;
             } else {
-                emailView.setError("Formato incorrecto para correo");
+                etEmailLayout.setError("Formato incorrecto para correo");
                 emailValido = false;
             }
        } else {
-           emailView.setError("El campo no puede estar vacío");
+           etEmailLayout.setError("El campo no puede estar vacío");
            emailValido = false;
        }
 
        if (password.isEmpty() || (password.length() < 6)) {
            passwordValido = false;
-           passwordView.setError("Mínimo 6 caracteres");
+           etPassLayout.setError("Mínimo 6 caracteres");
        } else {
            passwordValido = true;
 
