@@ -152,7 +152,7 @@
                 android:id="@+id/textViewGrupoVer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tvHabilitado" />
+                android:text="@string/texto_vacio" />
         </TableRow>
 
         <TableRow
@@ -165,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center_vertical"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="15sp" />
 
 

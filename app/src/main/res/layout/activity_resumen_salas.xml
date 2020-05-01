@@ -282,7 +282,7 @@
                         android:layout_height="match_parent"
                         android:background="@color/colorPrimaryDark"
                         android:gravity="center"
-                        android:text="@string/titleSala2"
+                        android:text="@string/texto_vacio"
                         android:textColor="#ffffff"
                         android:textSize="25sp"
                         android:textStyle="italic" />

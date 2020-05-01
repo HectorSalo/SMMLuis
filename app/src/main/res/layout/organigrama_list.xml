@@ -26,7 +26,7 @@
                 android:id="@+id/imageOrganigrama"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:contentDescription="@string/tvHabilitado" />
+                android:text="@string/texto_vacio" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                         android:id="@+id/titleGrupo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tvHabilitado"
+                        android:text="@string/texto_vacio"
                         android:textSize="18sp"
                         android:textStyle="italic" />
 
@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="24dp"
-                        android:text="@string/tvHabilitado" />
+                        android:text="@string/texto_vacio" />
 
                 </LinearLayout>
 
@@ -86,7 +86,7 @@
                         android:id="@+id/titlePrecursor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tvHabilitado"
+                        android:text="@string/texto_vacio"
                         android:textSize="18sp"
                         android:textStyle="italic" />
 
@@ -100,7 +100,7 @@
                         android:id="@+id/titleNombramiento"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/tvHabilitado"
+                        android:text="@string/texto_vacio"
                         android:textSize="18sp"
                         android:textStyle="italic" />
 

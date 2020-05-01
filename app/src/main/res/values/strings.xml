@@ -18,9 +18,8 @@
     <string name="action_exportar">Ver por mes</string>
     <string name="ajustes">Ajustes</string>
     <string name="titleFecha">Seleccione Fecha</string>
-    <string name="GenMasculino">*Hombre</string>
-    <string name="GenFemenino">*Mujer</string>
-    <string name="asterisco">*Campos obligatorios</string>
+    <string name="GenMasculino">Hombre</string>
+    <string name="GenFemenino">Mujer</string>
     <string name="cbHabilitar">Inhabilitar de Mejores Maestros</string>
     <string name="cbAnciano">Anciano</string>
     <string name="cbsiervo">Siervo Ministerial</string>
@@ -56,15 +55,15 @@
     <string name="menuEliminar">Eliminar</string>
 
     <!-- Content Ver -->
-    <string name="NombrePub">*Nombres: </string>
+    <string name="NombrePub">Nombres: </string>
     <string name="editDatos">Escribir</string>
-    <string name="ApellidoPub">*Apellidos: </string>
+    <string name="ApellidoPub">Apellidos: </string>
     <string name="TelefonoPub">Telefono: </string>
     <string name="EmailPub">Correo: </string>
     <string name="ultDiscurso">Último Discurso: </string>
     <string name="ultAyudante">Último Ayudante: </string>
     <string name="ultSustitucion">Última Sustitución: </string>
-    <string name="tvHabilitado"> </string>
+    <string name="texto_vacio"> </string>
 
     <!-- Content Editar Salas -->
     <string name="btnAsignar">IR</string>
@@ -78,7 +77,6 @@
     <string name="tvAsignacion">Asignación</string>
     <string name="tvLectura">Lectura Bíblica</string>
     <string name="titleSala1">Primera Sala</string>
-    <string name="titleSala2">Segunda Sala</string>
 
     <!-- Fragment Inicio -->
     <string name="ultSemana">Última semana programada</string>
@@ -119,9 +117,6 @@
 
     <string name="acerca">Información de App</string>
     <string name="desarrollado">Desarrollado por</string>
-    <string name="skysam">Inversiones SkySam, C.A.</string>
-    <string name="atencion_cliente">Atención al usuario:</string>
-    <string name="contacto">inversionesskysam@gmail.com</string>
     <string name="title_activity_configuraciones">Configuraciones</string>
 
     <!-- Preference Titles -->
@@ -130,7 +125,7 @@
 
     <!-- Perfil Preferences -->
     <string name="perfil_title">Tu Nombre de Perfil</string>
-    <string name="numero_grupos">N° Grupos</string>
+    <string name="numero_grupos">N° Grupo</string>
     <string name="actualizar_contrasena">Actualizar contraseña</string>
 
     <!-- Personalizar Preferences -->

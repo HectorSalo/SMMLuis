@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
-        boolean sugerenciaInicial = sharedPreferences.getBoolean("sugerenciaInicial", true);
         tvName.setText(nombrePerfil);
         boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
         if (temaOscuro) {

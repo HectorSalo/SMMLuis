@@ -10,6 +10,7 @@ import androidx.preference.PreferenceManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.skysam.firebase.seamosmejoresmaestros.luis.R;
 import com.skysam.firebase.seamosmejoresmaestros.luis.Variables.VariablesEstaticas;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,27 +31,35 @@ import java.util.Map;
 
 public class AddPublicador extends AppCompatActivity {
 
-    private EditText editNombrePub, editApellidoPub, editTelefonoPub, editCorreoPub;
+    private TextInputEditText editNombrePub, editApellidoPub, editTelefonoPub, editCorreoPub, etGrupo;
+    private TextInputLayout layoutNombre, layoutApellido, layoutCorreo, layoutGrupo;
     private RadioButton radioMasculino, radioFemenino;
-    private NumberPicker numeroGrupo;
     private ProgressBar progressBarAdd;
+    private CheckBox cbAnciano, cbMinisterial, cbPrecursor;
+    private int grupo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_publicador);
 
-        editNombrePub = (EditText)findViewById(R.id.editNombre);
-        editApellidoPub = (EditText)findViewById(R.id.editApellido);
-        editTelefonoPub = (EditText)findViewById(R.id.editTelefono);
-        editCorreoPub = (EditText)findViewById(R.id.editCorreo);
-        radioMasculino = (RadioButton)findViewById(R.id.radioButtonMasculino);
-        radioFemenino = (RadioButton)findViewById(R.id.radioButtonFemenino);
-        numeroGrupo = (NumberPicker) findViewById(R.id.numberGrupo);
+        editNombrePub = findViewById(R.id.et_nombre);
+        editApellidoPub = findViewById(R.id.et_apellido);
+        editTelefonoPub = findViewById(R.id.et_telefono);
+        editCorreoPub = findViewById(R.id.et_correo);
+        etGrupo = findViewById(R.id.et_grupo);
+        layoutGrupo = findViewById(R.id.outlined_grupo);
+        layoutNombre = findViewById(R.id.outlined_nombre);
+        layoutApellido = findViewById(R.id.outlined_apellido);
+        layoutCorreo = findViewById(R.id.outlined_correo);
+        radioMasculino = findViewById(R.id.radioButtonMasculino);
+        radioFemenino = findViewById(R.id.radioButtonFemenino);
+        cbAnciano = findViewById(R.id.cbAnciano);
+        cbMinisterial = findViewById(R.id.cbSiervoM);
+        cbPrecursor = findViewById(R.id.cbPrecursor);
         progressBarAdd = findViewById(R.id.progressBarAddPub);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        int numeroGrupos = sharedPreferences.getInt("numeroGrupos", 1);
         boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
         if (temaOscuro) {
 
@@ -59,16 +70,19 @@ public class AddPublicador extends AppCompatActivity {
 
         }
 
-        numeroGrupo.setMinValue(1);
-        numeroGrupo.setMaxValue(numeroGrupos);
+        radioMasculino.setChecked(true);
 
-        Button buttonAgregar = (Button)findViewById(R.id.bottomAgregar);
-        Button buttonCancelar = (Button)findViewById(R.id.bottomCancelar);
+        Button buttonAgregar = findViewById(R.id.bottomAgregar);
+        Button buttonCancelar = findViewById(R.id.bottomCancelar);
 
         buttonAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progressBarAdd.setVisibility(View.VISIBLE);
+                layoutNombre.setError(null);
+                layoutApellido.setError(null);
+                layoutCorreo.setError(null);
+                layoutGrupo.setError(null);
                 guardarPublicador();
             }
         });
@@ -86,13 +100,74 @@ public class AddPublicador extends AppCompatActivity {
         String ApellidoPub = editApellidoPub.getText().toString();
         String Telefono = editTelefonoPub.getText().toString();
         String Correo = editCorreoPub.getText().toString();
-        int grupo = numeroGrupo.getValue();
+        String grupoS = etGrupo.getText().toString();
+
+        boolean nombreValido;
+        boolean apellidoValido;
+        boolean grupoValido;
+        boolean anciano = false;
+        boolean ministerial = false;
+        boolean precursor;
+
+        if (NombrePub.isEmpty()) {
+            progressBarAdd.setVisibility(View.GONE);
+            layoutNombre.setError("Este campo no puede estar vacío");
+            nombreValido = false;
+        } else {
+            nombreValido = true;
+        }
+
+        if (ApellidoPub.isEmpty()) {
+            progressBarAdd.setVisibility(View.GONE);
+            layoutApellido.setError("Este campo no puede estar vacío");
+            apellidoValido = false;
+        } else {
+            apellidoValido = true;
+        }
+
+        if (grupoS.isEmpty()) {
+            progressBarAdd.setVisibility(View.GONE);
+            layoutGrupo.setError("Este campo no puede estar vacío");
+            grupoValido  = false;
+        } else {
+            grupo = Integer.parseInt(grupoS);
+            if (grupo == 0) {
+                progressBarAdd.setVisibility(View.GONE);
+                layoutGrupo.setError("El grupo debe ser mayor a cero");
+                grupoValido  = false;
+            } else {
+                grupoValido = true;
+            }
+        }
+
+        if (cbAnciano.isChecked() && cbMinisterial.isChecked()) {
+            Toast.makeText(getApplicationContext(), "No puede ser Anciano y Ministerial", Toast.LENGTH_SHORT).show();
+            progressBarAdd.setVisibility(View.GONE);
+            grupoValido = false;
+        } else if (cbAnciano.isChecked() && !cbMinisterial.isChecked()) {
+            anciano = true;
+            ministerial = false;
+        } else if (!cbAnciano.isChecked() && cbMinisterial.isChecked()) {
+            anciano = false;
+            ministerial = true;
+        } else if (!cbAnciano.isChecked() && !cbMinisterial.isChecked()) {
+            anciano = false;
+            ministerial = false;
+        }
+
+        precursor = cbPrecursor.isChecked();
+
+        if (!Correo.isEmpty()) {
+            if (!Correo.contains("@")) {
+                layoutCorreo.setError("Formato inválido para correo");
+                progressBarAdd.setVisibility(View.GONE);
+                grupoValido = false;
+            }
+        }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        if (!NombrePub.isEmpty() && !ApellidoPub.isEmpty()) {
-            if (radioMasculino.isChecked() || radioFemenino.isChecked()) {
-
+        if (nombreValido && apellidoValido && grupoValido) {
 
                 Map<String, Object> publicador = new HashMap<>();
                 publicador.put(VariablesEstaticas.BD_NOMBRE, NombrePub);
@@ -107,10 +182,10 @@ public class AddPublicador extends AppCompatActivity {
                 publicador.put(VariablesEstaticas.BD_AYUVIEJO, null);
                 publicador.put(VariablesEstaticas.BD_SUSTRECIENTE, null);
                 publicador.put(VariablesEstaticas.BD_SUSTVIEJO, null);
-                publicador.put(VariablesEstaticas.BD_MINISTERIAL, false);
+                publicador.put(VariablesEstaticas.BD_MINISTERIAL, ministerial);
                 publicador.put(VariablesEstaticas.BD_SUPER, false);
-                publicador.put(VariablesEstaticas.BD_PRECURSOR, false);
-                publicador.put(VariablesEstaticas.BD_ANCIANO, false);
+                publicador.put(VariablesEstaticas.BD_PRECURSOR, precursor);
+                publicador.put(VariablesEstaticas.BD_ANCIANO, anciano);
                 publicador.put(VariablesEstaticas.BD_AUXILIAR, false);
                 publicador.put(VariablesEstaticas.BD_GRUPO, grupo);
 
@@ -126,8 +201,6 @@ public class AddPublicador extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         progressBarAdd.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), "Guardado exitosamente", Toast.LENGTH_SHORT).show();
-                        Intent myIntent = new Intent(getApplicationContext(), PublicadoresActivity.class);
-                        startActivity(myIntent);
                         finish();
 
                     }
@@ -135,20 +208,11 @@ public class AddPublicador extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-
                                 progressBarAdd.setVisibility(View.GONE);
                                 Toast.makeText(getApplicationContext(), "Error al guadar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-                                finish();
                             }
                         });
 
-            } else {
-                progressBarAdd.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Hay campos obligatorios vacíos", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            progressBarAdd.setVisibility(View.GONE);
-            Toast.makeText(getApplicationContext(), "Hay campos obligatorios vacíos", Toast.LENGTH_SHORT).show();
-        }
     }
 }

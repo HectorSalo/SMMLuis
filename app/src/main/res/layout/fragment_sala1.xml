@@ -82,14 +82,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textViewPubsInicioLectura"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="26sp" />
 
             <TextView
@@ -98,21 +98,21 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textViewPubsInicioAsignacion1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="26sp" />
 
             <TextView
                 android:id="@+id/textViewPubsInicioAsignacionAyu1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="26sp" />
 
 
@@ -122,7 +122,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="16sp" />
 
 
@@ -130,14 +130,14 @@
                 android:id="@+id/textViewPubsInicioAsignacion2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="26sp" />
 
             <TextView
                 android:id="@+id/textViewPubsInicioAsignacionAyu2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="26sp" />
 
 
@@ -147,7 +147,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="16sp" />
 
 
@@ -155,7 +155,7 @@
                 android:id="@+id/textViewPubsInicioAsignacion3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="26sp" />
 
 
@@ -163,7 +163,7 @@
                 android:id="@+id/textViewPubsInicioAsignacionAyu3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tvHabilitado"
+                android:text="@string/texto_vacio"
                 android:textSize="26sp" />
 
         </LinearLayout>
