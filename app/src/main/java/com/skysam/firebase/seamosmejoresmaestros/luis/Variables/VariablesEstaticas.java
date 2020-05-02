@@ -2,6 +2,7 @@ package com.skysam.firebase.seamosmejoresmaestros.luis.Variables;
 
 public class VariablesEstaticas {
 
+    public static final String BD_PUBLICADORES = "publicadores";
     public static final String BD_NOMBRE = "nombre";
     public static final String BD_APELLIDO = "apellido";
     public static final String BD_TELEFONO = "telefono";
@@ -10,11 +11,8 @@ public class VariablesEstaticas {
     public static final String BD_HABILITADO = "habilitado";
     public static final String BD_GENERO = "genero";
     public static final String BD_DISRECIENTE = "disReciente";
-    public static final String BD_DISVIEJO = "disViejo";
     public static final String BD_AYURECIENTE = "ayuReciente";
-    public static final String BD_AYUVIEJO = "ayuViejo";
     public static final String BD_SUSTRECIENTE = "sustReciente";
-    public static final String BD_SUSTVIEJO = "sustViejo";
     public static final String BD_ANCIANO = "anciano";
     public static final String BD_MINISTERIAL = "ministerial";
     public static final String BD_PRECURSOR = "precursor";
@@ -23,6 +21,7 @@ public class VariablesEstaticas {
     public static final String BD_GRUPO = "grupo";
 
 
+    public static final String BD_SALA = "sala";
     public static final String BD_LECTOR = "lector";
     public static final String BD_ENCARGADO1 = "encargado1";
     public static final String BD_AYUDANTE1 = "ayudante1";

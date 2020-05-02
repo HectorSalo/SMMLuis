@@ -24,7 +24,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:gravity="start"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +33,7 @@
             android:id="@+id/tvNombre"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/NombrePub"
+            android:text="@string/texto_vacio"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textSize="24sp"
             android:textStyle="italic" />
@@ -43,7 +42,7 @@
             android:id="@+id/tvApellido"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/ApellidoPub"
+            android:text="@string/texto_vacio"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textSize="24sp"
             android:textStyle="italic" />
@@ -52,14 +51,14 @@
             android:id="@+id/tvTelefono"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/TelefonoPub"
+            android:text="@string/texto_vacio"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tvCorro"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/EmailPub"
+            android:text="@string/texto_vacio"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -90,7 +89,7 @@
                 android:id="@+id/textViewfdiscurso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/titleFecha"
+                android:text="@string/texto_vacio"
                 android:textSize="18sp" />
         </TableRow>
 
@@ -110,7 +109,7 @@
                 android:id="@+id/textViewfayudante"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/titleFecha"
+                android:text="@string/texto_vacio"
                 android:textSize="18sp" />
 
         </TableRow>
@@ -131,22 +130,13 @@
                 android:id="@+id/textViewfsustitucion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/titleFecha"
+                android:text="@string/texto_vacio"
                 android:textSize="18sp" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/textView55"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:gravity="end"
-                android:text="Grupo"
-                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/textViewGrupoVer"
@@ -160,29 +150,33 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tvNombramiento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/texto_vacio"
+                android:textSize="15sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
                 android:id="@+id/tvHabilitar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:text="@string/texto_vacio"
                 android:textSize="15sp" />
 
 
         </TableRow>
-    </TableLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabClose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:backgroundTint="#ffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_cerrar" />
+
+    </TableLayout>
 
     <ProgressBar
         android:id="@+id/progressBarVer"

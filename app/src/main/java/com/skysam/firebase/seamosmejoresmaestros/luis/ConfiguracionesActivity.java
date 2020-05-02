@@ -83,12 +83,10 @@ public class ConfiguracionesActivity extends AppCompatActivity {
                     if (isNumber) {
                         int numeroGrupos = Integer.parseInt(editTextPreferenceGrupos.getText());
                         editor.putInt("numeroGrupos", numeroGrupos);
-                        editor.putBoolean("sugerenciaInicial", false);
                         editor.commit();
                     } else {
                         editTextPreferenceGrupos.setText("1");
                         editor.putInt("numeroGrupos", 1);
-                        editor.putBoolean("sugerenciaInicial", false);
                         editor.commit();
                         Toast.makeText(getContext(), "Dato no válido. Se configurará 1 Grupo por defecto", Toast.LENGTH_LONG).show();
                     }
@@ -196,7 +194,7 @@ public class ConfiguracionesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
 

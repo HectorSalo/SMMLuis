@@ -68,31 +68,23 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <LinearLayout
-                    android:id="@+id/linearLayout4"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outlined_grupo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:hint="@string/numero_grupos"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/linearLayout5"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_grupo"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginEnd="12dp"
-                        android:text="Grupo" />
+                        android:inputType="textPersonName" />
 
-                    <NumberPicker
-                        android:id="@+id/numberGrupoEditar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_marginEnd="8dp">
-
-                    </NumberPicker>
-                </LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 

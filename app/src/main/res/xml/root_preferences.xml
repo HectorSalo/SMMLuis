@@ -52,8 +52,8 @@
             >
             <intent
                 android:action="android.intent.action.VIEW"
-                android:targetPackage="com.google.firebase.example.seamosmejoresmaestros"
-                android:targetClass="com.google.firebase.example.seamosmejoresmaestros.AcercadeActivity"
+                android:targetPackage="com.skysam.firebase.seamosmejoresmaestros.luis"
+                android:targetClass="com.skysam.firebase.seamosmejoresmaestros.luis.AcercadeActivity"
                 />
         </PreferenceScreen>
     </PreferenceCategory>

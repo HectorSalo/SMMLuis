@@ -18,7 +18,8 @@
             android:name=".ConfiguracionesActivity"
             android:label="@string/title_activity_configuraciones"
             android:theme="@style/AppThemeSetting"></activity>
-        <activity android:name=".AcercadeActivity" />
+        <activity android:name=".AcercadeActivity"
+            android:theme="@style/AppThemeDiaNoche"/>
         <activity
             android:name=".Asignaciones.VistaMensualActivity"
             android:theme="@style/AppThemeSetting"

@@ -186,7 +186,7 @@ public class ActualizarFechaSalaEliminada {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     VariablesActualizacionFechas.idPubCambiado = doc.getId();
-                    VariablesActualizacionFechas.fechaDisCambiado = doc.getDate(VariablesEstaticas.BD_DISVIEJO);
+                    //VariablesActualizacionFechas.fechaDisCambiado = doc.getDate(VariablesEstaticas.BD_DISVIEJO);
 
                     actFechaEnc();
 
@@ -227,7 +227,7 @@ public class ActualizarFechaSalaEliminada {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     VariablesActualizacionFechas.idPubCambiado = doc.getId();
-                    VariablesActualizacionFechas.fechaAyuCambiado = doc.getDate(VariablesEstaticas.BD_AYUVIEJO);
+                    //VariablesActualizacionFechas.fechaAyuCambiado = doc.getDate(VariablesEstaticas.BD_AYUVIEJO);
 
                     actFechaAyu();
 

@@ -433,7 +433,7 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     public void actFechaViejaSust() {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(sustSeleccionadoId).update(VariablesEstaticas.BD_SUSTVIEJO, fechaRecienteSust).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection("publicadores").document(sustSeleccionadoId).update(VariablesEstaticas.BD_SUSTRECIENTE, fechaRecienteSust).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
@@ -460,8 +460,8 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
                 if (task.isSuccessful()) {
                         DocumentSnapshot doc = task.getResult();
                         VariablesGenerales.idPubCambiado = doc.getId();
-                        VariablesGenerales.fechaDisCambiado = doc.getDate(VariablesEstaticas.BD_DISVIEJO);
-                        VariablesGenerales.fechaAyuCambiado = doc.getDate(VariablesEstaticas.BD_AYUVIEJO);
+                        //VariablesGenerales.fechaDisCambiado = doc.getDate(VariablesEstaticas.BD_DISVIEJO);
+                        //VariablesGenerales.fechaAyuCambiado = doc.getDate(VariablesEstaticas.BD_AYUVIEJO);
 
                         if (encargado) {
                             actFechaEnc();

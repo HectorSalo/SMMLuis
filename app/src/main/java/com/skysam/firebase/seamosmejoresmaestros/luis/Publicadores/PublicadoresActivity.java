@@ -137,9 +137,9 @@ public class PublicadoresActivity extends AppCompatActivity
         listPublicadores = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
-        Query query = reference.orderBy("apellido", Query.Direction.ASCENDING);
+        Query query = reference.orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -177,7 +177,6 @@ public class PublicadoresActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            //super.onBackPressed();
             Intent myIntent = new Intent(this, MainActivity.class);
             startActivity(myIntent);
         }
@@ -351,9 +350,9 @@ public class PublicadoresActivity extends AppCompatActivity
         listPublicadores = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
-        Query query = reference.orderBy("nombre", Query.Direction.ASCENDING);
+        Query query = reference.orderBy(VariablesEstaticas.BD_NOMBRE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -389,9 +388,9 @@ public class PublicadoresActivity extends AppCompatActivity
         listPublicadores = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
-        Query query = reference.orderBy("apellido", Query.Direction.ASCENDING);
+        Query query = reference.orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -427,9 +426,9 @@ public class PublicadoresActivity extends AppCompatActivity
         listPublicadores = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
-        Query query = reference.orderBy("disReciente", Query.Direction.ASCENDING);
+        Query query = reference.orderBy(VariablesEstaticas.BD_DISRECIENTE, Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

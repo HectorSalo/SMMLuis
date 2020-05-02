@@ -155,6 +155,12 @@ public class AddPublicador extends AppCompatActivity {
             ministerial = false;
         }
 
+        if (radioFemenino.isChecked() && (cbMinisterial.isChecked() || cbAnciano.isChecked())) {
+            Toast.makeText(getApplicationContext(), "Este nombramiento no aplica para una mujer", Toast.LENGTH_SHORT).show();
+            progressBarAdd.setVisibility(View.GONE);
+            grupoValido = false;
+        }
+
         precursor = cbPrecursor.isChecked();
 
         if (!Correo.isEmpty()) {
@@ -177,11 +183,8 @@ public class AddPublicador extends AppCompatActivity {
                 publicador.put(VariablesEstaticas.BD_HABILITADO, true);
                 publicador.put(VariablesEstaticas.BD_IMAGEN, null);
                 publicador.put(VariablesEstaticas.BD_DISRECIENTE, null);
-                publicador.put(VariablesEstaticas.BD_DISVIEJO, null);
                 publicador.put(VariablesEstaticas.BD_AYURECIENTE, null);
-                publicador.put(VariablesEstaticas.BD_AYUVIEJO, null);
                 publicador.put(VariablesEstaticas.BD_SUSTRECIENTE, null);
-                publicador.put(VariablesEstaticas.BD_SUSTVIEJO, null);
                 publicador.put(VariablesEstaticas.BD_MINISTERIAL, ministerial);
                 publicador.put(VariablesEstaticas.BD_SUPER, false);
                 publicador.put(VariablesEstaticas.BD_PRECURSOR, precursor);
@@ -196,7 +199,7 @@ public class AddPublicador extends AppCompatActivity {
                     publicador.put(VariablesEstaticas.BD_GENERO, "Mujer");
                 }
 
-                db.collection("publicadores").add(publicador).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                db.collection(VariablesEstaticas.BD_PUBLICADORES).add(publicador).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         progressBarAdd.setVisibility(View.GONE);

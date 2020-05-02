@@ -40,14 +40,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="237dp">
-
-
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
@@ -72,7 +64,7 @@
                         android:layout_height="40dp"
                         android:background="@color/colorPrimaryDark"
                         android:gravity="center"
-                        android:text="@string/titleSala1"
+                        android:text="@string/tabSala1"
                         android:textColor="#ffffff"
                         android:textSize="25sp"
                         android:textStyle="italic" />
@@ -100,7 +92,7 @@
                         android:id="@+id/lecturaSala1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="@string/tvEncargado"
+                        android:text="@string/texto_vacio"
                         android:textSize="25sp" />
 
 
@@ -120,7 +112,7 @@
                             android:id="@+id/asignacion1Sala1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/tvAsignacion"
+                            android:text="@string/texto_vacio"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -135,7 +127,7 @@
                             android:id="@+id/encargado1Sala1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tvEncargado"
+                            android:text="@string/texto_vacio"
                             android:textSize="25sp" />
 
                     </TableRow>
@@ -148,7 +140,7 @@
                             android:id="@+id/ayudante1Sala1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tvAyudante"
+                            android:text="@string/texto_vacio"
                             android:textSize="25sp" />
 
                     </TableRow>
@@ -171,7 +163,7 @@
                             android:id="@+id/asignacion2Sala1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/tvAsignacion"
+                            android:text="@string/texto_vacio"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -186,7 +178,7 @@
                             android:id="@+id/encargado2Sala1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tvEncargado"
+                            android:text="@string/texto_vacio"
                             android:textSize="25sp" />
 
 
@@ -200,7 +192,7 @@
                             android:id="@+id/ayudante2Sala1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tvAyudante"
+                            android:text="@string/texto_vacio"
                             android:textSize="25sp" />
                     </TableRow>
 
@@ -220,7 +212,7 @@
                             android:id="@+id/asignacion3Sala1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/tvAsignacion"
+                            android:text="@string/texto_vacio"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -235,7 +227,7 @@
                             android:id="@+id/encargado3Sala1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tvEncargado"
+                            android:text="@string/texto_vacio"
                             android:textSize="25sp" />
                     </TableRow>
 
@@ -247,226 +239,13 @@
                             android:id="@+id/ayudante3Sala1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/tvAyudante"
+                            android:text="@string/texto_vacio"
                             android:textSize="25sp" />
                     </TableRow>
 
                 </TableLayout>
-
 
             </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/linearSala2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical"
-                tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="237dp">
-
-
-                <LinearLayout
-                    android:id="@+id/linearLayoutSala2"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/titleSala2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorPrimaryDark"
-                        android:gravity="center"
-                        android:text="@string/texto_vacio"
-                        android:textColor="#ffffff"
-                        android:textSize="25sp"
-                        android:textStyle="italic" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linearLayoutLecturaSala2"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="15dp"
-                    android:background="#a3a3a3"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvAsigLecturaSala2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tvLectura"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/lecturaSala2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/tvEncargado"
-                        android:textSize="25sp" />
-
-
-                </LinearLayout>
-
-                <TableLayout
-                    android:id="@+id/tableAsignacion1Sala2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="15dp">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp">
-
-                        <TextView
-                            android:id="@+id/asignacion1Sala2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tvAsignacion"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/encargado1Sala2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tvEncargado"
-                            android:textSize="25sp" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/ayudante1Sala2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tvAyudante"
-                            android:textSize="25sp" />
-
-                    </TableRow>
-
-                </TableLayout>
-
-
-                <TableLayout
-                    android:id="@+id/tableAsignacion2Sala2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:background="#a3a3a3">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp">
-
-                        <TextView
-                            android:id="@+id/asignacion2Sala2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tvAsignacion"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/encargado2Sala2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tvEncargado"
-                            android:textSize="25sp" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/ayudante2Sala2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tvAyudante"
-                            android:textSize="25sp" />
-                    </TableRow>
-
-                </TableLayout>
-
-                <TableLayout
-                    android:id="@+id/tableAsignacion3Sala2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="15dp">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp">
-
-                        <TextView
-                            android:id="@+id/asignacion3Sala2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tvAsignacion"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/encargado3Sala2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tvEncargado"
-                            android:textSize="25sp" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/ayudante3Sala2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/tvAyudante"
-                            android:textSize="25sp" />
-                    </TableRow>
-
-                </TableLayout>
-
-
-            </LinearLayout>
-
-        </LinearLayout>
     </ScrollView>
 
 

@@ -49,10 +49,7 @@ import java.util.Calendar;
 public class AsignacionesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Sala1Fragment.OnFragmentInteractionListener {
 
-    private boolean advertencia;
     private ImageView imageNav;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,19 +70,13 @@ public class AsignacionesActivity extends AppCompatActivity
         vpSalas.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpSalas));
 
-        SharedPreferences preferences = getSharedPreferences("advertencia", Context.MODE_PRIVATE);
-        advertencia = preferences.getBoolean("activar", true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (advertencia) {
-                    irSalas();
-                } else {
-                    Intent myIntent = new Intent(AsignacionesActivity.this, EditarSalas.class);
-                    startActivity(myIntent);
-                }
+                Intent myIntent = new Intent(AsignacionesActivity.this, EditarSalas.class);
+                startActivity(myIntent);
             }
         });
 
@@ -211,39 +202,6 @@ public class AsignacionesActivity extends AppCompatActivity
         return true;
     }
 
-    private void irSalas() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
-        dialog.setTitle("¡Advertencia!");
-        dialog.setMessage("Al empezar a programar las asignaciones de la semana, no debe salir a mitad del proceso.\nEn caso de salir antes de concluir, la información no será guardada y deberá iniciar el proceso nuevamente.\n¿Desea continuar?");
-        dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent myIntent = new Intent(AsignacionesActivity.this, EditarSalas.class);
-                startActivity(myIntent);
-            }
-        });
-        dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setNeutralButton("Continuar y no mostrar de nuevo", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SharedPreferences preferences = getSharedPreferences("advertencia", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("activar", false);
-                editor.commit();
-
-                Intent myIntent = new Intent(AsignacionesActivity.this, EditarSalas.class);
-                startActivity(myIntent);
-            }
-        });
-        dialog.setIcon(R.drawable.ic_advertencia);
-        dialog.show();
-
-    }
 
     private void verMes() {
         Calendar calendar = Calendar.getInstance();

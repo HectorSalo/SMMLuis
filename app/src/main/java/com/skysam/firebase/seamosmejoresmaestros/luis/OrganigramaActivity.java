@@ -53,6 +53,7 @@ public class OrganigramaActivity extends AppCompatActivity
     private OrganigramaAdapter organigramaAdapter;
     private GrupoItemAdapter grupoItemAdapter;
     private ImageView imageNav;
+    private TextView tvNombrePerfil;
     private ProgressBar progressBarOrg;
     private ArrayList<String> gruposList;
     private LinearLayout linearGrupos, linearAncianos, linearMinisteriales, linearPrecursores;
@@ -66,6 +67,8 @@ public class OrganigramaActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        cargarPreferencias();
+
         listPublicadores = new ArrayList<>();
         recyclerOrg = (RecyclerView) findViewById(R.id.recyclerOrganigrama);
         recyclerOrg.setLayoutManager(new LinearLayoutManager(this));
@@ -73,7 +76,6 @@ public class OrganigramaActivity extends AppCompatActivity
         organigramaAdapter = new OrganigramaAdapter(listPublicadores, this);
         recyclerOrg.setAdapter(organigramaAdapter);
         recyclerOrg.setVisibility(View.GONE);
-
 
 
         linearAncianos = (LinearLayout) findViewById(R.id.linearAncianos);
@@ -108,34 +110,13 @@ public class OrganigramaActivity extends AppCompatActivity
 
         View navHeader = navigationView.getHeaderView(0);
         imageNav = navHeader.findViewById(R.id.imageViewNav);
-        TextView tvName = navHeader.findViewById(R.id.tvNameNav);
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
-        numeroGrupos = sharedPreferences.getInt("numeroGrupos", 1);
-        tvName.setText(nombrePerfil);
-        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
-        if (temaOscuro) {
-
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-        } else {
-            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
-        }
-
-        gruposList = new ArrayList<>();
-        for (int i = 1; i <= numeroGrupos; i++) {
-            gruposList.add("Grupo " + i);
-        }
-        gruposList.add(gruposList.size(), "Ver todos");
+        tvNombrePerfil = navHeader.findViewById(R.id.tvNameNav);
 
 
         ImageButton grupos = (ImageButton) findViewById(R.id.imageButtonGrupos);
         grupos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 selecGrupo();
             }
         });
@@ -220,6 +201,8 @@ public class OrganigramaActivity extends AppCompatActivity
             dialog.show();
 
             return true;
+        } else if (id == R.id.action_numero_grupos) {
+            startActivity(new Intent(this, ConfiguracionesActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -254,6 +237,28 @@ public class OrganigramaActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void cargarPreferencias() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        numeroGrupos = sharedPreferences.getInt("numeroGrupos", 1);
+        String nombrePerfil = sharedPreferences.getString("nombrePerfil", "Nombre de Perfil");
+        tvNombrePerfil.setText(nombrePerfil);
+        boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
+        if (temaOscuro) {
+
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        } else {
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        }
+
+        gruposList = new ArrayList<>();
+        for (int i = 1; i <= numeroGrupos; i++) {
+            gruposList.add("Grupo " + i);
+        }
+        gruposList.add(gruposList.size(), "Ver todos");
     }
 
 
@@ -295,7 +300,7 @@ public class OrganigramaActivity extends AppCompatActivity
         listPublicadores = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
         Query query = reference.whereEqualTo(VariablesEstaticas.BD_GRUPO, grupoInt).orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
@@ -369,7 +374,7 @@ public class OrganigramaActivity extends AppCompatActivity
         listPublicadores = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
         Query query = reference.whereEqualTo(VariablesEstaticas.BD_ANCIANO, true).orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
@@ -420,7 +425,7 @@ public class OrganigramaActivity extends AppCompatActivity
         listPublicadores = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
         Query query = reference.whereEqualTo(VariablesEstaticas.BD_PRECURSOR, true).orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
@@ -471,7 +476,7 @@ public class OrganigramaActivity extends AppCompatActivity
         listPublicadores = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
         Query query = reference.whereEqualTo(VariablesEstaticas.BD_MINISTERIAL, true).orderBy(VariablesEstaticas.BD_APELLIDO, Query.Direction.ASCENDING);
 
@@ -506,5 +511,11 @@ public class OrganigramaActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cargarPreferencias();
     }
 }

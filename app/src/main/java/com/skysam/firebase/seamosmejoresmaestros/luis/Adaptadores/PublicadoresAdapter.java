@@ -26,6 +26,7 @@ import com.skysam.firebase.seamosmejoresmaestros.luis.Publicadores.EditarPubActi
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.skysam.firebase.seamosmejoresmaestros.luis.R;
+import com.skysam.firebase.seamosmejoresmaestros.luis.Variables.VariablesEstaticas;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -170,7 +171,7 @@ public class PublicadoresAdapter extends RecyclerView.Adapter<PublicadoresAdapte
     private void eliminarPublicador(final PublicadoresConstructor i) {
         String doc = i.getIdPublicador();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
         reference.document(doc)
                 .delete()

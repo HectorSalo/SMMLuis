@@ -15,6 +15,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Cerrar sesión</string>
+    <string name="action_numero_grupos">N° de Grupos</string>
     <string name="action_exportar">Ver por mes</string>
     <string name="ajustes">Ajustes</string>
     <string name="titleFecha">Seleccione Fecha</string>
@@ -69,14 +70,12 @@
     <string name="btnAsignar">IR</string>
     <string name="checkboxVisita">Visita Superintendente</string>
     <string name="checkboxAsamblea">Asamblea</string>
-    <string name="checkboxSolo1">Sólo Sala 1</string>
 
     <!-- Content ResumenSalas -->
     <string name="tvEncargado">Encargado</string>
     <string name="tvAyudante">Ayudante</string>
     <string name="tvAsignacion">Asignación</string>
     <string name="tvLectura">Lectura Bíblica</string>
-    <string name="titleSala1">Primera Sala</string>
 
     <!-- Fragment Inicio -->
     <string name="ultSemana">Última semana programada</string>

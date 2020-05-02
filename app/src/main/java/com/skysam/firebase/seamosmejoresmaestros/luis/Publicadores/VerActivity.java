@@ -29,7 +29,7 @@ import java.util.Date;
 public class VerActivity extends AppCompatActivity {
 
     private ImageView imagenPublicador;
-    private TextView tvNombre, tvApellido, tvTelefono, tvCorreo, tvfAsignacion, tvfAyudante, tvfSustitucion, tvHabilitar, tvGrupo;
+    private TextView tvNombre, tvApellido, tvTelefono, tvCorreo, tvfAsignacion, tvfAyudante, tvfSustitucion, tvHabilitar, tvGrupo, tvNombramiento;
     private String idPublicador;
     private Date discurso, ayudante, sustitucion;
     private ProgressBar progressBarVer;
@@ -51,6 +51,7 @@ public class VerActivity extends AppCompatActivity {
         tvfSustitucion = (TextView) findViewById(R.id.textViewfsustitucion);
         tvHabilitar = (TextView) findViewById(R.id.tvHabilitar);
         tvGrupo = (TextView) findViewById(R.id.textViewGrupoVer);
+        tvNombramiento = findViewById(R.id.tvNombramiento);
         progressBarVer = findViewById(R.id.progressBarVer);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -67,21 +68,13 @@ public class VerActivity extends AppCompatActivity {
         Bundle recibirBundle = this.getIntent().getExtras();
         idPublicador = recibirBundle.getString("idPublicador");
 
-        FloatingActionButton fabClose = (FloatingActionButton)findViewById(R.id.fabClose);
-        fabClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
         progressBarVer.setVisibility(View.VISIBLE);
         consultaDetalles();
     }
 
     public void consultaDetalles() {
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
-        CollectionReference reference = dbFirestore.collection("publicadores");
+        CollectionReference reference = dbFirestore.collection(VariablesEstaticas.BD_PUBLICADORES);
 
         reference.document(idPublicador).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -95,9 +88,36 @@ public class VerActivity extends AppCompatActivity {
                     discurso = doc.getDate(VariablesEstaticas.BD_DISRECIENTE);
                     ayudante = doc.getDate(VariablesEstaticas.BD_AYURECIENTE);
                     sustitucion = doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE);
+
                     double grupo = doc.getDouble(VariablesEstaticas.BD_GRUPO);
                     int x = (int)grupo;
-                    tvGrupo.setText(String.valueOf(x));
+                    tvGrupo.setText("Grupo " + x);
+
+                    boolean precursor = doc.getBoolean(VariablesEstaticas.BD_PRECURSOR);
+                    boolean anciano = doc.getBoolean(VariablesEstaticas.BD_ANCIANO);
+                    boolean ministerial = doc.getBoolean(VariablesEstaticas.BD_MINISTERIAL);
+                    boolean superintendente = doc.getBoolean(VariablesEstaticas.BD_SUPER);
+                    boolean auxiliar = doc.getBoolean(VariablesEstaticas.BD_AUXILIAR);
+                    String precursorS = "";
+                    String nombramiento1 = "";
+                    String nombramiento2 = "";
+
+                    if (precursor) {
+                        precursorS = "Precursor";
+                    }
+                    if (anciano) {
+                        nombramiento1 = "Anciano";
+                    }
+                    if (ministerial) {
+                        nombramiento1 = "Ministerial";
+                    }
+                    if (superintendente) {
+                        nombramiento2 = "Superintendente";
+                    }
+                    if (auxiliar) {
+                        nombramiento2 = "Auxiliar";
+                    }
+                    tvNombramiento.setText(precursorS + nombramiento1 + nombramiento2);
 
                     if (doc.getString(VariablesEstaticas.BD_GENERO).equals("Hombre")) {
                         if (doc.getString(VariablesEstaticas.BD_IMAGEN) != null) {
