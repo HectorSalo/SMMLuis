@@ -13,6 +13,8 @@ import androidx.preference.PreferenceManager;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +41,10 @@ public class ResumenSalas extends AppCompatActivity {
     private TextView tvFecha, tvLectura, tvAsignacion1, tvAsignacion2, tvAsignacion3, titulo;
     private TextView tvLector, tvEncargado1, tvAyudante1, tvEncargado2, tvAyudante2, tvEncargado3, tvAyudante3;
     private Date fechaDate, fechaLunesDate;
+    private long fechaLunes;
+    private ProgressBar progressBar;
+    private ArrayList<String> listEncargados, listAyudantes;
+    private FirebaseFirestore db;
 
 
     @Override
@@ -47,6 +54,8 @@ public class ResumenSalas extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarSalas);
         setSupportActionBar(toolbar);
+
+        db = FirebaseFirestore.getInstance();
 
         tvFecha = (TextView) findViewById(R.id.fechaSala);
         titulo = (TextView) findViewById(R.id.titleSala1);
@@ -61,6 +70,7 @@ public class ResumenSalas extends AppCompatActivity {
         tvAyudante1 = (TextView) findViewById(R.id.ayudante1Sala1);
         tvAyudante2 = (TextView) findViewById(R.id.ayudante2Sala1);
         tvAyudante3 = (TextView) findViewById(R.id.ayudante3Sala1);
+        progressBar = findViewById(R.id.progressBar);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
@@ -73,14 +83,17 @@ public class ResumenSalas extends AppCompatActivity {
 
         }
 
+        listEncargados = new ArrayList<>();
+        listAyudantes = new ArrayList<>();
+
         Bundle bundleRecibir = this.getIntent().getExtras();
-        idLector = bundleRecibir.getString("idLectorSala1");
-        idEncargado1 = bundleRecibir.getString("idEncargado1Sala1");
-        idAyudante1 = bundleRecibir.getString("idAyudante1Sala1");
-        idEncargado2 = bundleRecibir.getString("idEncargado2Sala1");
-        idAyudante2 = bundleRecibir.getString("idAyudante2Sala1");
-        idEncargado3 = bundleRecibir.getString("idEncargado3Sala1");
-        idAyudante3 = bundleRecibir.getString("idAyudante3Sala1");
+        idLector = bundleRecibir.getString("idLector");
+        idEncargado1 = bundleRecibir.getString("idEncargado1");
+        idAyudante1 = bundleRecibir.getString("idAyudante1");
+        idEncargado2 = bundleRecibir.getString("idEncargado2");
+        idAyudante2 = bundleRecibir.getString("idAyudante2");
+        idEncargado3 = bundleRecibir.getString("idEncargado3");
+        idAyudante3 = bundleRecibir.getString("idAyudante3");
         nombreLector = bundleRecibir.getString("nombreLector");
         nombreEncargado1 = bundleRecibir.getString("nombreEncargado1");
         nombreEncargado2 = bundleRecibir.getString("nombreEncargado2");
@@ -88,14 +101,14 @@ public class ResumenSalas extends AppCompatActivity {
         nombreAyudante1 = bundleRecibir.getString("nombreAyudante1");
         nombreAyudante2 = bundleRecibir.getString("nombreAyudante2");
         nombreAyudante3 = bundleRecibir.getString("nombreAyudante3");
-        seleccion1 = bundleRecibir.getString("asignacion1Sala1");
-        seleccion2 = bundleRecibir.getString("asignacion2Sala1");
-        seleccion3 = bundleRecibir.getString("asignacion3Sala1");
+        seleccion1 = bundleRecibir.getString("asignacion1");
+        seleccion2 = bundleRecibir.getString("asignacion2");
+        seleccion3 = bundleRecibir.getString("asignacion3");
 
         visita = bundleRecibir.getBoolean("visita");
         asamblea = bundleRecibir.getBoolean("asamblea");
         long fecha = bundleRecibir.getLong("fecha");
-        long fechaLunes = bundleRecibir.getLong("fechaLunes");
+        fechaLunes = bundleRecibir.getLong("fechaLunes");
         semanaSelec = bundleRecibir.getInt("semana");
 
         fechaDate = new Date();
@@ -137,33 +150,40 @@ public class ResumenSalas extends AppCompatActivity {
 
                     if (idLector != null) {
                         tvLector.setText(nombreLector);
+                        listEncargados.add(idLector);
                     }
 
                     if (idEncargado1 != null) {
                         tvAsignacion1.setText(seleccion1);
                         tvEncargado1.setText(nombreEncargado1);
+                        listEncargados.add(idEncargado1);
                     }
 
                     if (idAyudante1 != null) {
                         tvAyudante1.setText(nombreAyudante1);
+                        listAyudantes.add(idAyudante1);
                     }
 
                     if (idEncargado2 != null) {
                         tvAsignacion2.setText(seleccion2);
                         tvEncargado2.setText(nombreEncargado2);
+                        listEncargados.add(idEncargado2);
                     }
 
                     if (idAyudante2 != null) {
                         tvAyudante2.setText(nombreAyudante2);
+                        listAyudantes.add(idAyudante2);
                     }
 
                     if (idEncargado3 != null) {
                         tvAsignacion3.setText(seleccion3);
                         tvEncargado3.setText(nombreEncargado3);
+                        listEncargados.add(idEncargado3);
                     }
 
                     if (idAyudante3 != null) {
                         tvAyudante3.setText(nombreAyudante3);
+                        listAyudantes.add(idAyudante3);
                     }
         } else {
             tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaDate));
@@ -173,9 +193,9 @@ public class ResumenSalas extends AppCompatActivity {
 
 
     public void guardarSala() {
-        String semana = String.valueOf(semanaSelec);
+        progressBar.setVisibility(View.VISIBLE);
+        String semana = String.valueOf(fechaLunes);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference reference = db.collection(VariablesEstaticas.BD_SALA).document(semana);
 
                 Map<String, Object> publicador = new HashMap<>();
@@ -206,15 +226,36 @@ public class ResumenSalas extends AppCompatActivity {
          reference.set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
              @Override
              public void onSuccess(Void aVoid) {
-
+                 if (!listEncargados.isEmpty()) {
+                     guardarFechasPublicadoresEncargados();
+                 }
+                 if (!listAyudantes.isEmpty()) {
+                     guardarFechasPublicadoresAyudantes();
+                 }
+                 progressBar.setVisibility(View.GONE);
+                startActivity(new Intent(getApplicationContext(), AsignacionesActivity.class));
+                finish();
              }
          }).addOnFailureListener(new OnFailureListener() {
              @Override
              public void onFailure(@NonNull Exception e) {
-
+                 progressBar.setVisibility(View.GONE);
+                 Toast.makeText(getApplicationContext(), "Error al cargar. Intente nuevamente", Toast.LENGTH_SHORT).show();
              }
          });
 
+    }
+
+    private void guardarFechasPublicadoresEncargados() {
+        for (int i = 0; i < listEncargados.size(); i++) {
+            db.collection(VariablesEstaticas.BD_PUBLICADORES).document(listEncargados.get(i)).update(VariablesEstaticas.BD_DISRECIENTE, fechaDate);
+        }
+    }
+
+    private void guardarFechasPublicadoresAyudantes() {
+        for (int i = 0; i < listAyudantes.size(); i++) {
+            db.collection(VariablesEstaticas.BD_PUBLICADORES).document(listAyudantes.get(i)).update(VariablesEstaticas.BD_AYURECIENTE, fechaDate);
+        }
     }
 
 

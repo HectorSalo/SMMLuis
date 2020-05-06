@@ -71,6 +71,7 @@ public class EditarSalas extends AppCompatActivity {
     private String genero, generoAyudante;
     private int semanaSelec;
     private ProgressBar progressBarEditSalas;
+    private long fechaLunesLong;
 
 
     @Override
@@ -94,6 +95,8 @@ public class EditarSalas extends AppCompatActivity {
         listPubs = new ArrayList<>();
         editSalasAdapter = new EditSalasAdapter(listPubs, this);
         recyclerEditSalas.setAdapter(editSalasAdapter);
+
+        calendarView.setFirstDayOfWeek(Calendar.MONDAY);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
@@ -198,7 +201,7 @@ public class EditarSalas extends AppCompatActivity {
         final Calendar calendario = Calendar.getInstance();
         final Calendar calendarioLunes = Calendar.getInstance();
         calendarioLunes.clear();
-        calendarioLunes.setFirstDayOfWeek(Calendar.MONDAY);
+
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -207,9 +210,41 @@ public class EditarSalas extends AppCompatActivity {
                 fechaSelec = calendario.getTime();
                 semanaSelec = calendario.get(Calendar.WEEK_OF_YEAR);
                 tvTitle.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaSelec));
+                int diaSemana = calendario.get(Calendar.DAY_OF_WEEK);
+                long fechaSelecLong = fechaSelec.getTime();
 
-                calendarioLunes.set(Calendar.WEEK_OF_YEAR, semanaSelec);
-                calendarioLunes.set(Calendar.YEAR, year);
+                switch (diaSemana) {
+                    case Calendar.MONDAY:
+                        calendarioLunes.setTimeInMillis(fechaSelecLong);
+                        break;
+                    case Calendar.TUESDAY:
+                        fechaLunesLong = fechaSelecLong - (24 * 24 * 60 * 1000);
+                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        break;
+                    case Calendar.WEDNESDAY:
+                        fechaLunesLong = fechaSelecLong - (2 * 24 * 24 * 60 * 1000);
+                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        break;
+                    case Calendar.THURSDAY:
+                        fechaLunesLong = fechaSelecLong - (3 * 24 * 24 * 60 * 1000);
+                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        break;
+                    case Calendar.FRIDAY:
+                        fechaLunesLong = fechaSelecLong - (4 * 24 * 24 * 60 * 1000);
+                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        break;
+                    case Calendar.SATURDAY:
+                        fechaLunesLong = fechaSelecLong - (5 * 24 * 24 * 60 * 1000);
+                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        break;
+                    case Calendar.SUNDAY:
+                        fechaLunesLong = fechaSelecLong - (6 * 24 * 24 * 60 * 1000);
+                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        break;
+                    default:
+                        break;
+                }
+
                 fechaLunes = calendarioLunes.getTime();
             }
         });
@@ -223,9 +258,7 @@ public class EditarSalas extends AppCompatActivity {
         btnIr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                fechaDisponible(semanaSelec);
-
+                fechaDisponible();
             }
         });
     }
@@ -1447,7 +1480,7 @@ public class EditarSalas extends AppCompatActivity {
         myBundle.putBoolean("visita", visita);
         myBundle.putBoolean("asamblea", asamblea);
         myBundle.putLong("fecha", fechaSelec.getTime());
-        myBundle.putLong("fechaLunes", fechaLunes.getTime());
+        myBundle.putLong("fechaLunes", fechaLunesLong);
         myBundle.putInt("semana", semanaSelec);
 
         myIntent.putExtras(myBundle);
@@ -1507,10 +1540,10 @@ public class EditarSalas extends AppCompatActivity {
         editSalasAdapter.updateListSelec(newList);
     }
 
-    public void fechaDisponible(int i) {
-        String idSemana = String.valueOf(i);
+    public void fechaDisponible() {
+        String idSemana = String.valueOf(fechaLunesLong);
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
-        CollectionReference reference = dbFirestore.collection("sala1");
+        CollectionReference reference = dbFirestore.collection(VariablesEstaticas.BD_SALA);
 
         reference.document(idSemana).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -1518,9 +1551,6 @@ public class EditarSalas extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()) {
-                        Date date = doc.getDate(VariablesEstaticas.BD_FECHA_LUNES);
-                        if (date != null) {
-                            if (date.after(fechaLunes) || date.equals(fechaLunes)) {
                                 AlertDialog.Builder dialog = new AlertDialog.Builder(EditarSalas.this);
                                 dialog.setTitle("¡Aviso!");
                                 dialog.setMessage("Esta semana ya fue programada.\nSi desea modificarla por completo, debe eliminarla primero y luego programarla como nueva.\nEn caso de querer susituir a alguno de los publicadores, puede hacerlo desde Asignaciones directamente");
@@ -1532,12 +1562,6 @@ public class EditarSalas extends AppCompatActivity {
                                     }
                                 });
                                 dialog.show();
-                            } else {
-                                filtros();
-                            }
-                        } else {
-                            finish();
-                        }
                     } else {
                         filtros();
                     }
