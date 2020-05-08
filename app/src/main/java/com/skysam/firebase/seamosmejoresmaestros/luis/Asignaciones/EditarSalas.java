@@ -64,7 +64,7 @@ public class EditarSalas extends AppCompatActivity {
     private CheckBox cbVisita, cbAsamblea;
     private Button btnIr;
     private RadioGroup grupoCb;
-    private Date fechaSelec, fechaActual, fechaLunes;
+    private Date fechaSelec, fechaActual;
     private boolean visita, asamblea;
     private String seleccion1, seleccion2, seleccion3, idLector, idEncargado1, idAyudante1, idEncargado2, idAyudante2, idEncargado3, idAyudante3;
     private String nombreEncargado1, nombreEncargado2, nombreEncargado3, nombreAyudante1, nombreAyudante2, nombreAyudante3, nombreLector;
@@ -199,9 +199,6 @@ public class EditarSalas extends AppCompatActivity {
         tvTitle.setText("Seleccione el día de las asignaciones");
 
         final Calendar calendario = Calendar.getInstance();
-        final Calendar calendarioLunes = Calendar.getInstance();
-        calendarioLunes.clear();
-
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -210,42 +207,43 @@ public class EditarSalas extends AppCompatActivity {
                 fechaSelec = calendario.getTime();
                 semanaSelec = calendario.get(Calendar.WEEK_OF_YEAR);
                 tvTitle.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaSelec));
+                int horaSelec = calendario.get(Calendar.HOUR_OF_DAY);
+                int minutoSelec = calendario.get(Calendar.MINUTE);
+                int segundoSelec = calendario.get(Calendar.SECOND);
+                int milisegundoSeec = calendario.get(Calendar.MILLISECOND);
                 int diaSemana = calendario.get(Calendar.DAY_OF_WEEK);
+
+                long horaLong = horaSelec * 60 * 60 * 1000;
+                long minLong = minutoSelec * 60 * 1000;
+                long segLong = segundoSelec * 1000;
                 long fechaSelecLong = fechaSelec.getTime();
 
                 switch (diaSemana) {
                     case Calendar.MONDAY:
-                        calendarioLunes.setTimeInMillis(fechaSelecLong);
+                        fechaLunesLong = fechaSelecLong - horaLong - minLong - segLong - milisegundoSeec;
                         break;
                     case Calendar.TUESDAY:
-                        fechaLunesLong = fechaSelecLong - (24 * 24 * 60 * 1000);
-                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        fechaLunesLong = fechaSelecLong - (24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
                         break;
                     case Calendar.WEDNESDAY:
-                        fechaLunesLong = fechaSelecLong - (2 * 24 * 24 * 60 * 1000);
-                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        fechaLunesLong = fechaSelecLong - (2 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
                         break;
                     case Calendar.THURSDAY:
-                        fechaLunesLong = fechaSelecLong - (3 * 24 * 24 * 60 * 1000);
-                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        fechaLunesLong = fechaSelecLong - (3 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
                         break;
                     case Calendar.FRIDAY:
-                        fechaLunesLong = fechaSelecLong - (4 * 24 * 24 * 60 * 1000);
-                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        fechaLunesLong = fechaSelecLong - (4 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
                         break;
                     case Calendar.SATURDAY:
-                        fechaLunesLong = fechaSelecLong - (5 * 24 * 24 * 60 * 1000);
-                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        fechaLunesLong = fechaSelecLong - (5 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
                         break;
                     case Calendar.SUNDAY:
-                        fechaLunesLong = fechaSelecLong - (6 * 24 * 24 * 60 * 1000);
-                        calendarioLunes.setTimeInMillis(fechaLunesLong);
+                        fechaLunesLong = fechaSelecLong - (6 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
                         break;
                     default:
                         break;
                 }
 
-                fechaLunes = calendarioLunes.getTime();
             }
         });
         fabBack.setOnClickListener(new View.OnClickListener() {

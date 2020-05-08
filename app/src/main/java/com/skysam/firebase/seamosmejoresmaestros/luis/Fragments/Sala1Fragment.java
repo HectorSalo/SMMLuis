@@ -44,7 +44,6 @@ public class Sala1Fragment extends Fragment {
     private TextView tvAviso, tvFecha, tvTitulo, tvLector, tvAsignacion1, tvEncargado1, tvAyudante1, tvAsignacion2, tvEncargado2,tvAyudante2, tvAsignacion3, tvEncargado3, tvAyudante3, tvLectura;
     private LinearLayout linearSala;
     private ProgressBar progressBarSala1;
-    private int semanaActual;
     private Date fechaActual;
 
     public Sala1Fragment() {
@@ -98,12 +97,7 @@ public class Sala1Fragment extends Fragment {
 
         tvAviso.setVisibility(View.GONE);
 
-        if (VariablesGenerales.fechaSelec != null) {
-            cargarFechaSelec();
-
-        } else {
-            cargarFechaActual();
-        }
+        long fecha = getArguments().getLong("fecha");
 
         imgEditar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,10 +120,16 @@ public class Sala1Fragment extends Fragment {
             }
         });
 
+        fechaActual = new Date();
+
+        fechaActual.setTime(fecha);
+        tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaActual));
+
+        cargarSala(fecha);
+
         return vista;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -139,12 +139,6 @@ public class Sala1Fragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
@@ -153,42 +147,17 @@ public class Sala1Fragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
-    private void cargarFechaActual() {
-        Calendar calendario = Calendar.getInstance();
-        semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
-        fechaActual = calendario.getTime();
-        tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaActual));
 
-        cargarSala(semanaActual);
-    }
-
-    private void cargarFechaSelec() {
-        int semanaSelec = VariablesGenerales.semanaSelec;
-        tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(VariablesGenerales.fechaSelec));
-
-        cargarSala(semanaSelec);
-    }
-
-    private void cargarSala(int i) {
+    private void cargarSala(long i) {
         String id = String.valueOf(i);
 
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
-        CollectionReference reference = dbFirestore.collection("sala1");
+        CollectionReference reference = dbFirestore.collection(VariablesEstaticas.BD_SALA);
 
         reference.document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -333,14 +302,14 @@ public class Sala1Fragment extends Fragment {
         Intent myIntent = new Intent(getContext(), SustituirActivity.class);
         Bundle myBundle = new Bundle();
         myBundle.putInt("sala", 1);
-        if(VariablesGenerales.semanaSelec != 0) {
+        /*if(VariablesGenerales.semanaSelec != 0) {
             myBundle.putInt("semana", VariablesGenerales.semanaSelec);
             myBundle.putLong("fecha", VariablesGenerales.fechaSelec.getTime());
 
         } else {
-            myBundle.putInt("semana", semanaActual);
+            //myBundle.putInt("semana", semanaActual);
             myBundle.putLong("fecha", fechaActual.getTime());
-        }
+        }*/
         myIntent.putExtras(myBundle);
         startActivity(myIntent);
     }

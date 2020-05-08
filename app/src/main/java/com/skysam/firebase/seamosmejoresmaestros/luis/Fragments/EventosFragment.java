@@ -58,17 +58,7 @@ public class EventosFragment extends Fragment {
                              Bundle savedInstanceState) {
         View vista = inflater.inflate(R.layout.fragment_eventos, container, false);
 
-        Calendar calendario = Calendar.getInstance();
-        Calendar calendarioLunes = Calendar.getInstance();
-        calendarioLunes.clear();
-        calendarioLunes.setFirstDayOfWeek(Calendar.MONDAY);
-        int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
-        int anualActual = calendario.get(Calendar.YEAR);
-
-        calendarioLunes.set(Calendar.WEEK_OF_YEAR, semanaActual);
-        calendarioLunes.set(Calendar.YEAR, anualActual);
         lunesActual = new Date();
-        lunesActual = calendarioLunes.getTime();
 
         tvUltFecha = (TextView) vista.findViewById(R.id.tvInicioUltSemana);
         tvVisita = (TextView) vista.findViewById(R.id.tvInicioVisita);
@@ -101,7 +91,7 @@ public class EventosFragment extends Fragment {
             tvVisita.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
         }
 
-        cargarSemanaEnCurso(semanaActual);
+        fechaActual();
         cargarUltSemana();
         cargarProxVisita();
         return vista;
@@ -136,10 +126,55 @@ public class EventosFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public void cargarSemanaEnCurso(int i) {
+    private void fechaActual() {
+        Calendar calendario = Calendar.getInstance();
+
+        int horaSelec = calendario.get(Calendar.HOUR_OF_DAY);
+        int minutoSelec = calendario.get(Calendar.MINUTE);
+        int segundoSelec = calendario.get(Calendar.SECOND);
+        int milisegundoSeec = calendario.get(Calendar.MILLISECOND);
+        int diaSemana = calendario.get(Calendar.DAY_OF_WEEK);
+
+        long horaLong = horaSelec * 60 * 60 * 1000;
+        long minLong = minutoSelec * 60 * 1000;
+        long segLong = segundoSelec * 1000;
+        long fechaSelecLong = calendario.getTime().getTime();
+        long fechaLunesLong = 0;
+
+
+        switch (diaSemana) {
+            case Calendar.MONDAY:
+                fechaLunesLong = fechaSelecLong - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.TUESDAY:
+                fechaLunesLong = fechaSelecLong - (24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.WEDNESDAY:
+                fechaLunesLong = fechaSelecLong - (2 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.THURSDAY:
+                fechaLunesLong = fechaSelecLong - (3 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.FRIDAY:
+                fechaLunesLong = fechaSelecLong - (4 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.SATURDAY:
+                fechaLunesLong = fechaSelecLong - (5 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.SUNDAY:
+                fechaLunesLong = fechaSelecLong - (6 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            default:
+                break;
+        }
+        lunesActual.setTime(fechaLunesLong);
+        cargarSemanaEnCurso(fechaLunesLong);
+    }
+
+    public void cargarSemanaEnCurso(long i) {
         String idDocument = String.valueOf(i);
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
-        CollectionReference reference = dbFirestore.collection("sala1");
+        CollectionReference reference = dbFirestore.collection(VariablesEstaticas.BD_SALA);
 
         reference.document(idDocument).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -229,7 +264,7 @@ public class EventosFragment extends Fragment {
     private void cargarUltSemana() {
 
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
-        CollectionReference reference = dbFirestore.collection("sala1");
+        CollectionReference reference = dbFirestore.collection(VariablesEstaticas.BD_SALA);
 
         Query query = reference.orderBy(VariablesEstaticas.BD_FECHA_LUNES, Query.Direction.DESCENDING).limit(1);
 
@@ -265,7 +300,7 @@ public class EventosFragment extends Fragment {
 
     private void cargarProxVisita() {
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
-        CollectionReference reference = dbFirestore.collection("sala1");
+        CollectionReference reference = dbFirestore.collection(VariablesEstaticas.BD_SALA);
 
         Query query = reference.whereEqualTo(VariablesEstaticas.BD_VISITA, true).whereGreaterThanOrEqualTo(VariablesEstaticas.BD_FECHA_LUNES, lunesActual).orderBy(VariablesEstaticas.BD_FECHA_LUNES, Query.Direction.ASCENDING).limit(1);
 

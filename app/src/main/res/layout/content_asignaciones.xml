@@ -8,8 +8,8 @@
     tools:context=".Asignaciones.AsignacionesActivity"
     tools:showIn="@layout/app_bar_asignaciones">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpagerSalas"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/containerSalas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,6 +18,6 @@
         app:layout_constraintTop_toTopOf="parent"
         >
 
-    </androidx.viewpager.widget.ViewPager>
+    </androidx.fragment.app.FragmentContainerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

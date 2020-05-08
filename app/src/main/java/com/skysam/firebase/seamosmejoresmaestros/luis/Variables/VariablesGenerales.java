@@ -3,9 +3,6 @@ package com.skysam.firebase.seamosmejoresmaestros.luis.Variables;
 import java.util.Date;
 
 public class VariablesGenerales {
-    public static Date fechaSelec = null;
-    public static int semanaSelec = 0;
-
     public static String lectorSust = null;
     public static String encargado1Sust = null;
     public static String ayudante1Sust = null;

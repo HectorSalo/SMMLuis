@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:gravity="center"
-        android:text="@string/tvAsignacion"
+        android:text="@string/texto_vacio"
         android:textSize="32sp" />
 
 
@@ -62,7 +62,7 @@
                     android:layout_weight="3"
                     android:background="@color/colorPrimaryDark"
                     android:gravity="center"
-                    android:text="@string/menuAsignacines"
+                    android:text="@string/tabSala1"
                     android:textColor="#fff"
                     android:textSize="22sp"
                     android:textStyle="bold" />

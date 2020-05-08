@@ -1,19 +1,19 @@
 package com.skysam.firebase.seamosmejoresmaestros.luis.Asignaciones;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
 
 import android.preference.PreferenceManager;
@@ -25,15 +25,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentContainerView;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.skysam.firebase.seamosmejoresmaestros.luis.Adaptadores.SalasAdapter;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.skysam.firebase.seamosmejoresmaestros.luis.ConfiguracionesActivity;
 import com.skysam.firebase.seamosmejoresmaestros.luis.Fragments.Sala1Fragment;
 import com.skysam.firebase.seamosmejoresmaestros.luis.MainActivity;
@@ -49,7 +52,8 @@ import java.util.Calendar;
 public class AsignacionesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Sala1Fragment.OnFragmentInteractionListener {
 
-    private ImageView imageNav;
+    private Sala1Fragment sala1Fragment;
+    private Long fechaLunesLong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +62,15 @@ public class AsignacionesActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         notificationManagerCompat.cancel(VariablesEstaticas.NOTIFICACION_ID);
 
-        SalasAdapter salasAdapter = new SalasAdapter(getSupportFragmentManager());
+        FragmentContainerView fragmentContainerView = findViewById(R.id.containerSalas);
 
-        ViewPager vpSalas = (ViewPager) findViewById(R.id.viewpagerSalas);
-        vpSalas.setAdapter(salasAdapter);
-        vpSalas.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpSalas));
+        sala1Fragment = new Sala1Fragment();
 
+        Calendar calendar = Calendar.getInstance();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +91,6 @@ public class AsignacionesActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View navHeader = navigationView.getHeaderView(0);
-        imageNav = navHeader.findViewById(R.id.imageViewNav);
         TextView tvName = navHeader.findViewById(R.id.tvNameNav);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -100,13 +100,11 @@ public class AsignacionesActivity extends AppCompatActivity
         if (temaOscuro) {
 
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
         } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         }
 
-
+        cargarFecha(calendar);
     }
 
     @Override
@@ -242,7 +240,6 @@ public class AsignacionesActivity extends AppCompatActivity
 
     private void selecFecha() {
         final Calendar calendario = Calendar.getInstance();
-        final Calendar dateDiscurso = Calendar.getInstance();
 
         int dia = calendario.get(Calendar.DAY_OF_MONTH);
         int mes = calendario.get(Calendar.MONTH);
@@ -251,54 +248,112 @@ public class AsignacionesActivity extends AppCompatActivity
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                dateDiscurso.set(year, month, dayOfMonth);
-                VariablesGenerales.semanaSelec = dateDiscurso.get(Calendar.WEEK_OF_YEAR);
-                VariablesGenerales.fechaSelec = dateDiscurso.getTime();
-
-                recreate();
-
+                calendario.set(year, month, dayOfMonth);
+                cargarFecha(calendario);
             }
         }, anual, mes , dia);
+        datePickerDialog.getDatePicker().setFirstDayOfWeek(Calendar.MONDAY);
         datePickerDialog.show();
     }
 
+    private void cargarFecha(Calendar calendario) {
+        int horaSelec = calendario.get(Calendar.HOUR_OF_DAY);
+        int minutoSelec = calendario.get(Calendar.MINUTE);
+        int segundoSelec = calendario.get(Calendar.SECOND);
+        int milisegundoSeec = calendario.get(Calendar.MILLISECOND);
+        int diaSemana = calendario.get(Calendar.DAY_OF_WEEK);
+
+        long horaLong = horaSelec * 60 * 60 * 1000;
+        long minLong = minutoSelec * 60 * 1000;
+        long segLong = segundoSelec * 1000;
+        long fechaSelecLong = calendario.getTime().getTime();
+
+        switch (diaSemana) {
+            case Calendar.MONDAY:
+                fechaLunesLong = fechaSelecLong - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.TUESDAY:
+                fechaLunesLong = fechaSelecLong - (24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.WEDNESDAY:
+                fechaLunesLong = fechaSelecLong - (2 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.THURSDAY:
+                fechaLunesLong = fechaSelecLong - (3 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.FRIDAY:
+                fechaLunesLong = fechaSelecLong - (4 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.SATURDAY:
+                fechaLunesLong = fechaSelecLong - (5 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            case Calendar.SUNDAY:
+                fechaLunesLong = fechaSelecLong - (6 * 24 * 60 * 60 * 1000) - horaLong - minLong - segLong - milisegundoSeec;
+                break;
+            default:
+                break;
+        }
+
+        Bundle bundleFragment = new Bundle();
+        bundleFragment.putLong("fecha", fechaLunesLong);
+
+        sala1Fragment.setArguments(bundleFragment);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.containerSalas, sala1Fragment, "home").commit();
+
+        getSupportFragmentManager().beginTransaction().detach(sala1Fragment).attach(sala1Fragment).commit();
+    }
+
     public void deleteSalas() {
+        String idSemana = String.valueOf(fechaLunesLong);
+        FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
+        CollectionReference reference = dbFirestore.collection(VariablesEstaticas.BD_SALA);
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
-        dialog.setTitle("¡Advertencia!");
-        dialog.setMessage("Se borrará la programación de ambas salas.\n¿Desea continuar?");
-        dialog.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+        reference.document(idSemana).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                eliminarSala1();
-
-
-
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    if (!doc.exists()) {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
+                        dialog.setTitle("¡Aviso!");
+                        dialog.setMessage("Esta semana no tiene datos para eliminar ya que no ha sido programada.");
+                        dialog.setIcon(R.drawable.ic_nopermitido);
+                        dialog.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+                    } else {
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
+                        dialog.setTitle("¡Advertencia!");
+                        dialog.setMessage("Se borrará la programación completa.\n¿Desea continuar?");
+                        dialog.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                eliminarSala1();
+                            }
+                        });
+                        dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.setIcon(R.drawable.ic_advertencia);
+                        dialog.show();
+                    }
+                }
             }
         });
-        dialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog.setIcon(R.drawable.ic_advertencia);
-        dialog.show();
     }
 
     public void eliminarSala1() {
         ActualizarFechaSalaEliminada actualizarFechaSalaEliminada = new ActualizarFechaSalaEliminada(this);
-        Calendar calendario = Calendar.getInstance();
-        int semanaActual = calendario.get(Calendar.WEEK_OF_YEAR);
 
-        if (VariablesGenerales.semanaSelec != 0) {
-            actualizarFechaSalaEliminada.cargarSala1(VariablesGenerales.semanaSelec);
-        } else {
-            actualizarFechaSalaEliminada.cargarSala1(semanaActual);
-
-        }
-
-
+        actualizarFechaSalaEliminada.cargarSala(fechaLunesLong);
     }
 
     @Override
