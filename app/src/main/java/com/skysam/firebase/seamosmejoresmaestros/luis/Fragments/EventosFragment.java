@@ -289,7 +289,7 @@ public class EventosFragment extends Fragment {
                         }
 
                     }
-
+                    progressBarUltSem.setVisibility(View.GONE);
                 } else {
                     progressBarUltSem.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Error al cargar lista. Intente nuevamente", Toast.LENGTH_SHORT).show();

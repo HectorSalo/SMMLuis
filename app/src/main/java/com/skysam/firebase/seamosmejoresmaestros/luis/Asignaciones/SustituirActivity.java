@@ -50,13 +50,12 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     private ArrayList<PublicadoresConstructor> listSelecSust;
     private EditSalasAdapter adapterSust;
     private Spinner spinnerEncargados;
-    private Integer semana, idSala;
-    private Date fechaRecibir, fechaRecienteSust;
+    private Date fechaSustitucion;
     private String sustSeleccionado, nombreSustSelec, apellidoSustSelec, sustSeleccionadoId, idEncargado;
-    private String spinnerSeleccion;
+    private String spinnerSeleccion, nombreLector, idLector, nombreEncargado1, idEncargado1, nombreEncargado2, idEncargado2, nombreEncargado3, idEncargado3;
     private ArrayList<String> listEncargados;
     private ProgressBar progressBarSust;
-    private boolean encargado, ayudante;
+    private long fechaLunes;
 
 
     @Override
@@ -78,34 +77,19 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean temaOscuro = sharedPreferences.getBoolean("activarOscuro", false);
         if (temaOscuro) {
-
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
         } else {
             getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         }
 
         Bundle bundleRecibir = this.getIntent().getExtras();
-        idSala = bundleRecibir.getInt("sala");
-        semana = bundleRecibir.getInt("semana");
-        Long fecha = bundleRecibir.getLong("fecha");
+        fechaLunes = bundleRecibir.getLong("semana");
 
-        fechaRecienteSust = new Date();
-        fechaRecibir = new Date();
-        fechaRecibir.setTime(fecha);
+        fechaSustitucion = new Date();
 
-        if (idSala == 1) {
-            cargarEncargadosSala1(semana);
-        } else if (idSala == 2) {
-            cargarEncargadosSala2(semana);
-        }
-
-        encargado = false;
-        ayudante = false;
+        cargarEncargadosSala1(fechaLunes);
 
         cargarSustitutos();
-
 
         spinnerEncargados.setOnItemSelectedListener(this);
 
@@ -152,10 +136,10 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
 
     }
 
-    public void cargarEncargadosSala1(int i) {
+    public void cargarEncargadosSala1(long i) {
         String idSemana = String.valueOf(i);
         FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
-        CollectionReference reference = dbFirestore.collection("sala1");
+        CollectionReference reference = dbFirestore.collection(VariablesEstaticas.BD_SALA);
 
         reference.document(idSemana).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -163,98 +147,29 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
 
-                    listEncargados = new ArrayList<>();
-                    listEncargados.add("Publicador a cambiar");
-                    if (doc.getString(VariablesEstaticas.BD_LECTOR) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_LECTOR));
-                        VariablesGenerales.lectorSust = doc.getString(VariablesEstaticas.BD_LECTOR);
-                        VariablesGenerales.idlectorSust = doc.getString(VariablesEstaticas.BD_IDLECTOR);
-                    }
-                    if (doc.getString(VariablesEstaticas.BD_ENCARGADO1) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO1));
-                        VariablesGenerales.encargado1Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO1);
-                        VariablesGenerales.idencargado1Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO1);
-                    }
-                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE1) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE1));
-                        VariablesGenerales.ayudante1Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE1);
-                        VariablesGenerales.idayudante1Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE1);
-                    }
-                    if (doc.getString(VariablesEstaticas.BD_ENCARGADO2) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO2));
-                        VariablesGenerales.encargado2Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO2);
-                        VariablesGenerales.idencargado2Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO2);
-                    }
-                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE2) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE2));
-                        VariablesGenerales.ayudante2Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE2);
-                        VariablesGenerales.idayudante2Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE2);
-                    }
-                    if (doc.getString(VariablesEstaticas.BD_ENCARGADO3) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO3));
-                        VariablesGenerales.encargado3Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO3);
-                        VariablesGenerales.idencargado3Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO3);
-                    }
-                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE3) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE3));
-                        VariablesGenerales.ayudante3Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE3);
-                        VariablesGenerales.idayudante3Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE3);
-                    }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_selec, listEncargados);
-                    spinnerEncargados.setAdapter(adapter);
-
-                }
-            }
-        });
-    }
-
-    public void cargarEncargadosSala2(int i) {
-        String idSemana = String.valueOf(i);
-        FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
-        CollectionReference reference = dbFirestore.collection("sala2");
-
-        reference.document(idSemana).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot doc = task.getResult();
+                    fechaSustitucion = doc.getDate(VariablesEstaticas.BD_FECHA);
 
                     listEncargados = new ArrayList<>();
                     listEncargados.add("Publicador a cambiar");
                     if (doc.getString(VariablesEstaticas.BD_LECTOR) != null) {
                         listEncargados.add(doc.getString(VariablesEstaticas.BD_LECTOR));
-                        VariablesGenerales.lectorSust = doc.getString(VariablesEstaticas.BD_LECTOR);
-                        VariablesGenerales.idlectorSust = doc.getString(VariablesEstaticas.BD_IDLECTOR);
+                        nombreLector = doc.getString(VariablesEstaticas.BD_LECTOR);
+                        idLector = doc.getString(VariablesEstaticas.BD_IDLECTOR);
                     }
                     if (doc.getString(VariablesEstaticas.BD_ENCARGADO1) != null) {
                         listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO1));
-                        VariablesGenerales.encargado1Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO1);
-                        VariablesGenerales.idencargado1Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO1);
-                    }
-                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE1) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE1));
-                        VariablesGenerales.ayudante1Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE1);
-                        VariablesGenerales.idayudante1Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE1);
+                        nombreEncargado1 = doc.getString(VariablesEstaticas.BD_ENCARGADO1);
+                        idEncargado1 = doc.getString(VariablesEstaticas.BD_IDENCARGADO1);
                     }
                     if (doc.getString(VariablesEstaticas.BD_ENCARGADO2) != null) {
                         listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO2));
-                        VariablesGenerales.encargado2Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO2);
-                        VariablesGenerales.idencargado2Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO2);
-                    }
-                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE2) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE2));
-                        VariablesGenerales.ayudante2Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE2);
-                        VariablesGenerales.idayudante2Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE2);
+                        nombreEncargado2 = doc.getString(VariablesEstaticas.BD_ENCARGADO2);
+                        idEncargado2 = doc.getString(VariablesEstaticas.BD_IDENCARGADO2);
                     }
                     if (doc.getString(VariablesEstaticas.BD_ENCARGADO3) != null) {
                         listEncargados.add(doc.getString(VariablesEstaticas.BD_ENCARGADO3));
-                        VariablesGenerales.encargado3Sust = doc.getString(VariablesEstaticas.BD_ENCARGADO3);
-                        VariablesGenerales.idencargado3Sust = doc.getString(VariablesEstaticas.BD_IDENCARGADO3);
-                    }
-                    if (doc.getString(VariablesEstaticas.BD_AYUDANTE3) != null) {
-                        listEncargados.add(doc.getString(VariablesEstaticas.BD_AYUDANTE3));
-                        VariablesGenerales.ayudante3Sust = doc.getString(VariablesEstaticas.BD_AYUDANTE3);
-                        VariablesGenerales.idayudante3Sust = doc.getString(VariablesEstaticas.BD_IDAYUDANTE3);
+                        nombreEncargado3 = doc.getString(VariablesEstaticas.BD_ENCARGADO3);
+                        idEncargado3 = doc.getString(VariablesEstaticas.BD_IDENCARGADO3);
                     }
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_selec, listEncargados);
                     spinnerEncargados.setAdapter(adapter);
@@ -270,7 +185,7 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
         listSelecSust = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
+        CollectionReference reference = db.collection(VariablesEstaticas.BD_PUBLICADORES);
 
         Query query = reference.whereEqualTo(VariablesEstaticas.BD_HABILITADO, true).orderBy(VariablesEstaticas.BD_SUSTRECIENTE, Query.Direction.ASCENDING);
 
@@ -290,9 +205,9 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
                         publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
                         publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
                         publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
+                        publi.setCumplirAsignacion(doc.getBoolean(VariablesEstaticas.BD_CUMPLIR_ASIGNACION));
 
                         listSelecSust.add(publi);
-
                     }
 
                     adapterSust.updateListSelec(listSelecSust);
@@ -311,7 +226,6 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
             public void onClick(View v) {
                 nombreSustSelec = listSelecSust.get(recyclerSustituciones.getChildAdapterPosition(v)).getNombrePublicador();
                 apellidoSustSelec = listSelecSust.get(recyclerSustituciones.getChildAdapterPosition(v)).getApellidoPublicador();
-                fechaRecienteSust = listSelecSust.get(recyclerSustituciones.getChildAdapterPosition(v)).getUltSustitucion();
                 sustSeleccionadoId = listSelecSust.get(recyclerSustituciones.getChildAdapterPosition(v)).getIdPublicador();
                 sustSeleccionado =  nombreSustSelec + " " + apellidoSustSelec;
                 if (!spinnerSeleccion.equals("Publicador a cambiar")) {
@@ -323,10 +237,6 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 hacerSust();
-                                actFechaSust();
-                                actFechaViejaSust();
-                                buscarEncAyu();
-
                             }
                         });
                         dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -347,176 +257,73 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void hacerSust() {
-        String id = "";
-        String idSemana = String.valueOf(semana);
+        String idSemana = String.valueOf(fechaLunes);
         String asignacion = "";
+        String idEnc = "";
 
-        if (idSala == 1) {
-            id = "sala1";
-        } else if (idSala == 2) {
-            id = "sala2";
-        }
 
-        if (spinnerSeleccion.equals(VariablesGenerales.lectorSust)){
+        if (spinnerSeleccion.equals(nombreLector)){
             asignacion = VariablesEstaticas.BD_LECTOR;
-            idEncargado = VariablesGenerales.idlectorSust;
-            encargado = true;
-            ayudante = false;
-        } else if (spinnerSeleccion.equals(VariablesGenerales.encargado1Sust)) {
+            idEncargado = idLector;
+            idEnc = VariablesEstaticas.BD_IDLECTOR;
+        } else if (spinnerSeleccion.equals(nombreEncargado1)) {
             asignacion = VariablesEstaticas.BD_ENCARGADO1;
-            idEncargado = VariablesGenerales.idencargado1Sust;
-            encargado = true;
-            ayudante = false;
-        } else if (spinnerSeleccion.equals(VariablesGenerales.ayudante1Sust)) {
-            asignacion = VariablesEstaticas.BD_AYUDANTE1;
-            idEncargado = VariablesGenerales.idayudante1Sust;
-            ayudante = true;
-            encargado = false;
-        } else if (spinnerSeleccion.equals(VariablesGenerales.encargado2Sust)) {
+            idEncargado = idEncargado1;
+            idEnc = VariablesEstaticas.BD_IDENCARGADO1;
+        } else if (spinnerSeleccion.equals(nombreEncargado2)) {
             asignacion = VariablesEstaticas.BD_ENCARGADO2;
-            idEncargado = VariablesGenerales.idencargado2Sust;
-            encargado = true;
-            ayudante = false;
-        } else if (spinnerSeleccion.equals(VariablesGenerales.ayudante2Sust)) {
-            asignacion = VariablesEstaticas.BD_AYUDANTE2;
-            idEncargado = VariablesGenerales.idayudante2Sust;
-            ayudante = true;
-            encargado = false;
-        } else if (spinnerSeleccion.equals(VariablesGenerales.encargado3Sust)) {
+            idEncargado = idEncargado2;
+            idEnc = VariablesEstaticas.BD_IDENCARGADO2;
+        } else if (spinnerSeleccion.equals(nombreEncargado3)) {
             asignacion = VariablesEstaticas.BD_ENCARGADO3;
-            idEncargado = VariablesGenerales.idencargado3Sust;
-            encargado = true;
-            ayudante = false;
-        } else if (spinnerSeleccion.equals(VariablesGenerales.ayudante3Sust)) {
-            asignacion = VariablesEstaticas.BD_AYUDANTE3;
-            idEncargado = VariablesGenerales.idayudante3Sust;
-            ayudante = true;
-            encargado = false;
+            idEncargado = idEncargado3;
+            idEnc = VariablesEstaticas.BD_IDENCARGADO3;
         }
+
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection(id).document(idSemana).update(asignacion, sustSeleccionado).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection(VariablesEstaticas.BD_SALA).document(idSemana).update(asignacion, sustSeleccionado, idEnc, sustSeleccionadoId).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
-
+                actualizarEncargado();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-
             }
         });
     }
 
-    public void actFechaSust () {
+    public void actualizarSustituto () {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(sustSeleccionadoId).update(VariablesEstaticas.BD_SUSTRECIENTE, fechaRecibir).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection(VariablesEstaticas.BD_PUBLICADORES).document(sustSeleccionadoId).update(VariablesEstaticas.BD_SUSTRECIENTE, fechaSustitucion).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
-
+                Toast.makeText(getApplicationContext(), "Sustitución exitosa", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), AsignacionesActivity.class));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-
             }
         });
     }
 
-    public void actFechaViejaSust() {
+    public void actualizarEncargado() {
         FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
 
-        dbEditar.collection("publicadores").document(sustSeleccionadoId).update(VariablesEstaticas.BD_SUSTRECIENTE, fechaRecienteSust).addOnSuccessListener(new OnSuccessListener<Void>() {
+        dbEditar.collection(VariablesEstaticas.BD_PUBLICADORES).document(idEncargado).update(VariablesEstaticas.BD_CUMPLIR_ASIGNACION, false).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
-
+                actualizarSustituto();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    public void buscarEncAyu () {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("publicadores");
-
-
-        reference.document(idEncargado).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                        DocumentSnapshot doc = task.getResult();
-                        VariablesGenerales.idPubCambiado = doc.getId();
-                        //VariablesGenerales.fechaDisCambiado = doc.getDate(VariablesEstaticas.BD_DISVIEJO);
-                        //VariablesGenerales.fechaAyuCambiado = doc.getDate(VariablesEstaticas.BD_AYUVIEJO);
-
-                        if (encargado) {
-                            actFechaEnc();
-                        }  else if (ayudante) {
-                            actFechaAyu();
-                        }
-
-                        Intent myIntent = new Intent(getApplicationContext(), AsignacionesActivity.class);
-                        startActivity(myIntent);
-
-                }
-            }
-        });
-    }
-
-    public void actFechaEnc() {
-        String idPub = VariablesGenerales.idPubCambiado;
-        Date fecha = new Date();
-        fecha = VariablesGenerales.fechaDisCambiado;
-        FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
-
-        dbEditar.collection("publicadores").document(idPub).update(VariablesEstaticas.BD_DISRECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-                Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    public void actFechaAyu() {
-        String idPub = VariablesGenerales.idPubCambiado;
-        Date fecha = new Date();
-        fecha = VariablesGenerales.fechaAyuCambiado;
-        FirebaseFirestore dbEditar = FirebaseFirestore.getInstance();
-
-        dbEditar.collection("publicadores").document(idPub).update(VariablesEstaticas.BD_AYURECIENTE, fecha).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-                Toast.makeText(getApplicationContext(), "Error al guardar. Intente nuevamente", Toast.LENGTH_SHORT).show();
-
             }
         });
     }
@@ -548,7 +355,6 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
                 public void onClick(View v) {
                     nombreSustSelec = newList.get(recyclerSustituciones.getChildAdapterPosition(v)).getNombrePublicador();
                     apellidoSustSelec = newList.get(recyclerSustituciones.getChildAdapterPosition(v)).getApellidoPublicador();
-                    fechaRecienteSust = newList.get(recyclerSustituciones.getChildAdapterPosition(v)).getUltSustitucion();
                     sustSeleccionadoId = newList.get(recyclerSustituciones.getChildAdapterPosition(v)).getIdPublicador();
                     sustSeleccionado =  nombreSustSelec + " " + apellidoSustSelec;
                     if (!spinnerSeleccion.equals("Publicador a cambiar")) {
@@ -560,10 +366,6 @@ public class SustituirActivity extends AppCompatActivity implements AdapterView.
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     hacerSust();
-                                    actFechaSust();
-                                    actFechaViejaSust();
-                                    buscarEncAyu();
-
                                 }
                             });
                             dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {

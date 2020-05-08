@@ -6,7 +6,7 @@ public class PublicadoresConstructor {
     private String NombrePublicador, ApellidoPublicador, telefono, correo, genero,idPublicador, imagen;
     private Double grupo;
     private Date ultAsignacion, ultAyudante, ultSustitucion, viejaAsignacion, viejaAyudante, viejaSustitucion;
-    private boolean anciano, ministerial, precursor, superintendente, auxiliar;
+    private boolean anciano, ministerial, precursor, superintendente, auxiliar, cumplirAsignacion;
 
     public PublicadoresConstructor() {}
 
@@ -160,5 +160,13 @@ public class PublicadoresConstructor {
 
     public void setAuxiliar(boolean auxiliar) {
         this.auxiliar = auxiliar;
+    }
+
+    public boolean isCumplirAsignacion() {
+        return cumplirAsignacion;
+    }
+
+    public void setCumplirAsignacion(boolean cumplirAsignacion) {
+        this.cumplirAsignacion = cumplirAsignacion;
     }
 }

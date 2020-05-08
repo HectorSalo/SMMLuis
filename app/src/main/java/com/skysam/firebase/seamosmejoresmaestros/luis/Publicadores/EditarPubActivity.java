@@ -521,7 +521,7 @@ public class EditarPubActivity extends AppCompatActivity {
                                 publicador.put(VariablesEstaticas.BD_SUPER, false);
                             }
 
-                            dbEditar.collection("publicadores").document(idPb).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            dbEditar.collection(VariablesEstaticas.BD_PUBLICADORES).document(idPb).set(publicador).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
 

@@ -191,6 +191,7 @@ public class AddPublicador extends AppCompatActivity {
                 publicador.put(VariablesEstaticas.BD_ANCIANO, anciano);
                 publicador.put(VariablesEstaticas.BD_AUXILIAR, false);
                 publicador.put(VariablesEstaticas.BD_GRUPO, grupo);
+                publicador.put(VariablesEstaticas.BD_CUMPLIR_ASIGNACION, true);
 
 
                 if (radioMasculino.isChecked()) {
@@ -204,8 +205,8 @@ public class AddPublicador extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         progressBarAdd.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(), "Guardado exitosamente", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), PublicadoresActivity.class));
                         finish();
-
                     }
                 })
                         .addOnFailureListener(new OnFailureListener() {

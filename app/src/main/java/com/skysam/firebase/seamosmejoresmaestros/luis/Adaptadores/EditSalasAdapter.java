@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 public class EditSalasAdapter extends RecyclerView.Adapter<EditSalasAdapter.ViewHolderEditSalas> implements View.OnClickListener {
 
-    ArrayList<PublicadoresConstructor> listSelecPub;
-    Context ctx;
+    private ArrayList<PublicadoresConstructor> listSelecPub;
+    private Context ctx;
     private View.OnClickListener listenerSeleccionar;
 
     public EditSalasAdapter(ArrayList<PublicadoresConstructor> listSelecPub, Context ctx){
@@ -49,7 +49,11 @@ public class EditSalasAdapter extends RecyclerView.Adapter<EditSalasAdapter.View
         viewHolderEditSalas.apellidoPub.setText(listSelecPub.get(i).getApellidoPublicador());
 
         if (listSelecPub.get(i).getUltAsignacion() != null) {
-            viewHolderEditSalas.ultFechaDiscurso.setText(new SimpleDateFormat("EEE d MMM yyyy").format(listSelecPub.get(i).getUltAsignacion()));
+            if (listSelecPub.get(i).isCumplirAsignacion()) {
+                viewHolderEditSalas.ultFechaDiscurso.setText(new SimpleDateFormat("EEE d MMM yyyy").format(listSelecPub.get(i).getUltAsignacion()));
+            } else {
+                viewHolderEditSalas.ultFechaDiscurso.setText(new SimpleDateFormat("EEE d MMM yyyy").format(listSelecPub.get(i).getUltAsignacion()) + " (No cumplió)");
+            }
         } else {
             viewHolderEditSalas.ultFechaDiscurso.setText("");
         }

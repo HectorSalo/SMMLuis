@@ -55,7 +55,7 @@ public class VistaMensualActivity extends AppCompatActivity {
 
     private ArrayList<VistaMensualConstructor> listMensual;
     private VistaMensualAdapter vistaMensualAdapter;
-    private Date primeroMes, ultimoMes;
+    private int mes, anual;
     private ProgressBar progressBarVista;
     private String mesExp, carpetaPath;
     private String NOMBRE_CARPETA = "/MejoresMaestros/";
@@ -69,7 +69,12 @@ public class VistaMensualActivity extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        switch (VariablesGenerales.verMes){
+        Bundle bundleRecibir = this.getIntent().getExtras();
+
+        mes = bundleRecibir.getInt("mesVerMes");
+        anual = bundleRecibir.getInt("anualVerMes");
+
+        switch (mes){
             case 0:
                 mesExp = "enero";
                 break;
@@ -125,13 +130,6 @@ public class VistaMensualActivity extends AppCompatActivity {
         constraintLayout = findViewById(R.id.constraintVistaMensual);
         progressBarVista = findViewById(R.id.progressBarVistaMensual);
 
-        Calendar calendarInicio = Calendar.getInstance();
-        Calendar calendarFinal = Calendar.getInstance();
-        calendarInicio.set(VariablesGenerales.verAnual, VariablesGenerales.verMes, 1);
-        calendarFinal.set(VariablesGenerales.verAnual, VariablesGenerales.verMes, 31);
-        primeroMes = calendarInicio.getTime();
-        ultimoMes = calendarFinal.getTime();
-
         listMensual = new ArrayList<>();
         RecyclerView recyclerMensual = findViewById(R.id.recyclerMensual);
         vistaMensualAdapter = new VistaMensualAdapter(listMensual, this);
@@ -184,56 +182,58 @@ public class VistaMensualActivity extends AppCompatActivity {
     }
 
     public void borrarSQLite() {
-        ConectSQLiteHelper conect = new ConectSQLiteHelper(this, "vistamensual", null, 2);
+        ConectSQLiteHelper conect = new ConectSQLiteHelper(this, "vistamensual", null, 3);
         SQLiteDatabase db = conect.getWritableDatabase();
 
-        for (int i = 0; i<=52;i++) {
-            db.delete("mesExp", "Semana=" + i, null);
-        }
+        db.delete("mesExp", null, null);
 
         db.close();
         cargarMes();
     }
 
     private void cargarMes() {
+        Calendar calendar = Calendar.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference reference = db.collection("sala1");
 
-        Query query = reference.whereGreaterThanOrEqualTo(VariablesEstaticas.BD_FECHA_LUNES, primeroMes).whereLessThanOrEqualTo(VariablesEstaticas.BD_FECHA_LUNES, ultimoMes);
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection(VariablesEstaticas.BD_SALA).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
-                        String semanaS = doc.getId();
-                        Date fecha = doc.getDate(VariablesEstaticas.BD_FECHA);
-                        String lector = doc.getString(VariablesEstaticas.BD_LECTOR);
-                        String encargado1 = doc.getString(VariablesEstaticas.BD_ENCARGADO1);
-                        String ayudante1 = doc.getString(VariablesEstaticas.BD_AYUDANTE1);
-                        String encargado2 = doc.getString(VariablesEstaticas.BD_ENCARGADO2);
-                        String ayudante2 = doc.getString(VariablesEstaticas.BD_AYUDANTE2);
-                        String encargado3 = doc.getString(VariablesEstaticas.BD_ENCARGADO3);
-                        String ayudante3 = doc.getString(VariablesEstaticas.BD_AYUDANTE3);
+                        Date fechaLunes = doc.getDate(VariablesEstaticas.BD_FECHA_LUNES);
+                        calendar.setTime(fechaLunes);
+                        int mesFecha = calendar.get(Calendar.MONTH);
+                        int anualFecha = calendar.get(Calendar.YEAR);
 
-                        VistaMensualConstructor mensual = new VistaMensualConstructor();
-                        mensual.setFechaMensual(fecha);
-                        mensual.setLector(lector);
-                        mensual.setEncargado1(encargado1);
-                        mensual.setEncargado2(encargado2);
-                        mensual.setEncargado3(encargado3);
-                        mensual.setAyudante1(ayudante1);
-                        mensual.setAyudante2(ayudante2);
-                        mensual.setAyudante3(ayudante3);
-                        mensual.setAsigancion1(doc.getString(VariablesEstaticas.BD_ASIGNACION1));
-                        mensual.setAsignacion2(doc.getString(VariablesEstaticas.BD_ASIGNACION2));
-                        mensual.setAsignacion3(doc.getString(VariablesEstaticas.BD_ASIGNACION3));
+                        if (mesFecha == mes && anualFecha == anual) {
+                            String idSemana = doc.getId();
+                            Date fecha = doc.getDate(VariablesEstaticas.BD_FECHA);
+                            String lector = doc.getString(VariablesEstaticas.BD_LECTOR);
+                            String encargado1 = doc.getString(VariablesEstaticas.BD_ENCARGADO1);
+                            String ayudante1 = doc.getString(VariablesEstaticas.BD_AYUDANTE1);
+                            String encargado2 = doc.getString(VariablesEstaticas.BD_ENCARGADO2);
+                            String ayudante2 = doc.getString(VariablesEstaticas.BD_AYUDANTE2);
+                            String encargado3 = doc.getString(VariablesEstaticas.BD_ENCARGADO3);
+                            String ayudante3 = doc.getString(VariablesEstaticas.BD_AYUDANTE3);
 
-                        listMensual.add(mensual);
+                            VistaMensualConstructor mensual = new VistaMensualConstructor();
+                            mensual.setFechaMensual(fecha);
+                            mensual.setLector(lector);
+                            mensual.setEncargado1(encargado1);
+                            mensual.setEncargado2(encargado2);
+                            mensual.setEncargado3(encargado3);
+                            mensual.setAyudante1(ayudante1);
+                            mensual.setAyudante2(ayudante2);
+                            mensual.setAyudante3(ayudante3);
+                            mensual.setAsigancion1(doc.getString(VariablesEstaticas.BD_ASIGNACION1));
+                            mensual.setAsignacion2(doc.getString(VariablesEstaticas.BD_ASIGNACION2));
+                            mensual.setAsignacion3(doc.getString(VariablesEstaticas.BD_ASIGNACION3));
 
-                        String fechaS = new SimpleDateFormat("EEE d MMM yyyy").format(fecha);
-                        int semana = Integer.parseInt(semanaS);
-                        guardarSqlite(semana, fechaS, lector, encargado1, ayudante1, encargado2, ayudante2, encargado3, ayudante3);
-                        
+                            listMensual.add(mensual);
+
+                            String fechaS = new SimpleDateFormat("EEE d MMM yyyy").format(fecha);
+                            guardarSqlite(idSemana, fechaS, lector, encargado1, ayudante1, encargado2, ayudante2, encargado3, ayudante3);
+                        }
                     }
 
                     vistaMensualAdapter.updateList(listMensual);
@@ -263,8 +263,8 @@ public class VistaMensualActivity extends AppCompatActivity {
         finish();
     }
 
-    public void guardarSqlite(int semana, String fecha, String lector, String encargado1, String ayudante1, String encargado2, String ayudante2, String encargado3, String ayudante3){
-        ConectSQLiteHelper conect = new ConectSQLiteHelper(this, "vistamensual", null, 2);
+    public void guardarSqlite(String semana, String fecha, String lector, String encargado1, String ayudante1, String encargado2, String ayudante2, String encargado3, String ayudante3){
+        ConectSQLiteHelper conect = new ConectSQLiteHelper(this, "vistamensual", null, 3);
         SQLiteDatabase db = conect.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -364,7 +364,7 @@ public class VistaMensualActivity extends AppCompatActivity {
                         snackbar.dismiss();
                     }
                 });
-                Log.d("MSG", " " + e);
+                Log.e("MSG", " " + e);
             }
         });
     }

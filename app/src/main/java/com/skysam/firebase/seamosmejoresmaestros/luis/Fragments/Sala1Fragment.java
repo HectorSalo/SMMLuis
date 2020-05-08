@@ -45,6 +45,7 @@ public class Sala1Fragment extends Fragment {
     private LinearLayout linearSala;
     private ProgressBar progressBarSala1;
     private Date fechaActual;
+    private long fechaLunes;
 
     public Sala1Fragment() {
         // Required empty public constructor
@@ -97,7 +98,7 @@ public class Sala1Fragment extends Fragment {
 
         tvAviso.setVisibility(View.GONE);
 
-        long fecha = getArguments().getLong("fecha");
+        fechaLunes = getArguments().getLong("fecha");
 
         imgEditar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +111,6 @@ public class Sala1Fragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (opciones[which].equals("Sustituir uno de los Publicadores")) {
                             editSala();
-                            dialog.dismiss();
                         } else if (opciones[which].equals("Cancelar")) {
                             dialog.dismiss();
                         }
@@ -122,10 +122,10 @@ public class Sala1Fragment extends Fragment {
 
         fechaActual = new Date();
 
-        fechaActual.setTime(fecha);
+        fechaActual.setTime(fechaLunes);
         tvFecha.setText(new SimpleDateFormat("EEE d MMM yyyy").format(fechaActual));
 
-        cargarSala(fecha);
+        cargarSala(fechaLunes);
 
         return vista;
     }
@@ -301,15 +301,8 @@ public class Sala1Fragment extends Fragment {
     public void editSala() {
         Intent myIntent = new Intent(getContext(), SustituirActivity.class);
         Bundle myBundle = new Bundle();
-        myBundle.putInt("sala", 1);
-        /*if(VariablesGenerales.semanaSelec != 0) {
-            myBundle.putInt("semana", VariablesGenerales.semanaSelec);
-            myBundle.putLong("fecha", VariablesGenerales.fechaSelec.getTime());
+        myBundle.putLong("semana", fechaLunes);
 
-        } else {
-            //myBundle.putInt("semana", semanaActual);
-            myBundle.putLong("fecha", fechaActual.getTime());
-        }*/
         myIntent.putExtras(myBundle);
         startActivity(myIntent);
     }

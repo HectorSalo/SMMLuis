@@ -67,7 +67,20 @@ public class OrganigramaActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        cargarPreferencias();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View navHeader = navigationView.getHeaderView(0);
+        imageNav = navHeader.findViewById(R.id.imageViewNav);
+        tvNombrePerfil = navHeader.findViewById(R.id.tvNameNav);
+
+
 
         listPublicadores = new ArrayList<>();
         recyclerOrg = (RecyclerView) findViewById(R.id.recyclerOrganigrama);
@@ -85,7 +98,6 @@ public class OrganigramaActivity extends AppCompatActivity
         progressBarOrg = findViewById(R.id.progressBarOrganigrama);
 
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,20 +110,6 @@ public class OrganigramaActivity extends AppCompatActivity
                 getSupportActionBar().setTitle("Organigrama");
             }
         });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View navHeader = navigationView.getHeaderView(0);
-        imageNav = navHeader.findViewById(R.id.imageViewNav);
-        tvNombrePerfil = navHeader.findViewById(R.id.tvNameNav);
-
 
         ImageButton grupos = (ImageButton) findViewById(R.id.imageButtonGrupos);
         grupos.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +145,8 @@ public class OrganigramaActivity extends AppCompatActivity
                 cargarMinisteriales();
             }
         });
+
+        cargarPreferencias();
     }
 
     @Override

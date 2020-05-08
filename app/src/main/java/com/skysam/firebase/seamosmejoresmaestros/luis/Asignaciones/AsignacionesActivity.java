@@ -178,21 +178,17 @@ public class AsignacionesActivity extends AppCompatActivity
         if (id == R.id.nav_inicio) {
             Intent myIntent = new Intent(this, MainActivity.class);
             startActivity(myIntent);
-
         } else if (id == R.id.nav_asignaciones) {
 
         } else if (id == R.id.nav_publicadores) {
             Intent myIntent = new Intent(this, PublicadoresActivity.class);
             startActivity(myIntent);
-
         } else if (id == R.id.nav_grupoEstudio) {
             Intent myIntent = new Intent(this, OrganigramaActivity.class);
             startActivity(myIntent);
-
         } else if (id == R.id.nav_ajustes) {
             Intent myIntent = new Intent(this, ConfiguracionesActivity.class);
             startActivity(myIntent);
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -203,6 +199,8 @@ public class AsignacionesActivity extends AppCompatActivity
 
     private void verMes() {
         Calendar calendar = Calendar.getInstance();
+        int mes = calendar.get(Calendar.MONTH);
+        int anual = calendar.get(Calendar.YEAR);
         final String [] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
         LayoutInflater inflater = getLayoutInflater();
         View vista = inflater.inflate(R.layout.month_picker, null);
@@ -210,22 +208,27 @@ public class AsignacionesActivity extends AppCompatActivity
         final NumberPicker yearPicker = (NumberPicker) vista.findViewById(R.id.anualPicker);
         AlertDialog.Builder dialog = new AlertDialog.Builder(AsignacionesActivity.this);
 
-        yearPicker.setMinValue(2019);
-        yearPicker.setMaxValue(2020);
-        yearPicker.setValue(calendar.get(Calendar.YEAR));
+        yearPicker.setMinValue(anual - 2);
+        yearPicker.setMaxValue(anual + 2);
+        yearPicker.setValue(anual);
         monthPicker.setMinValue(0);
         monthPicker.setMaxValue(meses.length - 1);
         monthPicker.setDisplayedValues(meses);
-        monthPicker.setValue(calendar.get(Calendar.MONTH));
+        monthPicker.setValue(mes);
 
         dialog.setTitle("Escoja un Mes")
                 .setView(vista)
                 .setPositiveButton("Seleccionar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        VariablesGenerales.verAnual = yearPicker.getValue();
-                        VariablesGenerales.verMes = monthPicker.getValue();
-                        startActivity(new Intent(AsignacionesActivity.this, VistaMensualActivity.class));
+                        Intent intent = new Intent(getApplicationContext(), VistaMensualActivity.class);
+                        Bundle myBundle = new Bundle();
+
+                        myBundle.putInt("mesVerMes", monthPicker.getValue());
+                        myBundle.putInt("anualVerMes", yearPicker.getValue());
+
+                        intent.putExtras(myBundle);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

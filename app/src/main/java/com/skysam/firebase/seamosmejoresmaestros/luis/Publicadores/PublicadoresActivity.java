@@ -459,5 +459,4 @@ public class PublicadoresActivity extends AppCompatActivity
             }
         });
     }
-
 }

@@ -19,6 +19,7 @@ public class VariablesEstaticas {
     public static final String BD_SUPER = "superGrupo";
     public static final String BD_AUXILIAR = "auxiliarGrupo";
     public static final String BD_GRUPO = "grupo";
+    public static final String BD_CUMPLIR_ASIGNACION = "cumplirAsignacion";
 
 
     public static final String BD_SALA = "sala";

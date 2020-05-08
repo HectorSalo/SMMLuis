@@ -13,7 +13,7 @@ public class ConectSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE mesExp(Semana integer primary key autoincrement, Fecha text, Lector text, Encargado1 text, Ayudante1 text, Encargado2 text, Ayudante2 text, Encargado3 text, Ayudante3 text)");
+        db.execSQL("CREATE TABLE mesExp(Semana text primary key, Fecha text, Lector text, Encargado1 text, Ayudante1 text, Encargado2 text, Ayudante2 text, Encargado3 text, Ayudante3 text)");
 
     }
 

@@ -294,6 +294,7 @@ public class EditarSalas extends AppCompatActivity {
                         publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
                         publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
                         publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
+                        publi.setCumplirAsignacion(doc.getBoolean(VariablesEstaticas.BD_CUMPLIR_ASIGNACION));
 
                         listPubs.add(publi);
 
@@ -393,6 +394,7 @@ public class EditarSalas extends AppCompatActivity {
                         publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
                         publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
                         publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
+                        publi.setCumplirAsignacion(doc.getBoolean(VariablesEstaticas.BD_CUMPLIR_ASIGNACION));
 
                         listPubs.add(publi);
 
@@ -574,6 +576,7 @@ public class EditarSalas extends AppCompatActivity {
                         publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
                         publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
                         publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
+                        publi.setCumplirAsignacion(doc.getBoolean(VariablesEstaticas.BD_CUMPLIR_ASIGNACION));
 
                         listPubs.add(publi);
 
@@ -756,6 +759,7 @@ public class EditarSalas extends AppCompatActivity {
                         publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
                         publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
                         publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
+                        publi.setCumplirAsignacion(doc.getBoolean(VariablesEstaticas.BD_CUMPLIR_ASIGNACION));
 
                         listPubs.add(publi);
 
@@ -937,6 +941,7 @@ public class EditarSalas extends AppCompatActivity {
                         publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
                         publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
                         publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
+                        publi.setCumplirAsignacion(doc.getBoolean(VariablesEstaticas.BD_CUMPLIR_ASIGNACION));
 
                         listPubs.add(publi);
 
@@ -1119,6 +1124,7 @@ public class EditarSalas extends AppCompatActivity {
                         publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
                         publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
                         publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
+                        publi.setCumplirAsignacion(doc.getBoolean(VariablesEstaticas.BD_CUMPLIR_ASIGNACION));
 
                         listPubs.add(publi);
 
@@ -1299,6 +1305,7 @@ public class EditarSalas extends AppCompatActivity {
                         publi.setUltAsignacion(doc.getDate(VariablesEstaticas.BD_DISRECIENTE));
                         publi.setUltAyudante(doc.getDate(VariablesEstaticas.BD_AYURECIENTE));
                         publi.setUltSustitucion(doc.getDate(VariablesEstaticas.BD_SUSTRECIENTE));
+                        publi.setCumplirAsignacion(doc.getBoolean(VariablesEstaticas.BD_CUMPLIR_ASIGNACION));
 
                         listPubs.add(publi);
 
